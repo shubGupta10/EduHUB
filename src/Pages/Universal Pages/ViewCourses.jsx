@@ -31,10 +31,10 @@ const ViewCourses = () => {
   return (
     <div>
         {isLoading ? <Loader/> : (
-            <Container>
+            <Container className='min-vh-100'>
             <Row>
               {courses.map(course => (
-                <Col key={course.id} md={4} className="mb-4 mt-5 min-vh-100">
+                <Col key={course.id} md={4} className="mb-4 mt-5 ">
                   <Card>
                     {course.courseImage && <Card.Img variant="top" src={course.courseImage} alt={course.courseName} className="course-image" />}
                     <Card.Body>

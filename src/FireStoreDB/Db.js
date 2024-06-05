@@ -22,3 +22,14 @@ export const getCoursesFromFirestore = async () => {
     return await getDocs(courseCollection);
 }
 
+//storing all the data of users into fireStore
+export const createUser = async (userData) => {
+    try {
+        const addingUser = await addDoc(collection(fireStore, "Users"), userData);
+        console.log("User added Successfully: ", addingUser.id);
+        return addingUser.id;
+    } catch (error) {
+        console.error("Failed to add new user: ", error);
+        throw error; 
+    }
+}
