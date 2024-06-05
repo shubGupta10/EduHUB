@@ -25,11 +25,11 @@ const Dashboard = () => {
         <Col md={4}>
           <Card>
             <Card.Body>
-              <Card.Title>Upcoming Events</Card.Title>
+              <Card.Title>View Courses</Card.Title>
               <Card.Text>
-                Stay updated on upcoming events and deadlines.
+                View the courses we can offer.
               </Card.Text>
-              <Link to="/events">
+              <Link to="/dashboard/viewcourse">
                 <Button variant="primary">View Events</Button>
               </Link>
             </Card.Body>

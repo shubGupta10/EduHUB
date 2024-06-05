@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import firebaseApp from '../config/FirebaseConfig';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import addCourseToFirestore from "../FireStoreDB/Db.js"
+import {addCourseToFirestore, getCoursesFromFirestore} from "../FireStoreDB/Db.js"
 import { getStorage } from 'firebase/storage';
 
 const fireBaseContext = createContext(null);
@@ -52,7 +52,7 @@ const FireBaseProvider = (props) => {
   const isLoggedIn = !!user;
 
   return (
-    <fireBaseContext.Provider value={{ app: firebaseApp, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore ,loading }}>
+    <fireBaseContext.Provider value={{ app: firebaseApp, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore ,loading }}>
       {props.children}
     </fireBaseContext.Provider>
   );

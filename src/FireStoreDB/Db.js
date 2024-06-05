@@ -1,10 +1,10 @@
 import firebaseApp from "../config/FirebaseConfig";
-import { getFirestore, addDoc, collection } from "firebase/firestore";
+import { getFirestore, addDoc, collection , getDocs} from "firebase/firestore";
 
 const fireStore = getFirestore(firebaseApp);
 
 //add Course to FireStore
-const addCourseToFirestore = async (courseData) => {
+export const addCourseToFirestore = async (courseData) => {
     try {
         const result = await addDoc(collection(fireStore, "courses"), courseData);
         console.log("Course added successfully with ID: ", result.id);
@@ -15,4 +15,10 @@ const addCourseToFirestore = async (courseData) => {
     }
 };
 
-export default addCourseToFirestore;
+
+//get the courses 
+export const getCoursesFromFirestore = async () => {
+    const courseCollection = collection(fireStore, "courses");
+    return await getDocs(courseCollection);
+}
+

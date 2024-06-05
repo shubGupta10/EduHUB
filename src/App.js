@@ -12,6 +12,7 @@ import Home from './Pages/Home';
 import Register from './Pages/Register';
 import Login from './Pages/Login.jsx';
 import Dashboard from './Pages/Dashboard.jsx';
+import ViewCourses from './Pages/Universal Pages/ViewCourses';
 
 // Components
 import MyNavbar from './Components/Navbar.jsx';
@@ -39,6 +40,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<ProtectedRoute element={Dashboard} />} />
         <Route path='/addcourse' element={<ProtectedRoute element={AddCourse} />}/>
+        <Route path='/dashboard/viewcourse' element={<ProtectedRoute element={ViewCourses}/>}/>
       </Routes>
       <ToastContainer position="top-right" />
     </div>
