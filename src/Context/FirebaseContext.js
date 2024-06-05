@@ -2,9 +2,11 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import firebaseApp from '../config/FirebaseConfig';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
 import addCourseToFirestore from "../FireStoreDB/Db.js"
+import { getStorage } from 'firebase/storage';
 
 const fireBaseContext = createContext(null);
 const firebaseAuth = getAuth(firebaseApp);
+export const storage = getStorage(firebaseApp);
 
 export const useFirebase = () => useContext(fireBaseContext);
 
