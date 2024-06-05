@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useFirebase } from '../../Context/FirebaseContext';
 import { Card, Container, Row, Col } from 'react-bootstrap';
+import './ViewCourses.css'; 
+import Loader from '../../Components/Loader';
 
 const ViewCourses = () => {
   const firebase = useFirebase();
   const [courses, setCourses] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchCourses = async () => {
@@ -12,11 +15,13 @@ const ViewCourses = () => {
         const coursesSnapshot = await firebase.getCoursesFromFirestore();
         const coursesList = coursesSnapshot.docs.map(doc => ({
           id: doc.id,
-          ...doc.data()
+          ...doc.data(),
         }));
         setCourses(coursesList);
+        setIsLoading(false);
       } catch (error) {
         console.error("Error fetching courses: ", error);
+        setIsLoading(false);
       }
     };
 
@@ -24,23 +29,30 @@ const ViewCourses = () => {
   }, [firebase]);
 
   return (
-    <Container>
-      <Row>
-        {courses.map(course => (
-          <Col key={course.id} md={4} className="mb-4">
-            <Card>
-              {course.courseImage && <Card.Img variant="top" src={course.courseImage} alt={course.courseName} />}
-              <Card.Body>
-                <Card.Title>{course.courseName}</Card.Title>
-                <Card.Text>{course.courseDescription }</Card.Text>
-                <Card.Text>Duration: {course.courseDuration + "hrs"}</Card.Text>
-                <Card.Text>Instructor: {course.courseInstructor}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        ))}
-      </Row>
-    </Container>
+    <div>
+        {isLoading ? <Loader/> : (
+            <Container>
+            <Row>
+              {courses.map(course => (
+                <Col key={course.id} md={4} className="mb-4 mt-5 min-vh-100">
+                  <Card>
+                    {course.courseImage && <Card.Img variant="top" src={course.courseImage} alt={course.courseName} className="course-image" />}
+                    <Card.Body>
+                      <Card.Title>{course.courseName}</Card.Title>
+                      <Card.Text>{course.courseDescription}</Card.Text>
+                      <Card.Text>Duration: {course.courseDuration + " hrs"}</Card.Text>
+                      <Card.Text>Instructor: {course.courseInstructor}</Card.Text>
+                      <div className="d-flex justify-content-center">
+                        <button className="enroll-button">Enroll</button>
+                      </div>
+                    </Card.Body>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        )}
+    </div>
   );
 };
 

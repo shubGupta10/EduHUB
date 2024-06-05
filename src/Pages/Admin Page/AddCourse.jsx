@@ -20,7 +20,7 @@ const AddCourse = () => {
   const handleAddCourse = async (e) => {
     e.preventDefault();
     try {
-      setIsLoading(true); // Set loading to true when course is being added
+      setIsLoading(true);
 
       let imageUrl = "";
       if (courseImage) {
@@ -51,7 +51,7 @@ const AddCourse = () => {
     } catch (error) {
       toast.error("Failed to add course");
     } finally {
-      setIsLoading(false); // Set loading to false when course adding process is done
+      setIsLoading(false); 
     }
   };
 
