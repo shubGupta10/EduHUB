@@ -1,0 +1,26 @@
+/* index.css */
+.custom-navbar {
+  background-color: #0056b3 !important;
+  color: white !important;
+}
+
+.navbrand{
+  color: aliceblue;
+  font-size: 24px;
+}
+
+.navbrand:hover{
+  color: goldenrod;
+}
+
+.register-button {
+  background-color: #FFA500;
+  border-color: #060503;
+  color: #060503;
+}
+
+.register-button:hover {
+  background-color: #ff9100;
+  color: white;
+  border-color: #e69500;
+}
