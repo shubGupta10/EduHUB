@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useFirebase } from "../../Context/FirebaseContext";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const StudentDetailForm = () => {
   const [studentName, setStudentName] = useState("");
@@ -14,8 +16,9 @@ const StudentDetailForm = () => {
   const [yearOrSemester, setYearOrSemester] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentDetails, setPaymentDetails] = useState("");
+  const navigate = useNavigate();
 
-  const { currentUser } = useFirebase();
+  const { currentUser, createStudentDetails } = useFirebase();
 
   useEffect(() => {
     if (currentUser) {
@@ -26,9 +29,30 @@ const StudentDetailForm = () => {
     }
   }, [currentUser]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
+    try {
+      await createStudentDetails();
+
+      const studentCourseEnrollData = {
+        studentName,
+        studentEmail,
+        courseId,
+        courseName,
+        studentId,
+        phoneNumber,
+        degreeProgram,
+        yearOrSemester,
+        paymentMethod,
+        paymentDetails
+      }
+      await createStudentDetails(studentCourseEnrollData);
+      toast.success("Student Enrolled into the Course");
+      navigate("/studentdetails");
+    } catch (error) {
+      toast.error("Student Enrollement Failed");
+      console.log(error);
+    }
   };
 
   return (

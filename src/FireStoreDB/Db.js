@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import firebaseApp from "../config/FirebaseConfig";
-import { getFirestore, addDoc, collection, getDocs } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDocs, doc } from "firebase/firestore";
 
 const fireStore = getFirestore(firebaseApp);
 
@@ -33,6 +33,22 @@ export const createUser = async (userData) => {
         return addingUser.id;
     } catch (error) {
         console.error("Failed to add new user: ", error);
+        throw error; 
+    }
+};
+
+
+export const createStudentDetails = async (studentCourseEnrollData) => {
+    try {
+        const userID = uuidv4();
+        const studentWithID = { ...studentCourseEnrollData, userID }; 
+
+        const addingStudent = await addDoc(collection(fireStore, "Students"), studentWithID);
+        console.log("Student added successfully with ID: ", addingStudent.id);
+        
+        return addingStudent.id;
+    } catch (error) {
+        console.error("Failed to add new Student: ", error);
         throw error; 
     }
 };
