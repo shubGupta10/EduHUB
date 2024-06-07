@@ -8,15 +8,22 @@ const fireBaseContext = createContext(null);
 const firebaseAuth = getAuth(firebaseApp);
 export const storage = getStorage(firebaseApp);
 
+
 export const useFirebase = () => useContext(fireBaseContext);
 
 const FireBaseProvider = (props) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentUser , setCurrentUser] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
       console.log(user);
+      if(user){
+        setCurrentUser(user);
+      }else{
+        setCurrentUser(null);
+      }
       setUser(user);
       setLoading(false);
     });
@@ -53,7 +60,7 @@ const FireBaseProvider = (props) => {
   const isLoggedIn = !!user;
 
   return (
-    <fireBaseContext.Provider value={{ app: firebaseApp, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, createUser ,loading }}>
+    <fireBaseContext.Provider value={{ app: firebaseApp, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, currentUser ,createUser ,loading }}>
       {props.children}
     </fireBaseContext.Provider>
   );

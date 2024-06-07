@@ -1,9 +1,10 @@
+import { v4 as uuidv4 } from 'uuid';
 import firebaseApp from "../config/FirebaseConfig";
-import { getFirestore, addDoc, collection , getDocs} from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDocs } from "firebase/firestore";
 
 const fireStore = getFirestore(firebaseApp);
 
-//add Course to FireStore
+// Add Course to Firestore
 export const addCourseToFirestore = async (courseData) => {
     try {
         const result = await addDoc(collection(fireStore, "courses"), courseData);
@@ -15,21 +16,23 @@ export const addCourseToFirestore = async (courseData) => {
     }
 };
 
-
-//get the courses 
+// Get the courses 
 export const getCoursesFromFirestore = async () => {
     const courseCollection = collection(fireStore, "courses");
     return await getDocs(courseCollection);
 }
 
-//storing all the data of users into fireStore
+// Storing all the data of users into Firestore
 export const createUser = async (userData) => {
     try {
-        const addingUser = await addDoc(collection(fireStore, "Users"), userData);
-        console.log("User added Successfully: ", addingUser.id);
+        const userID = uuidv4();
+        const userWithID = { ...userData, userID };
+
+        const addingUser = await addDoc(collection(fireStore, "Users"), userWithID);
+        console.log("User added Successfully with userID: ", addingUser.id, " and generated userID: ", userID);
         return addingUser.id;
     } catch (error) {
         console.error("Failed to add new user: ", error);
         throw error; 
     }
-}
+};

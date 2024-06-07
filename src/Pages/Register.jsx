@@ -5,11 +5,12 @@ import { toast } from 'react-toastify';
 import "./Register.css";
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Components/Loader';
+import { v4 as uuidv4 } from 'uuid';
 
 const Register = () => {
     const navigate = useNavigate();
     const firebase = useFirebase();
-    const [name, setName] = useState("");
+    const [displayName, setDisplayName] = useState("");
     const [email, setEmail] = useState("");
     const [role, setRole] = useState("");
     const [password, setPassword] = useState("");
@@ -18,29 +19,36 @@ const Register = () => {
 
     const handleRegisterForm = async (e) => {
         e.preventDefault();
+        if (password !== confirmPass) {
+            toast.error("Passwords do not match");
+            return;
+        }
         setIsLoading(true); 
         try {
             await firebase.RegisterUser(email, password);
-            toast.success("Account creation successful");
-            const userData = {
-                name,
-                email, 
-                role
-            };
-            const newUserID = await firebase.createUser(userData);
-            console.log("New User Id:" , newUserID);
-            setName("");
-            setEmail("");
-            setPassword("");
-            setConfirmPass("");
-            navigate("/login");
 
+            
+            const userData = {
+                displayName,
+                email, 
+                role,
+                userID: uuidv4() 
+            };
+            await firebase.createUser(userData);
+
+            toast.success("Account creation successful");
+            navigate("/login");
         } catch (error) {
             console.error("Failed in account creation", error);
             toast.error("Failed to create account");
         }
         setIsLoading(false); 
     };
+
+    const handleGoogleRegister = async () => {
+        // Implement Google registration logic here
+    };
+    
 
     return (
         <div>
@@ -49,10 +57,10 @@ const Register = () => {
                 <Card className='card' style={{ width: '100%', maxWidth: '500px', borderRadius: "20px" }}>
                     <Card.Body>
                         <h2 className="text-center text-primary mb-4">Register</h2>
-                        <Form>
-                            <Form.Group controlId="formName">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control onChange={(e) => setName(e.target.value)} value={name} type="text" placeholder="Enter your Name" required />
+                        <Form onSubmit={handleRegisterForm}>
+                            <Form.Group controlId="formDisplayName">
+                                <Form.Label>Display Name</Form.Label>
+                                <Form.Control onChange={(e) => setDisplayName(e.target.value)} value={displayName} type="text" placeholder="Enter your Display Name" required />
                             </Form.Group>
                             <Form.Group controlId="formEmail" className="mt-3">
                                 <Form.Label>Email address</Form.Label>
@@ -74,11 +82,11 @@ const Register = () => {
                                 <Form.Label>Confirm Password</Form.Label>
                                 <Form.Control onChange={(e) => setConfirmPass(e.target.value)} type="password" value={confirmPass} placeholder="Confirm your password" required />
                             </Form.Group>
-                            <Button onClick={handleRegisterForm} variant="primary" type="submit" className="w-100 mt-4 btn-color">
+                            <Button variant="primary" type="submit" className="w-100 mt-4 btn-color">
                                 Register
                             </Button>
                             <p className='text-center mt-2 fs-4 fw-bold'>OR</p>
-                            <Button variant="primary" type="submit" className="w-100 btn-color">
+                            <Button variant="primary" type="button" className="w-100 btn-color" onClick={handleGoogleRegister}>
                                 Register with Google
                             </Button>
                         </Form>
