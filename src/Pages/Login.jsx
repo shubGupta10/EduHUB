@@ -23,12 +23,12 @@ const Login = () => {
       console.error("Error Occurred", error);
       toast.error("Error occurred. Please try again!");
     }
-    setIsLoading(false); // Stop loader after login attempt is complete
+    setIsLoading(false); 
   };
 
   return (
     <div>
-      {isLoading && <Loader />} {/* Render loader when isLoading is true */}
+      {isLoading && <Loader />} 
       <Container className="d-flex mt-5 justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
         <Card style={{ width: '100%', maxWidth: '500px' , borderRadius: "20px" }}>
           <Card.Body>

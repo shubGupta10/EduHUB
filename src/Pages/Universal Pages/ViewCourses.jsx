@@ -3,6 +3,7 @@ import { useFirebase } from '../../Context/FirebaseContext';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import './ViewCourses.css'; 
 import Loader from '../../Components/Loader';
+import { Link } from 'react-router-dom';
 
 const ViewCourses = () => {
   const firebase = useFirebase();
@@ -43,7 +44,9 @@ const ViewCourses = () => {
                       <Card.Text>Duration: {course.courseDuration + " hrs"}</Card.Text>
                       <Card.Text>Instructor: {course.courseInstructor}</Card.Text>
                       <div className="d-flex justify-content-center">
+                        <Link to="/studentdetails">
                         <button className="enroll-button">Enroll</button>
+                        </Link>
                       </div>
                     </Card.Body>
                   </Card>

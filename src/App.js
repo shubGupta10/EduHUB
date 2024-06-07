@@ -18,6 +18,7 @@ import ViewCourses from './Pages/Universal Pages/ViewCourses';
 import MyNavbar from './Components/Navbar.jsx';
 import Loader from './Components/Loader.jsx';
 import AddCourse from './Pages/Admin Page/AddCourse.jsx';
+import StudentDetails from './Pages/Student Page/StudentDetails.jsx';
 
 const App = () => {
   const firebase = useFirebase();
@@ -41,6 +42,7 @@ const App = () => {
         <Route path='/dashboard' element={<ProtectedRoute element={Dashboard} />} />
         <Route path='/addcourse' element={<ProtectedRoute element={AddCourse} />}/>
         <Route path='/dashboard/viewcourse' element={<ProtectedRoute element={ViewCourses}/>}/>
+        <Route path='/studentdetails' element={<ProtectedRoute element={StudentDetails}/>}/>
       </Routes>
       <ToastContainer position="top-right" />
     </div>
