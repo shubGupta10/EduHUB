@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 
 const StudentDetailForm = () => {
-  const { courseId, courseName } = useParams(); 
+  const { courseId, courseName } = useParams();
   const [studentName, setStudentName] = useState("");
   const [studentEmail, setStudentEmail] = useState("");
   const [studentId, setStudentId] = useState("");
@@ -44,7 +44,7 @@ const StudentDetailForm = () => {
       };
       await createStudentDetails(studentCourseEnrollData);
       toast.success("Student Enrolled into the Course");
-      navigate("/dashboard");
+      navigate(`/dashboard/coursedetail/${courseId}/${courseName}`);
     } catch (error) {
       toast.error("Student Enrollment Failed");
       console.log(error);
@@ -52,8 +52,8 @@ const StudentDetailForm = () => {
   };
 
   return (
-    <Container className="mt-5 ">
-      <Row className="justify-content-md-center ">
+    <Container className="mt-5">
+      <Row className="justify-content-md-center">
         <Col md={8}>
           <Card className="p-4 shadow-lg rounded">
             <h2 className="text-center mb-4 text-primary">Student Course Enrollment Form</h2>

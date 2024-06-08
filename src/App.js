@@ -14,13 +14,16 @@ import Login from './Pages/Login.jsx';
 import Dashboard from './Pages/Dashboard.jsx';
 import ViewCourses from './Pages/Universal Pages/ViewCourses';
 import StudentDetailForm from './Pages/Student Page/StudentDetails.jsx'
+import StudentDetails from './Pages/Student Page/StudentDetails.jsx';
+import CourseOverview from './Pages/Universal Pages/CourseOverview.jsx';
+import CourseProgress from './Pages/Student Page/CourseProgress.jsx';
 
 // Components
 import MyNavbar from './Components/Navbar.jsx';
 import Loader from './Components/Loader.jsx';
 import AddCourse from './Pages/Admin Page/AddCourse.jsx';
-import StudentDetails from './Pages/Student Page/StudentDetails.jsx';
-import CourseOverview from './Pages/Universal Pages/CourseOverview.jsx';
+import CourseDetail from './Components/CourseDetail.jsx';
+
 
 const App = () => {
   const firebase = useFirebase();
@@ -44,7 +47,9 @@ const App = () => {
         <Route path='/dashboard' element={<ProtectedRoute element={Dashboard} />} />
         <Route path='/addcourse' element={<ProtectedRoute element={AddCourse} />}/>
         <Route path='/dashboard/viewcourse' element={<ProtectedRoute element={ViewCourses}/>}/>
-        <Route path='/studentdetails' element={<ProtectedRoute element={StudentDetails}/>}/>
+        <Route path='/dashboard/courseoverview/coursesprogress' element={<ProtectedRoute element={CourseProgress}/>}/>
+        <Route path='/dashboard/courseoverview' element={<ProtectedRoute element={CourseOverview}/>}/>
+        <Route path='/dashboard/coursedetail/:courseId/:courseName' element={<ProtectedRoute element={CourseDetail}/>}/>
         <Route path='/courseoverview/:courseId/:courseName' element={<ProtectedRoute element={CourseOverview}/>}/>
         <Route path='/studentdetails/:courseId/:courseName' element={<ProtectedRoute element={StudentDetailForm} />} />
       </Routes>

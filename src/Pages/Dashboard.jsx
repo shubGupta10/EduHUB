@@ -1,11 +1,12 @@
 import React from 'react';
 import { Container, Row, Col, Card, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faChartLine, faClipboard, faComments, faUser, faFileAlt } from '@fortawesome/free-solid-svg-icons';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Dashboard = () => {
+
   return (
     <>
       <div className='bg-primary text-white text-center py-5'>
@@ -24,8 +25,8 @@ const Dashboard = () => {
                 <Card.Text>
                   Track your progress in enrolled courses.
                 </Card.Text>
-                <Link to="/courses">
-                  <Button variant="primary">View Courses</Button>
+                <Link to="/dashboard/coursedetail">
+                  <Button variant="primary">View Course Progress</Button>
                 </Link>
               </Card.Body>
             </Card>
