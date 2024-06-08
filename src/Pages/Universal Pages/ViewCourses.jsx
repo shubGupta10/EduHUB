@@ -25,7 +25,6 @@ const ViewCourses = () => {
         setIsLoading(false);
       }
     };
-
     fetchCourses();
   }, [firebase]);
 
@@ -44,7 +43,7 @@ const ViewCourses = () => {
                       <Card.Text>Duration: {course.courseDuration + " hrs"}</Card.Text>
                       <Card.Text>Instructor: {course.courseInstructor}</Card.Text>
                       <div className="d-flex justify-content-center">
-                        <Link to="/studentdetails">
+                        <Link to={`/courseoverview/${course.id}/${course.courseName}`}>
                         <button className="enroll-button">Enroll</button>
                         </Link>
                       </div>

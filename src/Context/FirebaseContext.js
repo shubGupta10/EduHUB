@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import firebaseApp from '../config/FirebaseConfig';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import {addCourseToFirestore, getCoursesFromFirestore, createUser, createStudentDetails} from "../FireStoreDB/Db.js"
+import {addCourseToFirestore, getCoursesFromFirestore, createUser, createStudentDetails, getCoursesById} from "../FireStoreDB/Db.js"
 import { getStorage } from 'firebase/storage';
 
 const fireBaseContext = createContext(null);
@@ -60,7 +60,7 @@ const FireBaseProvider = (props) => {
   const isLoggedIn = !!user;
 
   return (
-    <fireBaseContext.Provider value={{ app: firebaseApp, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, currentUser ,createUser ,loading, createStudentDetails }}>
+    <fireBaseContext.Provider value={{ app: firebaseApp, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, currentUser ,createUser ,loading, createStudentDetails, getCoursesById }}>
       {props.children}
     </fireBaseContext.Provider>
   );

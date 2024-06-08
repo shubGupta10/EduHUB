@@ -6,6 +6,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../Context/FirebaseContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader";
+import { v4 as uuidv4 } from 'uuid'; 
 
 const AddCourse = () => {
   const firebase = useFirebase();
@@ -32,7 +33,10 @@ const AddCourse = () => {
         imageUrl = await getDownloadURL(snapshot.ref);
       }
 
+      const courseId = uuidv4();
+
       const courseData = {
+        courseId, 
         courseName,
         courseDescription,
         courseDuration,

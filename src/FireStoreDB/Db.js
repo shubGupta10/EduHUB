@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import firebaseApp from "../config/FirebaseConfig";
-import { getFirestore, addDoc, collection, getDocs, doc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDocs, doc, getDoc } from "firebase/firestore";
 
 const fireStore = getFirestore(firebaseApp);
 
@@ -21,6 +21,28 @@ export const getCoursesFromFirestore = async () => {
     const courseCollection = collection(fireStore, "courses");
     return await getDocs(courseCollection);
 }
+
+
+//get courses by id
+//get courses by id
+export const getCoursesById = async (courseId) => {
+    try {
+        const courseRef = doc(collection(fireStore, 'courses'), courseId);
+        const docSnapshot = await getDoc(courseRef);
+
+        if (docSnapshot.exists()) {
+            return { id: docSnapshot.id, ...docSnapshot.data() };
+        } else {
+            throw new Error('Course not found');
+        }
+    } catch (error) {
+        console.error('Error getting course:', error);
+        throw error;
+    }
+};
+
+
+
 
 // Storing all the data of users into Firestore
 export const createUser = async (userData) => {
