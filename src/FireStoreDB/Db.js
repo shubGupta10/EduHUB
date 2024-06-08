@@ -24,7 +24,6 @@ export const getCoursesFromFirestore = async () => {
 
 
 //get courses by id
-//get courses by id
 export const getCoursesById = async (courseId) => {
     try {
         const courseRef = doc(collection(fireStore, 'courses'), courseId);

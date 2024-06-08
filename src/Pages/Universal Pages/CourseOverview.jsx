@@ -8,7 +8,6 @@ const CourseOverview = () => {
     const { getCoursesById } = useFirebase();
     const { courseId, courseName } = useParams();
     const [course, setCourse] = useState(null);
-    const [instructor, setInstructor] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,7 +45,9 @@ const CourseOverview = () => {
                             <Card.Title className="text-center mb-4">Buy Now</Card.Title>
                             <div className="d-flex flex-column align-items-center">
                                 <Button className="mb-3" variant="primary">Add to Cart</Button>
+                                <Link to={`/studentdetails/${courseId}/${courseName}`}>
                                 <Button variant="success">Buy Now</Button>
+                                </Link>
                             </div>
                         </Card.Body>
                     </Card>

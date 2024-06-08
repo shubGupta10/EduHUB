@@ -9,7 +9,7 @@ const Dashboard = () => {
   return (
     <>
       <div className='bg-primary text-white text-center py-5'>
-        <h1 className='display-3'>Welcome to the EduHub Dashboard</h1>
+        <h1 className='display-3 fw-bolder text-warning'>Welcome to the EduHub Dashboard 🙂</h1>
       </div>
       <Container className="mt-5">
         <Row className="mb-4">

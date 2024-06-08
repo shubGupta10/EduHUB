@@ -56,7 +56,7 @@ const StudentDetailForm = () => {
       <Row className="justify-content-md-center ">
         <Col md={8}>
           <Card className="p-4 shadow-lg rounded">
-            <h2 className="text-center mb-4">Student Course Enrollment Form</h2>
+            <h2 className="text-center mb-4 text-primary">Student Course Enrollment Form</h2>
             <p className="text-center mb-4">
               Please fill in the form below to enroll in the course. Ensure all details are accurate.
             </p>
