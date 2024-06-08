@@ -14,7 +14,6 @@ const CourseOverview = () => {
         const fetchData = async () => {
             try {
                 const courseData = await getCoursesById(courseId);
-                console.log("Here is result baby", courseData);
                 setCourse(courseData);
             } catch (error) {
                 console.error("Error occurred:", error);
@@ -39,16 +38,17 @@ const CourseOverview = () => {
                                 {course && course.courseDescription}
                             </Card.Text>
                         </Card.Body>
-                        <Card.Footer>
-                            <div className="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <span className="fw-bold">Instructor:</span> {course && course.instructor}
-                                </div>
-                                <Link to={`/studentdetails/${courseId}/${courseName}`}>
-                                    <Button variant="primary">Buy Now</Button>
-                                </Link>
+                    </Card>
+                </Col>
+                <Col md={6} className="mb-4">
+                    <Card className="h-100 shadow">
+                        <Card.Body>
+                            <Card.Title className="text-center mb-4">Buy Now</Card.Title>
+                            <div className="d-flex flex-column align-items-center">
+                                <Button className="mb-3" variant="primary">Add to Cart</Button>
+                                <Button variant="success">Buy Now</Button>
                             </div>
-                        </Card.Footer>
+                        </Card.Body>
                     </Card>
                 </Col>
             </Row>
