@@ -15,12 +15,14 @@ import Loader from "../Components/Loader";
 const CourseDetail = () => {
   const navigate = useNavigate();
   const { getCoursesById } = useFirebase();
-  const { courseId, courseName } = useParams();
+  const { courseId: paramCourseId, courseName: paramCourseName } = useParams();
+  const courseId = paramCourseId || localStorage.getItem('courseId');
+  const courseName = paramCourseName || localStorage.getItem('courseName');
   const [course, setCourse] = useState(null);
   const [error, setError] = useState("");
 
   const handleStartContinue = () => {
-    navigate(`/dashboard/coursedetail/${courseId}/coursesprogress`);
+    navigate(`/dashboard/coursedetail/${courseId}/courseprogress`);
   };
 
   useEffect(() => {
@@ -54,7 +56,7 @@ const CourseDetail = () => {
 
   return (
     <Container className="text-center py-2" style={{ height: "40vh" }}>
-      <Card className="mb-4" style={{ width: "80%", margin: "0 auto", boxShadow: "0 4px 8px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19)" }}>
+      <Card className="mb-4" style={{ width: "60%", margin: "0 auto", boxShadow: "4px 4px 4px blue" }}>
         <Card.Body>
           <Card.Title as="h1">Welcome to {course.courseName} Course</Card.Title>
           <Image src={course.courseImage} alt="Course" fluid className="my-4" style={{ height: "40vh" }} />

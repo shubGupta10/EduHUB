@@ -1,43 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useFirebase } from '../../Context/FirebaseContext';
+import { useParams } from 'react-router-dom';
+import { ProgressBar, ListGroup } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 
 const CourseProgress = () => {
-  // Example static data
-  const courseTitle = "Introduction to React";
-  const studentName = "John Doe";
-  const progress = 50; // Progress in percentage
-  const lessons = [
-    { title: "Lesson 1: JSX", completed: true },
-    { title: "Lesson 2: Components", completed: true },
-    { title: "Lesson 3: Props and State", completed: false },
-    { title: "Lesson 4: Lifecycle Methods", completed: false },
-    { title: "Lesson 5: Hooks", completed: false },
-  ];
+    const { courseId: paramCourseId, courseName: paramCourseName } = useParams();
+    const courseId = paramCourseId || localStorage.getItem('courseId');
+    const courseName = paramCourseName || localStorage.getItem('courseName');
+  const { getCoursesById } = useFirebase();
+  const [course, setCourse] = useState(null);
+
+  useEffect(() => {
+    const fetchCourseData = async () => {
+      try {
+        const courseData = await getCoursesById(courseId);
+        setCourse(courseData);
+      } catch (error) {
+        console.error('Error fetching course data:', error);
+      }
+    };
+    fetchCourseData();
+  }, [courseId, getCoursesById]);
 
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', margin: '0 auto', padding: '20px' }}>
-      <header style={{ textAlign: 'center', marginBottom: '40px' }}>
-        <h1>{courseTitle}</h1>
-        <h2>Welcome, {studentName}!</h2>
-      </header>
-      <section>
-        <h3>Course Progress</h3>
-        <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px' }}>
-          <div style={{ flex: 1, height: '20px', backgroundColor: '#e0e0e0', borderRadius: '10px', overflow: 'hidden' }}>
-            <div style={{ width: `${progress}%`, height: '100%', backgroundColor: '#76c7c0' }}></div>
-          </div>
-          <span style={{ marginLeft: '10px' }}>{progress}%</span>
-        </div>
-        <h3>Lessons</h3>
-        <ul style={{ listStyle: 'none', padding: '0' }}>
-          {lessons.map((lesson, index) => (
-            <li key={index} style={{ marginBottom: '10px', padding: '10px', backgroundColor: lesson.completed ? '#d4edda' : '#f8d7da', borderRadius: '5px' }}>
-              {lesson.title}
-            </li>
-          ))}
-        </ul>
-      </section>
+      {course && (
+        <>
+          <header style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <h1>{course.courseName}</h1>
+            <h2>Welcome to {course.courseDescription}!</h2>
+          </header>
+          <section>
+            <h3>Course Progress</h3>
+            <ProgressBar now={course.progress} label={`${course.progress}%`} />
+            <h3>Lessons</h3>
+            <ListGroup>
+              {course.lessons && course.lessons.map((lesson, index) => (
+                <ListGroup.Item key={index} variant={lesson.completed ? 'success' : 'danger'}>
+                  <FontAwesomeIcon icon={lesson.completed ? faCheckCircle : faTimesCircle} className="me-2" />
+                  {lesson.title}
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
+          </section>
+        </>
+      )}
       <footer style={{ textAlign: 'center', marginTop: '40px' }}>
-        <p>&copy; 2024 Your Course Platform. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Your Course Platform. All rights reserved.</p>
       </footer>
     </div>
   );

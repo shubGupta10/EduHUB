@@ -10,15 +10,18 @@ const Login = () => {
   const firebase = useFirebase();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false); // State to track loading state
+  const [isLoading, setIsLoading] = useState(false); 
+
+  const courseId = localStorage.getItem('courseId');
+  const courseName = localStorage.getItem('courseName');
 
   const handleLoginForm = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Start loader when login button is clicked
+    setIsLoading(true); 
     try {
       await firebase.LoginUser(email, password);
       toast.success("Login Successful!");
-      navigate("/dashboard");
+      navigate(`/dashboard/${courseId}/${courseName}`);
     } catch (error) {
       console.error("Error Occurred", error);
       toast.error("Error occurred. Please try again!");

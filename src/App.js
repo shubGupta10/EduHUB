@@ -14,7 +14,6 @@ import Login from './Pages/Login.jsx';
 import Dashboard from './Pages/Dashboard.jsx';
 import ViewCourses from './Pages/Universal Pages/ViewCourses';
 import StudentDetailForm from './Pages/Student Page/StudentDetails.jsx'
-import StudentDetails from './Pages/Student Page/StudentDetails.jsx';
 import CourseOverview from './Pages/Universal Pages/CourseOverview.jsx';
 import CourseProgress from './Pages/Student Page/CourseProgress.jsx';
 
@@ -44,10 +43,10 @@ const App = () => {
         <Route path='/' element={<Home />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/dashboard' element={<ProtectedRoute element={Dashboard} />} />
+        <Route path='/dashboard/:courseId/:courseName' element={<ProtectedRoute element={Dashboard} />} />
         <Route path='/addcourse' element={<ProtectedRoute element={AddCourse} />}/>
         <Route path='/dashboard/viewcourse' element={<ProtectedRoute element={ViewCourses}/>}/>
-        <Route path='/dashboard/courseoverview/coursesprogress' element={<ProtectedRoute element={CourseProgress}/>}/>
+        <Route path='/dashboard/coursedetail/:courseId/courseprogress' element={<ProtectedRoute element={CourseProgress}/>}/>
         <Route path='/dashboard/courseoverview' element={<ProtectedRoute element={CourseOverview}/>}/>
         <Route path='/dashboard/coursedetail/:courseId/:courseName' element={<ProtectedRoute element={CourseDetail}/>}/>
         <Route path='/courseoverview/:courseId/:courseName' element={<ProtectedRoute element={CourseOverview}/>}/>

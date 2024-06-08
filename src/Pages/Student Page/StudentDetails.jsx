@@ -40,11 +40,13 @@ const StudentDetailForm = () => {
         degreeProgram,
         yearOrSemester,
         paymentMethod,
-        paymentDetails
+        paymentDetails,
       };
       await createStudentDetails(studentCourseEnrollData);
       toast.success("Student Enrolled into the Course");
-      navigate(`/dashboard/coursedetail/${courseId}/${courseName}`);
+      navigate(`/dashboard/${courseId}/${courseName}`);
+      localStorage.setItem("courseId", courseId);
+      localStorage.setItem("courseName", courseName);
     } catch (error) {
       toast.error("Student Enrollment Failed");
       console.log(error);
@@ -56,9 +58,12 @@ const StudentDetailForm = () => {
       <Row className="justify-content-md-center">
         <Col md={8}>
           <Card className="p-4 shadow-lg rounded">
-            <h2 className="text-center mb-4 text-primary">Student Course Enrollment Form</h2>
+            <h2 className="text-center mb-4 text-primary">
+              Student Course Enrollment Form
+            </h2>
             <p className="text-center mb-4">
-              Please fill in the form below to enroll in the course. Ensure all details are accurate.
+              Please fill in the form below to enroll in the course. Ensure all
+              details are accurate.
             </p>
             <Form onSubmit={handleSubmit}>
               <Form.Group className="mb-3" controlId="formStudentName">
@@ -87,18 +92,14 @@ const StudentDetailForm = () => {
                 <Form.Control
                   type="text"
                   value={courseId}
-                  readOnly 
+                  readOnly
                   onCopy={(e) => e.preventDefault()}
                 />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formCourseName">
                 <Form.Label className="fw-bold">Course Name</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={courseName}
-                  readOnly 
-                />
+                <Form.Control type="text" value={courseName} readOnly />
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formStudentId">
