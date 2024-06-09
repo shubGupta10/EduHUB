@@ -4,7 +4,6 @@ import { getFirestore, addDoc, collection, getDocs, doc, getDoc } from "firebase
 
 const fireStore = getFirestore(firebaseApp);
 
-// Add Course to Firestore
 export const addCourseToFirestore = async (courseData) => {
     try {
         const result = await addDoc(collection(fireStore, "courses"), courseData);
@@ -16,14 +15,11 @@ export const addCourseToFirestore = async (courseData) => {
     }
 };
 
-// Get the courses 
 export const getCoursesFromFirestore = async () => {
     const courseCollection = collection(fireStore, "courses");
     return await getDocs(courseCollection);
 }
 
-
-//get courses by id
 export const getCoursesById = async (courseId) => {
     try {
         const courseRef = doc(collection(fireStore, 'courses'), courseId);
@@ -40,10 +36,6 @@ export const getCoursesById = async (courseId) => {
     }
 };
 
-
-
-
-// Storing all the data of users into Firestore
 export const createUser = async (userData) => {
     try {
         const userID = uuidv4();
@@ -58,6 +50,35 @@ export const createUser = async (userData) => {
     }
 };
 
+export const matchUser = async (user) => {
+    try {
+        if (!user) {
+            throw new Error('No user currently logged in');
+        }
+
+        const userQuery = collection(fireStore, 'Users');
+        const querySnapshot = await getDocs(userQuery);
+        let matchedUser = null;
+
+        querySnapshot.forEach((doc) => {
+            const userData = doc.data();
+            if (userData.email === user.email) {
+                console.log("User data from Firestore:", userData);
+                matchedUser = userData;
+            }
+        });
+
+        if (matchedUser) {
+            console.log("Current user:", user);
+            return matchedUser;
+        } else {
+            throw new Error('User not found in Firestore');
+        }
+    } catch (error) {
+        console.error("Error matching user:", error);
+        throw error;
+    }
+};
 
 export const createStudentDetails = async (studentCourseEnrollData) => {
     try {
@@ -73,3 +94,6 @@ export const createStudentDetails = async (studentCourseEnrollData) => {
         throw error; 
     }
 };
+
+
+

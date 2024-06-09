@@ -41,7 +41,8 @@ const CourseDetail = () => {
   if (error) {
     return (
       <Alert variant="danger" className="text-center">
-        {error}
+        <h1>Can't find any Course...</h1>
+        <h1>Please enroll into one.</h1>
       </Alert>
     );
   }
