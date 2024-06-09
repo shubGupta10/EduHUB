@@ -26,7 +26,6 @@ const CourseProgress = () => {
     const fetchCourseData = async () => {
       try {
         const courseData = await getCoursesById(courseId);
-        console.log("Fetched course data:", courseData);
         setCourse(courseData);
       } catch (error) {
         console.error("Error fetching course data:", error);
@@ -39,8 +38,7 @@ const CourseProgress = () => {
     const fetchUserId = async () => {
       try {
         const matchedUser = await matchUser(user);
-        console.log("User data:", matchedUser);
-        setUserRole(matchedUser.role); // Assuming 'role' is a field in matchedUser
+        setUserRole(matchedUser.role); 
       } catch (error) {
         console.error("Error:", error);
       }
