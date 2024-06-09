@@ -1,0 +1,43 @@
+{
+    "Python Course": [
+      "Python: Programming Fundamentals & Environment Setup",
+      "Python: Control Flow & Functions",
+      "Python: Data Structures & File I/O",
+      "Python: Modules & Exception Handling",
+      "Python: Introduction to Popular Libraries (NumPy, Matplotlib)",
+      "Python: Web Development with Frameworks (Django, Flask)",
+      "Python: Data Analysis with pandas & scikit-learn",
+      "Python: Automation with Selenium",
+      "Python: Object-Oriented Programming",
+      "Python: GUI Development with Tkinter or PyQt"
+    ],
+    "java": [
+      "Java: Programming Fundamentals & Environment Setup",
+      "Java: Control Flow & Functions",
+      "Java: Object-Oriented Programming (OOP)",
+      "Java: Data Structures & File I/O",
+      "Java: Exception Handling & Collections",
+      "Java: Introduction to Threads & Concurrency",
+      "Java: Networking & Sockets",
+      "Java: Database Connectivity (JDBC)",
+      "Java: Testing Frameworks (JUnit)",
+      "Java: Advanced Features (JavaFX, Swing)"
+    ],
+    "js": [
+      "Introduction to JavaScript",
+      "Data Types and Variables",
+      "Operators and Expressions",
+      "Control Structures (if statements, loops)",
+      "Functions and Scope",
+      "Arrays and Objects",
+      "DOM Manipulation",
+      "Events and Event Handling",
+      "AJAX and Fetch API",
+      "Error Handling",
+      "ES6+ Features (Arrow Functions, Promises, Async/Await)",
+      "Modules and Module Bundlers (Webpack, Parcel)",
+      "Testing with Jest or Mocha",
+      "Introduction to React or other JavaScript frameworks"
+    ]
+  }
+  

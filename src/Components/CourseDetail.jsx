@@ -21,6 +21,50 @@ const CourseDetail = () => {
   const [course, setCourse] = useState(null);
   const [error, setError] = useState("");
 
+  // JSON data
+  const lessonsData = {
+    "Python Course": [
+      "Python: Programming Fundamentals & Environment Setup",
+      "Python: Control Flow & Functions",
+      "Python: Data Structures & File I/O",
+      "Python: Modules & Exception Handling",
+      "Python: Introduction to Popular Libraries (NumPy, Matplotlib)",
+      "Python: Web Development with Frameworks (Django, Flask)",
+      "Python: Data Analysis with pandas & scikit-learn",
+      "Python: Automation with Selenium",
+      "Python: Object-Oriented Programming",
+      "Python: GUI Development with Tkinter or PyQt"
+    ],
+    "java": [
+      "Java: Programming Fundamentals & Environment Setup",
+      "Java: Control Flow & Functions",
+      "Java: Object-Oriented Programming (OOP)",
+      "Java: Data Structures & File I/O",
+      "Java: Exception Handling & Collections",
+      "Java: Introduction to Threads & Concurrency",
+      "Java: Networking & Sockets",
+      "Java: Database Connectivity (JDBC)",
+      "Java: Testing Frameworks (JUnit)",
+      "Java: Advanced Features (JavaFX, Swing)"
+    ],
+    "js": [
+      "Introduction to JavaScript",
+      "Data Types and Variables",
+      "Operators and Expressions",
+      "Control Structures (if statements, loops)",
+      "Functions and Scope",
+      "Arrays and Objects",
+      "DOM Manipulation",
+      "Events and Event Handling",
+      "AJAX and Fetch API",
+      "Error Handling",
+      "ES6+ Features (Arrow Functions, Promises, Async/Await)",
+      "Modules and Module Bundlers (Webpack, Parcel)",
+      "Testing with Jest or Mocha",
+      "Introduction to React or other JavaScript frameworks"
+    ]
+  };
+
   const handleStartContinue = () => {
     navigate(`/dashboard/coursedetail/${courseId}/courseprogress`);
   };
@@ -62,7 +106,7 @@ const CourseDetail = () => {
           <Card.Title as="h1">Welcome to {course.courseName} Course</Card.Title>
           <Image src={course.courseImage} alt="Course" fluid className="my-4" style={{ height: "40vh" }} />
           <Card.Text style={{ fontSize: "18px", lineHeight: "1.6" }}>
-            Master the art of JavaScript programming with our comprehensive course! Dive deep into the language that powers the web and unlock your full potential as a developer. Whether you're a beginner or an experienced coder, our JavaScript course will take your skills to the next level.
+            {course.courseDescription}
           </Card.Text>
           <Button variant="primary" size="lg" onClick={handleStartContinue}>
             Start / Continue Course
@@ -83,27 +127,16 @@ const CourseDetail = () => {
             <strong>Content:</strong>
           </p>
           <ul>
-            <li>Introduction to JavaScript</li>
-            <li>Data Types and Variables</li>
-            <li>Operators and Expressions</li>
-            <li>Control Structures (if statements, loops)</li>
-            <li>Functions and Scope</li>
-            <li>Arrays and Objects</li>
-            <li>DOM Manipulation</li>
-            <li>Events and Event Handling</li>
-            <li>AJAX and Fetch API</li>
-            <li>Error Handling</li>
-            <li>ES6+ Features (Arrow Functions, Promises, Async/Await)</li>
-            <li>Modules and Module Bundlers (Webpack, Parcel)</li>
-            <li>Testing with Jest or Mocha</li>
-            <li>Introduction to React or other JavaScript frameworks</li>
+            {courseName && lessonsData[courseName] && lessonsData[courseName].map((lesson, index) => (
+              <li key={index}>{lesson}</li>
+            ))}
           </ul>
           <h3>Instructor</h3>
           <p>
             <strong>Name:</strong> {course.courseInstructor}
           </p>
           <p>
-            <strong>About the Instructor:</strong> {course.courseInstructor}  is a seasoned software engineer with over 10 years of experience in JavaScript development. He has a passion for teaching and has helped hundreds of students master JavaScript programming. John's teaching style is engaging and practical, focusing on real-world examples and hands-on projects.
+            <strong>About the Instructor:</strong> {course.courseInstructor}  is a seasoned software engineer with over 10 years of experience in {course.courseName} course. He has a passion for teaching and has helped hundreds of students master {course.courseName} programming. {course.courseInstructor} teaching style is engaging and practical, focusing on real-world examples and hands-on projects.
           </p>
           <p>{course.courseDescription}</p>
         </Col>
