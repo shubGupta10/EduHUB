@@ -11,16 +11,22 @@ const AssignmentPage = () => {
 
   const [userRole, setUserRole] = useState("");
   const [loading, setLoading] = useState(true);
-  const { getCoursesById, user, matchUser, uploadAssignmentDocument } =
-    useFirebase();
+  const {
+    getCoursesById,
+    user,
+    matchUser,
+    uploadAssignmentDocument,
+    fetchAssignment,
+  } = useFirebase();
   const [course, setCourse] = useState(null);
+  const [fetchingAssignment, setFetchingAssignment] = useState("");
 
   //formData
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [assignmentDate, setAssignmentDate] = useState("");
   const [deadline, setDeadline] = useState("");
   const [instructor, setInstructor] = useState("");
-  const [assignmentFile, setAssignmentFile] = useState(null); 
+  const [assignmentFile, setAssignmentFile] = useState(null);
   const [userInfo, setUserInfo] = useState("");
 
   useEffect(() => {
@@ -36,6 +42,20 @@ const AssignmentPage = () => {
     };
     fetchCourseData();
   }, [courseId, getCoursesById]);
+
+  useEffect(() => {
+    const fetchingAssignmentfromDb = async (courseId) => {
+      try {
+        const fetchAssignmentfromfirebase = await fetchAssignment(courseId);
+        setFetchingAssignment(fetchAssignmentfromfirebase);
+        console.log(fetchAssignmentfromfirebase);
+      } catch (error) {
+        console.error("Failed to fetch Assignments, Please Try Again");
+      }
+    };
+
+    fetchingAssignmentfromDb(courseId);
+  }, [courseId]);
 
   useEffect(() => {
     const fetchUserWithId = async () => {
@@ -80,7 +100,8 @@ const AssignmentPage = () => {
         assignmentDate,
         deadline,
         instructor,
-        AssignmentUrl 
+        AssignmentUrl,
+        courseId,
       };
 
       await uploadAssignmentDocument(AssignmentData);
@@ -104,25 +125,40 @@ const AssignmentPage = () => {
           <Row>
             <Col className="text-center">
               <h2 className="text-primary">
-                Welcome Student, Check your Assignments here
+                Welcome {userInfo.displayName}, Check your Assignments here
               </h2>
             </Col>
           </Row>
 
           <Row className="mt-4">
-            <Col>
-              <Card className="shadow-sm">
-                <Card.Header as="h5" className="bg-primary text-white">
-                  Your Assignments
-                </Card.Header>
-                <Card.Body>
-                  <Card.Text>
-                    List of assignments will be displayed here.
-                  </Card.Text>
-                  <Button variant="primary">View Assignments</Button>
-                </Card.Body>
-              </Card>
-            </Col>
+            {fetchingAssignment.map((assignment) => (
+              <Col key={assignment.AssignmentDocumentId}>
+                <Card className="shadow-sm mb-3">
+                  <Card.Body className="text-center">
+                    <Card.Title className="bg-primary text-white mb-3 p-2">
+                      Assignment: {assignment.assignmentTitle}
+                    </Card.Title>
+                    <Card.Text>
+                      <p className="lead">
+                        Assignment Date: {assignment.assignmentDate}
+                      </p>
+                      <p className="lead">Deadline: {assignment.deadline}</p>
+                      <p className="lead">
+                        Instructor: {course.courseInstructor}
+                      </p>
+                    </Card.Text>
+                    <Button
+                      variant="primary"
+                      onClick={() =>
+                        window.open(assignment.AssignmentUrl, "_blank")
+                      }
+                    >
+                      Download Assignment
+                    </Button>
+                  </Card.Body>
+                </Card>
+              </Col>
+            ))}
           </Row>
         </>
       ) : (
@@ -130,7 +166,8 @@ const AssignmentPage = () => {
           <Row>
             <Col className="text-center">
               <h2 className="text-primary">
-                Welcome to the Assignment Submission Page, {userInfo.displayName}
+                Welcome to the Assignment Submission Page,{" "}
+                {userInfo.displayName}
               </h2>
               <h5 className="text-secondary">
                 Here you can submit your assignments
@@ -181,8 +218,9 @@ const AssignmentPage = () => {
                       <Form.Label>Instructor</Form.Label>
                       <Form.Control
                         type="text"
+                        readOnly
                         onChange={(e) => setInstructor(e.target.value)}
-                        value={instructor}
+                        value={course.courseInstructor}
                         placeholder="Enter instructor's name"
                       />
                     </Form.Group>

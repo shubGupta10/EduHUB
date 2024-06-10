@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import firebaseApp from "../config/FirebaseConfig";
-import { getFirestore, addDoc, collection, getDocs, doc, getDoc } from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDocs, doc, getDoc , query, where} from "firebase/firestore";
 
 const fireStore = getFirestore(firebaseApp);
 
@@ -26,6 +26,25 @@ export const uploadAssignmentDocument =  async (AssignmentData) => {
         throw new Error
     }
 };
+
+export const fetchAssignment = async (courseId) => {
+    try {
+        const assignmentsRef = collection(fireStore, "Assignment");
+        const q = query(assignmentsRef, where("courseId", "==", courseId));
+        const querySnapshot = await getDocs(q);
+
+        const assignments = [];
+        querySnapshot.forEach((doc) => {
+            assignments.push({ id: doc.id, ...doc.data() });
+            console.log(assignments);
+        });
+
+        return assignments;
+    } catch (error) {
+        console.error("Failed to fetch Assignments:", error);
+        throw error;
+    }
+}
 
 export const getCoursesFromFirestore = async () => {
     const courseCollection = collection(fireStore, "courses");
@@ -75,7 +94,7 @@ export const matchUser = async (user) => {
         querySnapshot.forEach((doc) => {
             const userData = doc.data();
             if (userData.email === user.email) {
-                console.log("User data from Firestore:", userData);
+                // console.log("User data from Firestore:", userData);
                 matchedUser = userData;
             }
         });
