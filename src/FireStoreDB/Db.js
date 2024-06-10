@@ -15,6 +15,18 @@ export const addCourseToFirestore = async (courseData) => {
     }
 };
 
+
+export const uploadAssignmentDocument =  async (AssignmentData) => {
+    try {
+        const result = await addDoc(collection(fireStore, "Assignment"), AssignmentData);
+        console.log("Assignment Uploaded with ID: ", result.id);
+        return result.id;
+    } catch (error) {
+        console.error("Error uploading Assignment", error);
+        throw new Error
+    }
+};
+
 export const getCoursesFromFirestore = async () => {
     const courseCollection = collection(fireStore, "courses");
     return await getDocs(courseCollection);

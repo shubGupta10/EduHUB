@@ -113,7 +113,7 @@ const CourseProgress = () => {
             "Python: Object-Oriented Programming",
             "Python: GUI Development with Tkinter or PyQt",
           ];
-        case "java":
+        case "Java":
           return [
             "Java: Programming Fundamentals & Environment Setup",
             "Java: Control Flow & Functions",
@@ -126,7 +126,7 @@ const CourseProgress = () => {
             "Java: Testing Frameworks (JUnit)",
             "Java: Advanced Features (JavaFX, Swing)",
           ];
-        case "js":
+        case "JavaScript":
           return [
             "Introduction to JavaScript",
             "Data Types and Variables",
@@ -179,7 +179,7 @@ const CourseProgress = () => {
             </ListGroup>
           </section>
 
-          {(userRole === "teacher" || userRole === "admin") && (
+          {(userRole === "teacher" || userRole === "Admin") && (
             <div style={{ textAlign: "center", marginBottom: "20px" }}>
               <Button
                 variant="primary"

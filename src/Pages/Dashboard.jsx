@@ -97,7 +97,7 @@ const Dashboard = () => {
                   Assignments
                 </Card.Title>
                 <Card.Text>View and submit assignments.</Card.Text>
-                <Link to="/assignments">
+                <Link to="/assignmentpage">
                   <Button variant="primary">View Assignments</Button>
                 </Link>
               </Card.Body>
