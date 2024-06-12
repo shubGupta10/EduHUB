@@ -31,9 +31,14 @@ function MyNavbar() {
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav className="ms-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
-            <Nav.Link className='navbrand' href="/">Home</Nav.Link>
-            <Nav.Link className='navbrand' href={`/dashboard/${courseId}/${courseName}`}>Dashboard</Nav.Link>
-            <Nav.Link className='navbrand' href="/addcourse">Add Courses</Nav.Link>
+            <Nav.Link className='navbrand ' href="/">Home</Nav.Link>
+            {firebase.isLoggedIn ? (
+              <>
+               <Nav.Link className='navbrand' href={`/dashboard/${courseId}/${courseName}`}>Dashboard</Nav.Link>
+               <Nav.Link className='navbrand' href="/addcourse">Add Courses</Nav.Link>
+               </>
+            ) : null}
+           
           </Nav>
           {firebase.isLoggedIn ? (
             <Button variant="outline-red" onClick={logoutUser} className="register-button me-2 ms-2">Logout</Button>
