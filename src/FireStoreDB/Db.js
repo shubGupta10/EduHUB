@@ -27,6 +27,19 @@ export const uploadAssignmentDocument =  async (AssignmentData) => {
     }
 };
 
+
+export const completeAssignment = async (CompletedAssignmentData) => {
+    try {
+       
+        const submitAssignment = await addDoc(collection(fireStore, "CompletedAssignment"), CompletedAssignmentData);
+        console.log("Assignment uploaded with ID:", submitAssignment.id);
+        return submitAssignment.id;
+    } catch (error) {
+        console.error("Failed to submit Assignment", error);
+        throw new Error(error);
+    }
+};
+
 export const fetchAssignment = async (courseId) => {
     try {
         const assignmentsRef = collection(fireStore, "Assignment");

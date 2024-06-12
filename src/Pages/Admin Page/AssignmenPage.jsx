@@ -17,11 +17,13 @@ const AssignmentPage = () => {
     matchUser,
     uploadAssignmentDocument,
     fetchAssignment,
+    completeAssignment,
   } = useFirebase();
   const [course, setCourse] = useState(null);
-  const [fetchingAssignment, setFetchingAssignment] = useState("");
+  const [fetchingAssignment, setFetchingAssignment] = useState([]);
+  const [submitAssignmentFile, setSubmitAssignmentFile] = useState(null);
 
-  //formData
+  // Form data
   const [assignmentTitle, setAssignmentTitle] = useState("");
   const [assignmentDate, setAssignmentDate] = useState("");
   const [deadline, setDeadline] = useState("");
@@ -118,11 +120,51 @@ const AssignmentPage = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    setSubmitAssignmentFile(e.target.files[0]);
+  };
+
+  const handleSubmitAssignment = async (e, assignmentId) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+
+      let SubmitAssignmentUrl = "";
+      if (submitAssignmentFile) {
+        const SubmitDocRef = ref(
+          storage,
+          `SubmittedAssignments/${Date.now()}_${submitAssignmentFile.name}`
+        );
+        const snapshot = await uploadBytes(SubmitDocRef, submitAssignmentFile);
+        SubmitAssignmentUrl = await getDownloadURL(snapshot.ref);
+
+        const CompletedAssignmentData = {
+          AssignmentDocumentId: uuidv4(),
+          studentId: user.uid,
+          submissionDate: new Date().toISOString(),
+          SubmitAssignmentUrl,
+          courseId,
+        };
+
+        await completeAssignment(CompletedAssignmentData);
+        toast.success("Assignment Submitted!");
+        setSubmitAssignmentFile(null);
+      } else {
+        toast.error("Please select a file to submit.");
+      }
+    } catch (error) {
+      console.error("Failed to submit assignment:", error);
+      toast.error("Failed to submit assignment");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <Container className="mt-4">
       {userRole === "student" ? (
         <>
-          <Row>
+          <Row className="mt-4">
             <Col className="text-center">
               <h2 className="text-primary">
                 Welcome {userInfo.displayName}, Check your Assignments here
@@ -132,33 +174,75 @@ const AssignmentPage = () => {
 
           <Row className="mt-4">
             {fetchingAssignment.map((assignment) => (
-              <Col key={assignment.AssignmentDocumentId}>
-                <Card className="shadow-sm mb-3">
-                  <Card.Body className="text-center">
+              <Col
+                key={assignment.AssignmentDocumentId}
+                xs={12}
+                md={6}
+                lg={4}
+                className="mb-4"
+              >
+                <Card
+                  className="shadow-sm h-100 border-dark"
+                  style={{ backgroundColor: "#E6E6E6" }}
+                >
+                  <Card.Body>
                     <Card.Title className="bg-primary text-white mb-3 p-2">
                       Assignment: {assignment.assignmentTitle}
                     </Card.Title>
                     <Card.Text>
-                      <p className="lead">
+                      <p className="lead font-montserrat">
                         Assignment Date: {assignment.assignmentDate}
                       </p>
-                      <p className="lead">Deadline: {assignment.deadline}</p>
+                      <p className="lead text-danger">
+                        Deadline:{" "}
+                        <span className="">{assignment.deadline}</span>
+                      </p>
                       <p className="lead">
                         Instructor: {course.courseInstructor}
                       </p>
                     </Card.Text>
+                  </Card.Body>
+                  <Card.Footer className="bg-transparent border-0 d-flex justify-content-center">
                     <Button
-                      variant="primary"
+                      variant="primary bg-danger"
                       onClick={() =>
                         window.open(assignment.AssignmentUrl, "_blank")
                       }
                     >
-                      Download Assignment
+                      Download
                     </Button>
-                  </Card.Body>
+                  </Card.Footer>
                 </Card>
               </Col>
             ))}
+          </Row>
+
+          <Row className="mt-5">
+            <Col md={{ span: 6, offset: 3 }}>
+              <Card className="shadow-sm">
+                <Card.Body>
+                  <Form onSubmit={handleSubmitAssignment}>
+                    <Form.Group controlId="formSubmitAssignmentFile">
+                      <Row className="mb-3">
+                        <Form.Label className="text-center fw-bold fs-5 text-primary">
+                          Once completed, you can upload your assignments here
+                        </Form.Label>
+                      </Row>
+                      <Form.Label>Upload Assignment File</Form.Label>
+                      <Form.Control
+                        type="file"
+                        onChange={handleFileChange}
+                        accept=".pdf,.doc,.docx"
+                      />
+                    </Form.Group>
+
+                    <Button variant="primary" type="submit" className="mt-3">
+                      Submit
+                    </Button>
+                  </Form>
+                </Card.Body>
+              </Card>
+            </Col>
           </Row>
         </>
       ) : (
@@ -166,11 +250,11 @@ const AssignmentPage = () => {
           <Row>
             <Col className="text-center">
               <h2 className="text-primary">
-                Welcome to the Assignment Submission Page,{" "}
+              Welcome to the Assignment Management Page,{" "}
                 {userInfo.displayName}
               </h2>
               <h5 className="text-secondary">
-                Here you can submit your assignments
+              Here you can create and review assignments
               </h5>
             </Col>
           </Row>
@@ -178,6 +262,7 @@ const AssignmentPage = () => {
           <Row className="mt-4">
             <Col md={{ span: 6, offset: 3 }}>
               <Card className="shadow-sm">
+              <Form.Label className="text-center text-primary fs-4 mt-2 fw-bold">Upload Assignments for student</Form.Label>
                 <Card.Body>
                   <Form onSubmit={handleSubmitForm}>
                     <Form.Group controlId="formAssignmentTitle">
@@ -220,7 +305,7 @@ const AssignmentPage = () => {
                         type="text"
                         readOnly
                         onChange={(e) => setInstructor(e.target.value)}
-                        value={course.courseInstructor}
+                        value={course ? course.courseInstructor : ""}
                         placeholder="Enter instructor's name"
                       />
                     </Form.Group>

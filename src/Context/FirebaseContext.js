@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import firebaseApp from '../config/FirebaseConfig';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
-import {addCourseToFirestore, getCoursesFromFirestore, createUser, createStudentDetails, getCoursesById, matchUser, uploadAssignmentDocument, fetchAssignment} from "../FireStoreDB/Db.js"
+import {addCourseToFirestore, getCoursesFromFirestore, createUser, createStudentDetails, getCoursesById, matchUser, uploadAssignmentDocument, fetchAssignment, completeAssignment} from "../FireStoreDB/Db.js"
 import { getStorage } from 'firebase/storage';
 
 const fireBaseContext = createContext(null);
@@ -61,7 +61,7 @@ const FireBaseProvider = (props) => {
   console.log(user);
 
   return (
-    <fireBaseContext.Provider value={{ app: firebaseApp, user, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, currentUser ,createUser ,loading, createStudentDetails, getCoursesById, matchUser, uploadAssignmentDocument, fetchAssignment }}>
+    <fireBaseContext.Provider value={{ app: firebaseApp, user, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, currentUser ,createUser ,loading, createStudentDetails, getCoursesById, matchUser, uploadAssignmentDocument, fetchAssignment, completeAssignment }}>
       {props.children}
     </fireBaseContext.Provider>
   );
