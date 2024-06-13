@@ -9,12 +9,14 @@ const CourseOverview = () => {
     const { getCoursesById } = useFirebase();
     const { courseId, courseName } = useParams();
     const [course, setCourse] = useState(null);
+    const [courseImage, setCourseImage] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const courseData = await getCoursesById(courseId);
                 setCourse(courseData);
+                setCourseImage(courseData.courseImage);
             } catch (error) {
                 console.error("Error occurred:", error);
             }
@@ -29,7 +31,7 @@ const CourseOverview = () => {
             <Row>
                 <Col md={6} className="mb-4">
                     <Card className="h-100 shadow">
-                        <Card.Img variant="top" src="course_image.jpg" />
+                        <Card.Img variant="top" src={courseImage} />
                         <Card.Body>
                             <Card.Title>Course Name: {courseName}</Card.Title>
                             <Card.Title>Course ID: {courseId}</Card.Title>
