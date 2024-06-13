@@ -6,6 +6,7 @@ import "./Register.css";
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Components/Loader';
 import { v4 as uuidv4 } from 'uuid';
+import Footer from '../Components/Footer';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -37,7 +38,7 @@ const Register = () => {
             await firebase.createUser(userData);
 
             toast.success("Account creation successful");
-            navigate("/login");
+            navigate("/");
         } catch (error) {
             console.error("Failed in account creation", error);
             toast.error("Failed to create account");
@@ -93,6 +94,7 @@ const Register = () => {
                     </Card.Body>
                 </Card>
             </Container>
+            <Footer/>
         </div>
     );
 };

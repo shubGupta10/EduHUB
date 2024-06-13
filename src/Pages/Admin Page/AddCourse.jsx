@@ -7,6 +7,7 @@ import { storage } from "../../Context/FirebaseContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader";
 import { v4 as uuidv4 } from 'uuid'; 
+import Footer from "../../Components/Footer";
 
 const AddCourse = () => {
   const firebase = useFirebase();
@@ -133,6 +134,7 @@ const AddCourse = () => {
           </Card.Body>
         </Card>
       </Container>
+      <Footer/>
     </div>
   );
 };

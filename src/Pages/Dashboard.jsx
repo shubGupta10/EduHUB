@@ -13,6 +13,7 @@ import {
   faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Footer from "../Components/Footer";
 
 const Dashboard = () => {
   // const { courseId: paramCourseId, courseName: paramCourseName } = useParams();
@@ -164,6 +165,7 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Container>
+      <Footer/>
     </>
   );
 };

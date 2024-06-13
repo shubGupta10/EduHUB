@@ -11,6 +11,7 @@ import {
   Col,
 } from "react-bootstrap";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
+import Footer from "../../Components/Footer";
 
 const CourseProgress = () => {
   const { courseId: paramCourseId, courseName: paramCourseName } = useParams();
@@ -155,6 +156,7 @@ const CourseProgress = () => {
   }, [courseName]);
 
   return (
+    <>
     <Container style={{ fontFamily: "Arial, sans-serif", marginTop: "20px" }}>
       {course && (
         <>
@@ -238,6 +240,8 @@ const CourseProgress = () => {
         </>
       )}
     </Container>
+    <Footer/>
+    </>
   );
 };
 

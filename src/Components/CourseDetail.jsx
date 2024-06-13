@@ -11,6 +11,7 @@ import {
 } from "react-bootstrap";
 import { useFirebase } from "../Context/FirebaseContext";
 import Loader from "../Components/Loader";
+import Footer from "./Footer";
 
 const CourseDetail = () => {
   const navigate = useNavigate();
@@ -100,48 +101,53 @@ const CourseDetail = () => {
   }
 
   return (
-    <Container className="text-center py-2" style={{ height: "40vh" }}>
-      <Card className="mb-4" style={{ width: "60%", margin: "0 auto", boxShadow: "4px 4px 4px blue" }}>
-        <Card.Body>
-          <Card.Title as="h1">Welcome to {course.courseName} Course</Card.Title>
-          <Image src={course.courseImage} alt="Course" fluid className="my-4" style={{ height: "40vh" }} />
-          <Card.Text style={{ fontSize: "18px", lineHeight: "1.6" }}>
-            {course.courseDescription}
-          </Card.Text>
-          <Button variant="primary" size="lg" onClick={handleStartContinue}>
-            Start / Continue Course
-          </Button>
-        </Card.Body>
-      </Card>
-      <Row className="text-start mt-5">
-        <Col>
-          <h2>Know more about the Course</h2>
-          <h3>Course Details</h3>
-          <p>
-            <strong>Duration:</strong> {course.courseDuration}
-          </p>
-          <p>
-            <strong>Level: </strong><span>Intermediate</span>
-          </p>
-          <p>
-            <strong>Content:</strong>
-          </p>
-          <ul>
-            {courseName && lessonsData[courseName] && lessonsData[courseName].map((lesson, index) => (
-              <li key={index}>{lesson}</li>
-            ))}
-          </ul>
-          <h3>Instructor</h3>
-          <p>
-            <strong>Name:</strong> {course.courseInstructor}
-          </p>
-          <p>
-            <strong>About the Instructor:</strong> {course.courseInstructor}  is a seasoned software engineer with over 10 years of experience in {course.courseName} course. He has a passion for teaching and has helped hundreds of students master {course.courseName} programming. {course.courseInstructor} teaching style is engaging and practical, focusing on real-world examples and hands-on projects.
-          </p>
-          <p>{course.courseDescription}</p>
-        </Col>
-      </Row>
-    </Container>
+    <>
+      <div style={{ minHeight: "100vh", paddingBottom: "100px" }}>
+        <Container className="text-center py-2">
+          <Card className="mb-4" style={{ width: "60%", margin: "0 auto", boxShadow: "4px 4px 4px blue" }}>
+            <Card.Body>
+              <Card.Title as="h1">Welcome to {course.courseName} Course</Card.Title>
+              <Image src={course.courseImage} alt="Course" fluid className="my-4" style={{ height: "40vh" }} />
+              <Card.Text style={{ fontSize: "18px", lineHeight: "1.6" }}>
+                {course.courseDescription}
+              </Card.Text>
+              <Button variant="primary" size="lg" onClick={handleStartContinue}>
+                Start / Continue Course
+              </Button>
+            </Card.Body>
+          </Card>
+          <Row className="text-start mt-5">
+            <Col>
+              <h2>Know more about the Course</h2>
+              <h3>Course Details</h3>
+              <p>
+                <strong>Duration:</strong> {course.courseDuration}
+              </p>
+              <p>
+                <strong>Level: </strong><span>Intermediate</span>
+              </p>
+              <p>
+                <strong>Content:</strong>
+              </p>
+              <ul>
+                {courseName && lessonsData[courseName] && lessonsData[courseName].map((lesson, index) => (
+                  <li key={index}>{lesson}</li>
+                ))}
+              </ul>
+              <h3>Instructor</h3>
+              <p>
+                <strong>Name:</strong> {course.courseInstructor}
+              </p>
+              <p>
+                <strong>About the Instructor:</strong> {course.courseInstructor}  is a seasoned software engineer with over 10 years of experience in {course.courseName} course. He has a passion for teaching and has helped hundreds of students master {course.courseName} programming. {course.courseInstructor} teaching style is engaging and practical, focusing on real-world examples and hands-on projects.
+              </p>
+              <p>{course.courseDescription}</p>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+      <Footer />
+    </>
   );
 };
 

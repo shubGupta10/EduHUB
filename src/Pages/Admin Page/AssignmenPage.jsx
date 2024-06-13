@@ -5,6 +5,7 @@ import Loader from "../../Components/Loader";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { v4 as uuidv4 } from "uuid";
 import { toast } from "react-toastify";
+import Footer from "../../Components/Footer";
 
 const AssignmentPage = () => {
   const courseId = localStorage.getItem("courseId");
@@ -161,7 +162,8 @@ const AssignmentPage = () => {
   };
 
   return (
-    <Container className="mt-4">
+    <>
+    <Container className="mt-4  min-vh-100">
       {userRole === "student" ? (
         <>
           <Row className="mt-4">
@@ -329,6 +331,8 @@ const AssignmentPage = () => {
         </>
       )}
     </Container>
+    <Footer/>
+    </>
   );
 };
 

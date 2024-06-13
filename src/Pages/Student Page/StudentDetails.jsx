@@ -4,6 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useFirebase } from "../../Context/FirebaseContext";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import Footer from "../../Components/Footer";
 
 const StudentDetailForm = () => {
   const { courseId, courseName } = useParams();
@@ -54,6 +55,7 @@ const StudentDetailForm = () => {
   };
 
   return (
+    <>
     <Container className="mt-5">
       <Row className="justify-content-md-center">
         <Col md={8}>
@@ -178,6 +180,8 @@ const StudentDetailForm = () => {
         </Col>
       </Row>
     </Container>
+    <Footer/>
+    </>
   );
 };
 

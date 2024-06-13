@@ -4,6 +4,7 @@ import { useFirebase } from '../Context/FirebaseContext';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Components/Loader';
+import Footer from '../Components/Footer';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -76,6 +77,7 @@ const Login = () => {
           </Card.Body>
         </Card>
       </Container>
+      <Footer/>
     </div>
   );
 };

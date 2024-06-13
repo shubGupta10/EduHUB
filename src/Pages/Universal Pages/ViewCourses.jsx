@@ -4,6 +4,7 @@ import { Card, Container, Row, Col } from 'react-bootstrap';
 import './ViewCourses.css'; 
 import Loader from '../../Components/Loader';
 import { Link } from 'react-router-dom';
+import Footer from '../../Components/Footer';
 
 const ViewCourses = () => {
   const firebase = useFirebase();
@@ -54,6 +55,7 @@ const ViewCourses = () => {
             </Row>
           </Container>
         )}
+        <Footer/>
     </div>
   );
 };

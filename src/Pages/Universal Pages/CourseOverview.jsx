@@ -3,6 +3,7 @@ import { Container, Row, Col, Card, Button } from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useParams } from 'react-router-dom';
 import { useFirebase } from '../../Context/FirebaseContext';
+import Footer from '../../Components/Footer';
 
 const CourseOverview = () => {
     const { getCoursesById } = useFirebase();
@@ -23,6 +24,7 @@ const CourseOverview = () => {
     }, [courseId, getCoursesById]);
 
     return (
+        <>
         <Container className="my-5">
             <Row>
                 <Col md={6} className="mb-4">
@@ -54,6 +56,8 @@ const CourseOverview = () => {
                 </Col>
             </Row>
         </Container>
+        <Footer/>
+        </>
     );
 };
 
