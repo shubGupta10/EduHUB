@@ -17,6 +17,7 @@ import StudentDetailForm from './Pages/Student Page/StudentDetails.jsx'
 import CourseOverview from './Pages/Universal Pages/CourseOverview.jsx';
 import CourseProgress from './Pages/Student Page/CourseProgress.jsx';
 import AssignmentPage from './Pages/Admin Page/AssignmenPage.jsx';
+import QuizzPage from './Pages/Universal Pages/QuizzPage.jsx';
 
 // Components
 import MyNavbar from './Components/Navbar.jsx';
@@ -53,6 +54,7 @@ const App = () => {
         <Route path='/courseoverview/:courseId/:courseName' element={<ProtectedRoute element={CourseOverview}/>}/>
         <Route path='/studentdetails/:courseId/:courseName' element={<ProtectedRoute element={StudentDetailForm} />} />
         <Route path='/assignmentpage' element={<ProtectedRoute element={AssignmentPage} />}/>
+        <Route path='/quizPage' element={<ProtectedRoute element={QuizzPage}/>}/>
       </Routes>
       <ToastContainer position="top-right" />
     </div>

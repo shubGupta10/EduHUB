@@ -9,16 +9,16 @@ import {
   faComments,
   faUser,
   faFileAlt,
+  faPencilAlt,
+  faQuestionCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const Dashboard = () => {
   // const { courseId: paramCourseId, courseName: paramCourseName } = useParams();
 
-  const courseId = localStorage.getItem('courseId');
-  const courseName = localStorage.getItem('courseName');
-
-
+  const courseId = localStorage.getItem("courseId");
+  const courseName = localStorage.getItem("courseName");
 
   return (
     <>
@@ -67,6 +67,26 @@ const Dashboard = () => {
             <Card className="h-100 shadow-sm">
               <Card.Img
                 variant="top"
+                src="https://i0.wp.com/iserotope.com/wp-content/uploads/2014/02/8151789_orig.png"
+              />
+              <Card.Body>
+                <Card.Title>
+                  <FontAwesomeIcon icon={faClipboard} className="me-2" />
+                  Assignments
+                </Card.Title>
+                <Card.Text>View and submit assignments.</Card.Text>
+                <Link to="/assignmentpage">
+                  <Button variant="primary">View Assignments</Button>
+                </Link>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={4} className="mb-4">
+            <Card className="h-100 shadow-sm">
+              <Card.Img
+                variant="top"
                 src="https://americanlibrariesmagazine.org/wp-content/uploads/2016/01/digital-librarian.jpg"
               />
               <Card.Body>
@@ -83,26 +103,29 @@ const Dashboard = () => {
               </Card.Body>
             </Card>
           </Col>
-        </Row>
-        <Row>
           <Col md={4} className="mb-4">
             <Card className="h-100 shadow-sm">
               <Card.Img
                 variant="top"
-                src="https://i0.wp.com/iserotope.com/wp-content/uploads/2014/02/8151789_orig.png"
+                src="https://media.istockphoto.com/id/1616906708/vector/vector-speech-bubble-with-quiz-time-words-trendy-text-balloon-with-geometric-grapic-shape.jpg?s=612x612&w=0&k=20&c=3-qsji8Y5QSuShaMi6cqONlVZ3womknA5CiJ4PCeZEI="
+                alt="Quiz Competition"
               />
               <Card.Body>
                 <Card.Title>
-                  <FontAwesomeIcon icon={faClipboard} className="me-2" />
-                  Assignments
+                  <FontAwesomeIcon icon={faPencilAlt} className="me-2" />
+                  Quiz Competition
                 </Card.Title>
-                <Card.Text>View and submit assignments.</Card.Text>
-                <Link to="/assignmentpage">
-                  <Button variant="primary">View Assignments</Button>
+                <Card.Text>
+                  Challenge yourself with daily quizzes regarding to your
+                  course.
+                </Card.Text>
+                <Link to="/quizPage">
+                  <Button variant="primary">Take a Quiz</Button>
                 </Link>
               </Card.Body>
             </Card>
           </Col>
+
           <Col md={4} className="mb-4">
             <Card className="h-100 shadow-sm">
               <Card.Img

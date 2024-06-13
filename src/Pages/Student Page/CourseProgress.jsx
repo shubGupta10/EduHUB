@@ -19,6 +19,7 @@ const CourseProgress = () => {
   const { getCoursesById, matchUser, user } = useFirebase();
   const [course, setCourse] = useState(null);
   const [videos, setVideos] = useState([]);
+  const [videosLoaded, setVideosLoaded] = useState(false);
   const [userRole, setUserRole] = useState("");
   const [lessons, setLessons] = useState([]);
 
@@ -38,7 +39,7 @@ const CourseProgress = () => {
     const fetchUserId = async () => {
       try {
         const matchedUser = await matchUser(user);
-        setUserRole(matchedUser.role); 
+        setUserRole(matchedUser.role);
       } catch (error) {
         console.error("Error:", error);
       }
@@ -65,6 +66,8 @@ const CourseProgress = () => {
         setVideos(videoData);
       } catch (error) {
         console.error("Error fetching videos:", error);
+      } finally {
+        setVideosLoaded(true);
       }
     };
     fetchVideos();
@@ -197,30 +200,40 @@ const CourseProgress = () => {
             </div>
           )}
 
-          <section>
+          <section className="mt-5">
             <h3 style={{ color: "#343a40" }}>Videos</h3>
-            <Row>
-              {videos.map((video, index) => (
-                <Col key={index} md={4} style={{ marginBottom: "20px" }}>
-                  <Card
-                    style={{
-                      boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-                      borderRadius: "10px",
-                    }}
-                  >
-                    <Card.Body>
-                      <Card.Title>{video.title}</Card.Title>
-                      <Card.Text>{video.description}</Card.Text>
-                      <video
-                        src={video.url}
-                        controls
-                        style={{ width: "100%", borderRadius: "10px" }}
-                      />
-                    </Card.Body>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
+            {!videosLoaded ? (
+              <p>Please wait, your videos will be available soon</p>
+            ) : videos.length === 0 ? (
+              <>
+              <p className="text-center mt-5 fs-5">No videos available</p>
+              <p className="text-center fs-5">Please wait, your videos will be available soon 🙂</p>
+              </>
+            ) : (
+              <Row>
+                {videos.map((video, index) => (
+                  <Col key={index} md={4} style={{ marginBottom: "20px" }}>
+                    <Card
+                      style={{
+                        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <Card.Body>
+                        <Card.Title>{video.title}</Card.Title>
+                        <Card.Text>{video.description}</Card.Text>
+                        <video
+                          src={video.url}
+                          controls
+                          style={{ width: "100%", borderRadius: "10px" }}
+                          className="mb-5"
+                        />
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                ))}
+              </Row>
+            )}
           </section>
         </>
       )}
