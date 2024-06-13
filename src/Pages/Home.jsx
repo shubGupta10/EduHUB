@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Nav,
@@ -16,13 +16,28 @@ import {
   FaTasks
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import { fetchAllUsers } from "../FireStoreDB/Db";
 
 const Home = () => {
   const navigate = useNavigate();
+  const [teachers, setTeachers] = useState([]);
 
   const handleGoing = () => {
     navigate("/dashboard/courseoverview");
   };
+
+  useEffect(() => {
+    const fetchInstructors = async () => {
+      try {
+        const users = await fetchAllUsers();
+        setTeachers(users);
+      } catch (error) {
+        console.error("Failed to get users", error);
+      }
+    };
+
+    fetchInstructors();
+  }, []);
 
   return (
     <>
@@ -47,8 +62,13 @@ const Home = () => {
           }}
         />
         <Container className="position-relative text-dark">
-          <h1 className="display-1">Welcome to EduHUB</h1>
-          <p className="lead fs-3">Your journey to knowledge begins here.</p>
+          <h1 className="display-1 text-primary">Welcome to EduHUB</h1>
+          <p className="lead fs-3">
+            Your journey to knowledge begins here. Explore a world of learning opportunities.
+          </p>
+          <p className="fs-5">
+            Whether you're a beginner or an expert, discover courses tailored to your needs.
+          </p>
           <Button variant="primary" onClick={handleGoing} size="lg">
             Get Started
           </Button>
@@ -254,6 +274,31 @@ const Home = () => {
               </Card.Body>
             </Card>
           </Col>
+        </Row>
+      </Container>
+
+      {/* Instructors Section */}
+      <Container className="py-5" id="instructors">
+        <Row className="text-center mb-4">
+          <Col>
+            <h2 className="text-primary">Meet Our Instructors</h2>
+            <p>Learn from industry experts with real-world experience</p>
+          </Col>
+        </Row>
+        <Row>
+          {teachers.map((teacher) => (
+            <Col key={teacher.id} md={4}>
+              <Card className="mb-4 shadow-sm">
+                <Card.Img variant="top" src={"https://c.superprof.com/i/a/31403184/13729749/600/20240525074258/experienced-java-coding-instructor-with-years-teaching-experience-specializing-higher-level-and-university-students-offers.jpg"} />
+                <Card.Body>
+                  <Card.Title>{teacher.displayName}</Card.Title>
+                  <Card.Text>{teacher.email}</Card.Text>
+                  {/* <Card.Text>Experience: {teacher.experience}</Card.Text> */}
+                  {/* <Card.Text>{teacher.bio}</Card.Text> */}
+                </Card.Body>
+              </Card>
+            </Col>
+          ))}
         </Row>
       </Container>
 

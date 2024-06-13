@@ -80,6 +80,30 @@ export const getCoursesById = async (courseId) => {
     }
 };
 
+
+export const fetchAllUsers = async () => {
+    try {
+      const usersRef = collection(fireStore, "Users");
+      const querySnapshot = await getDocs(usersRef);
+      
+      const users = [];
+      querySnapshot.forEach((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          if (userData.role === "teacher") {
+            users.push({ id: doc.id, ...userData });
+          }
+        } else {
+          console.log("No such document!");
+        }
+      });
+      return users;
+    } catch (error) {
+      console.error("Failed getting users", error);
+      throw error;
+    }
+  };
+
 export const createUser = async (userData) => {
     try {
         const userID = uuidv4();
@@ -138,6 +162,8 @@ export const createStudentDetails = async (studentCourseEnrollData) => {
         throw error; 
     }
 };
+
+
 
 
 
