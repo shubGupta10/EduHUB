@@ -149,7 +149,7 @@ const Dashboard = () => {
             <Card className="h-100 shadow-sm">
               <Card.Img
                 variant="top"
-                src="https://via.placeholder.com/300x200"
+                src="https://img.favpng.com/15/13/21/computer-icons-user-login-desktop-wallpaper-png-favpng-50cVSt0m1jw7SRtPEv8KvVUvF.jpg"
               />
               <Card.Body>
                 <Card.Title>
@@ -159,6 +159,24 @@ const Dashboard = () => {
                 <Card.Text>Update your profile information.</Card.Text>
                 <Link to="/profile">
                   <Button variant="primary">View Profile</Button>
+                </Link>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4} className="mb-4">
+            <Card className="h-100 shadow-sm">
+              <Card.Img
+                variant="top"
+                src="https://epe.brightspotcdn.com/cb/cd/f8213ccb4203abdae3aad13a1eef/ai-gpt-teacher-08162022-966654886-949652688.jpg"
+              />
+              <Card.Body>
+                <Card.Title>
+                  <FontAwesomeIcon icon={faUser} className="me-2" />
+                  Our Teachers
+                </Card.Title>
+                <Card.Text>Meet our Instructors</Card.Text>
+                <Link to="/listallteachers">
+                  <Button variant="primary">View Instructors</Button>
                 </Link>
               </Card.Body>
             </Card>

@@ -48,7 +48,6 @@ function MyNavbar() {
             {firebase.isLoggedIn && (
               <>
                 <Nav.Link className='navbrand' href={`/dashboard/${courseId}/${courseName}`}>Dashboard</Nav.Link>
-                <Nav.Link className='navbrand' href={"/listallteachers"}>Our Teachers</Nav.Link>
                 {userRoles.includes("teacher") || userRoles.includes("Admin") || !userRoles === "student" ? (
                   <Nav.Link className='navbrand' href="/addcourse">Add Courses</Nav.Link>
                 ) : null}

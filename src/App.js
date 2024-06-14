@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import "bootstrap/dist/css/bootstrap.min.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import "./index.css";
 import { useFirebase } from './Context/FirebaseContext.js';
 
@@ -26,6 +27,7 @@ import Loader from './Components/Loader.jsx';
 import AddCourse from './Pages/Admin Page/AddCourse.jsx';
 import CourseDetail from './Components/CourseDetail.jsx';
 import TeachersList from './Pages/Universal Pages/TeachersList.jsx';
+import Profile from './Components/Profile.jsx';
 
 
 const App = () => {
@@ -37,7 +39,7 @@ const App = () => {
     }
 
     console.log("ProtectedRoute: isLoggedIn =", firebase.isLoggedIn);
-    return firebase.isLoggedIn ? <Component /> : <Navigate to="/login" replace />;
+    return firebase.isLoggedIn ? <Component /> : <Navigate to="/login" replace />
   };
 
   return (
@@ -48,6 +50,7 @@ const App = () => {
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard/:courseId/:courseName' element={<ProtectedRoute element={Dashboard} />} />
+        <Route path='/profile' element={<ProtectedRoute element={Profile}/>}/>
         <Route path='/addcourse' element={<ProtectedRoute element={AddCourse} />}/>
         <Route path='/listallteachers' element={<ProtectedRoute element={TeachersList}/>}/>
         <Route path='/dashboard/viewcourse' element={<ProtectedRoute element={ViewCourses}/>}/>
