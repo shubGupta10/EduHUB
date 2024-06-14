@@ -18,6 +18,7 @@ import CourseOverview from './Pages/Universal Pages/CourseOverview.jsx';
 import CourseProgress from './Pages/Student Page/CourseProgress.jsx';
 import AssignmentPage from './Pages/Admin Page/AssignmenPage.jsx';
 import QuizPage from './Quiz Module/QuizPage.jsx';
+import QuizRulesPage from './Quiz Module/QuizRulesPage.jsx';
 
 // Components
 import MyNavbar from './Components/Navbar.jsx';
@@ -57,6 +58,7 @@ const App = () => {
         <Route path='/studentdetails/:courseId/:courseName' element={<ProtectedRoute element={StudentDetailForm} />} />
         <Route path='/assignmentpage' element={<ProtectedRoute element={AssignmentPage} />}/>
         <Route path='/quizpage' element={<ProtectedRoute element={QuizPage}/>}/>
+        <Route path='/quizrules' element={<ProtectedRoute element={QuizRulesPage}/>}/>
       </Routes>
       <ToastContainer position="top-right" />
     </div>

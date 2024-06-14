@@ -120,7 +120,7 @@ const Dashboard = () => {
                   Challenge yourself with daily quizzes regarding to your
                   course.
                 </Card.Text>
-                <Link to="/quizpage">
+                <Link to="/quizrules">
                   <Button variant="primary">Take a Quiz</Button>
                 </Link>
               </Card.Body>
