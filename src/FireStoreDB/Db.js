@@ -104,6 +104,30 @@ export const fetchAllUsers = async () => {
     }
   };
 
+  export const getAllUsers = async () => {
+    try {
+      const usersRef = collection(fireStore, "Users");
+      const snapshot = await getDocs(usersRef);
+  
+      const users = [];
+      snapshot.forEach((doc) => {
+        if (doc.exists) {
+          const userData = doc.data();
+          if (userData.role === "teacher" || userData.role === "Admin") {
+            users.push({ id: doc.id, ...userData });
+          }
+        } else {
+          console.log("No such document!");
+        }
+      });
+      return users;
+    } catch (error) {
+      console.error("Failed getting users", error);
+      throw error;
+    }
+  };
+  
+
 export const createUser = async (userData) => {
     try {
         const userID = uuidv4();

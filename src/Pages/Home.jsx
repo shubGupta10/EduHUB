@@ -289,7 +289,7 @@ const Home = () => {
           {teachers.map((teacher) => (
             <Col key={teacher.id} md={4}>
               <Card className="mb-4 shadow-sm">
-                <Card.Img variant="top" src={"https://c.superprof.com/i/a/31403184/13729749/600/20240525074258/experienced-java-coding-instructor-with-years-teaching-experience-specializing-higher-level-and-university-students-offers.jpg"} />
+                <Card.Img variant="top" src={teacher.dp} />
                 <Card.Body>
                   <Card.Title>{teacher.displayName}</Card.Title>
                   <Card.Text>{teacher.email}</Card.Text>

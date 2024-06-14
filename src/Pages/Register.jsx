@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
-import { useFirebase } from '../Context/FirebaseContext';
+import { storage, useFirebase } from '../Context/FirebaseContext';
 import { toast } from 'react-toastify';
 import "./Register.css";
 import { useNavigate } from 'react-router-dom';
 import Loader from '../Components/Loader';
 import { v4 as uuidv4 } from 'uuid';
 import Footer from '../Components/Footer';
+import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -16,7 +17,8 @@ const Register = () => {
     const [role, setRole] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPass, setConfirmPass] = useState("");
-    const [isLoading, setIsLoading] = useState(false); 
+    const [dp, setDp] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleRegisterForm = async (e) => {
         e.preventDefault();
@@ -24,16 +26,23 @@ const Register = () => {
             toast.error("Passwords do not match");
             return;
         }
-        setIsLoading(true); 
+        setIsLoading(true);
         try {
             await firebase.RegisterUser(email, password);
 
-            
+            let DpUrl = "";
+            if (dp) {
+                const dpRef = ref(storage, `UserDp/${Date.now()}_${dp.name}`);
+                const snapshot = await uploadBytes(dpRef, dp);
+                DpUrl = await getDownloadURL(snapshot.ref);
+            }
+
             const userData = {
                 displayName,
-                email, 
+                email,
                 role,
-                userID: uuidv4() 
+                userID: uuidv4(),
+                dp: DpUrl,
             };
             await firebase.createUser(userData);
 
@@ -43,17 +52,16 @@ const Register = () => {
             console.error("Failed in account creation", error);
             toast.error("Failed to create account");
         }
-        setIsLoading(false); 
+        setIsLoading(false);
     };
 
     const handleGoogleRegister = async () => {
         // Implement Google registration logic here
     };
-    
 
     return (
         <div>
-            {isLoading && <Loader />} 
+            {isLoading && <Loader />}
             <Container className="d-flex mt-5 justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
                 <Card className='card' style={{ width: '100%', maxWidth: '500px', borderRadius: "20px" }}>
                     <Card.Body>
@@ -83,6 +91,14 @@ const Register = () => {
                                 <Form.Label>Confirm Password</Form.Label>
                                 <Form.Control onChange={(e) => setConfirmPass(e.target.value)} type="password" value={confirmPass} placeholder="Confirm your password" required />
                             </Form.Group>
+                            <Form.Group controlId="formUserdp" className='mt-3'>
+                                <Form.Label>Upload your Image</Form.Label>
+                                <Form.Control
+                                    onChange={(e) => setDp(e.target.files[0])}
+                                    type='file'
+                                    accept='image/*'
+                                />
+                            </Form.Group>
                             <Button variant="primary" type="submit" className="w-100 mt-4 btn-color">
                                 Register
                             </Button>
@@ -94,7 +110,7 @@ const Register = () => {
                     </Card.Body>
                 </Card>
             </Container>
-            <Footer/>
+            <Footer />
         </div>
     );
 };

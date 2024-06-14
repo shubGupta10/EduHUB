@@ -24,6 +24,7 @@ import MyNavbar from './Components/Navbar.jsx';
 import Loader from './Components/Loader.jsx';
 import AddCourse from './Pages/Admin Page/AddCourse.jsx';
 import CourseDetail from './Components/CourseDetail.jsx';
+import TeachersList from './Pages/Universal Pages/TeachersList.jsx';
 
 
 const App = () => {
@@ -47,6 +48,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard/:courseId/:courseName' element={<ProtectedRoute element={Dashboard} />} />
         <Route path='/addcourse' element={<ProtectedRoute element={AddCourse} />}/>
+        <Route path='/listallteachers' element={<ProtectedRoute element={TeachersList}/>}/>
         <Route path='/dashboard/viewcourse' element={<ProtectedRoute element={ViewCourses}/>}/>
         <Route path='/dashboard/coursedetail/:courseId/courseprogress' element={<ProtectedRoute element={CourseProgress}/>}/>
         <Route path='/dashboard/courseoverview' element={<ProtectedRoute element={CourseOverview}/>}/>
