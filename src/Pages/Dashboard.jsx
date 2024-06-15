@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,11 +13,33 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../Components/Footer";
-import "./Dashboard.css"; 
+import "./Dashboard.css";
+import { useFirebase } from "../Context/FirebaseContext";
 
 const Dashboard = () => {
   const courseId = localStorage.getItem("courseId");
   const courseName = localStorage.getItem("courseName");
+  const { matchUser, user } = useFirebase();
+  const [currentUser, setCurrentUser] = useState(null); // Initialize as null
+  const [userrole, setUserRole] = useState(""); // Initialize as empty string
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const result = await matchUser(user);
+        setCurrentUser(result);
+        setUserRole(result.role); // Set user role after fetching user
+      } catch (error) {
+        console.error("Failed to fetch Current User", error);
+      }
+    };
+    fetchCurrentUser();
+  }, [user, matchUser]);
+
+  // Handle loading state
+  if (currentUser === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -40,7 +62,9 @@ const Dashboard = () => {
                 </Card.Title>
                 <Card.Text>Track your progress in enrolled courses.</Card.Text>
                 <Link to={`/dashboard/coursedetail/${courseId}/${courseName}`}>
-                  <Button variant="primary" className="custom-button">View Courses</Button>
+                  <Button variant="primary" className="custom-button">
+                    View Courses
+                  </Button>
                 </Link>
               </Card.Body>
             </Card>
@@ -59,7 +83,9 @@ const Dashboard = () => {
                 </Card.Title>
                 <Card.Text>View the courses we offer.</Card.Text>
                 <Link to="/dashboard/viewcourse">
-                  <Button variant="primary" className="custom-button">View Courses</Button>
+                  <Button variant="primary" className="custom-button">
+                    View Courses
+                  </Button>
                 </Link>
               </Card.Body>
             </Card>
@@ -78,7 +104,9 @@ const Dashboard = () => {
                 </Card.Title>
                 <Card.Text>View and submit assignments.</Card.Text>
                 <Link to="/assignmentpage">
-                  <Button variant="primary" className="custom-button">View Assignments</Button>
+                  <Button variant="primary" className="custom-button">
+                    View Assignments
+                  </Button>
                 </Link>
               </Card.Body>
             </Card>
@@ -101,7 +129,9 @@ const Dashboard = () => {
                   Access educational resources and materials.
                 </Card.Text>
                 <Link to="/resources">
-                  <Button variant="primary" className="custom-button">View Resources</Button>
+                  <Button variant="primary" className="custom-button">
+                    View Resources
+                  </Button>
                 </Link>
               </Card.Body>
             </Card>
@@ -123,7 +153,9 @@ const Dashboard = () => {
                   Challenge yourself with daily quizzes related to your course.
                 </Card.Text>
                 <Link to="/quizrules">
-                  <Button variant="primary" className="custom-button">Take a Quiz</Button>
+                  <Button variant="primary" className="custom-button">
+                    Take a Quiz
+                  </Button>
                 </Link>
               </Card.Body>
             </Card>
@@ -142,30 +174,36 @@ const Dashboard = () => {
                 </Card.Title>
                 <Card.Text>Participate in course discussions.</Card.Text>
                 <Link to="/forums">
-                  <Button variant="primary" className="custom-button">Visit Forums</Button>
+                  <Button variant="primary" className="custom-button">
+                    Visit Forums
+                  </Button>
                 </Link>
               </Card.Body>
             </Card>
           </Col>
-          <Col md={4} className="mb-4">
-            <Card className="h-100 shadow-lg custom-card">
-              <Card.Img
-                variant="top"
-                src="https://img.favpng.com/15/13/21/computer-icons-user-login-desktop-wallpaper-png-favpng-50cVSt0m1jw7SRtPEv8KvVUvF.jpg"
-                className="custom-card-img"
-              />
-              <Card.Body>
-                <Card.Title className="custom-card-title">
-                  <FontAwesomeIcon icon={faUser} className="me-2" />
-                  Profile
-                </Card.Title>
-                <Card.Text>Update your profile information.</Card.Text>
-                <Link to="/profile">
-                  <Button variant="primary" className="custom-button">View Profile</Button>
-                </Link>
-              </Card.Body>
-            </Card>
-          </Col>
+          {userrole === "Admin" || userrole === "teacher" ? (
+            <Col md={4} className="mb-4">
+              <Card className="h-100 shadow-lg custom-card">
+                <Card.Img
+                  variant="top"
+                  src="https://img.favpng.com/15/13/21/computer-icons-user-login-desktop-wallpaper-png-favpng-50cVSt0m1jw7SRtPEv8KvVUvF.jpg"
+                  className="custom-card-img"
+                />
+                <Card.Body>
+                  <Card.Title className="custom-card-title">
+                    <FontAwesomeIcon icon={faUser} className="me-2" />
+                    Add Courses
+                  </Card.Title>
+                  <Card.Text>Add your courses</Card.Text>
+                  <Link to="/addcourse">
+                    <Button variant="primary" className="custom-button">
+                      Add Courses
+                    </Button>
+                  </Link>
+                </Card.Body>
+              </Card>
+            </Col>
+          ) : null}
           <Col md={4} className="mb-4">
             <Card className="h-100 shadow-lg custom-card">
               <Card.Img
@@ -180,7 +218,9 @@ const Dashboard = () => {
                 </Card.Title>
                 <Card.Text>Meet our Instructors</Card.Text>
                 <Link to="/listallteachers">
-                  <Button variant="primary" className="custom-button">View Instructors</Button>
+                  <Button variant="primary" className="custom-button">
+                    View Instructors
+                  </Button>
                 </Link>
               </Card.Body>
             </Card>
