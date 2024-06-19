@@ -6,6 +6,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFirebase } from '../Context/FirebaseContext';
+import Loader from '../Components/Loader.jsx'
 
 function MyNavbar() {
   const firebase = useFirebase();
@@ -14,14 +15,18 @@ function MyNavbar() {
   const [userRoles, setUserRoles] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currentUser, setCurrentUser] = useState();
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         const result = await matchUser(user);
         setCurrentUser(result);
+        console.log(currentUser);
       } catch (error) {
         console.error("Failed to fetch Current User", error);
+      } finally {
+        setLoading(false); 
       }
     };
     fetchCurrentUser();
@@ -44,8 +49,8 @@ function MyNavbar() {
     navigate("/login");
   };
 
-  if (firebase.loading || userRoles.length === 0 || !currentUser) {
-    return null;
+  if (loading) {
+    return <Loader />; 
   }
 
   const courseId = localStorage.getItem('courseId');
@@ -59,14 +64,12 @@ function MyNavbar() {
         <Navbar.Collapse id="navbarScroll">
           <Nav className="ms-auto mb-2 mb-lg-0 justify-content-center" navbarScroll>
             <Nav.Link className='navbrand' href="/">Home</Nav.Link>
-            {firebase.isLoggedIn && (
-              <>
-                <Nav.Link className='navbrand' href={`/dashboard/${courseId}/${courseName}`}>Dashboard</Nav.Link>
-              </>
+            {firebase.isLoggedIn && currentUser && (
+              <Nav.Link className='navbrand' href={`/dashboard/${courseId}/${courseName}`}>Dashboard</Nav.Link>
             )}
           </Nav>
           <Nav className="ms-auto">
-            {firebase.isLoggedIn ? (
+            {firebase.isLoggedIn && currentUser ? (
               <Dropdown
                 show={showDropdown}
                 onToggle={setShowDropdown}

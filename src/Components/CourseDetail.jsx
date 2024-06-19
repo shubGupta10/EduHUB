@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Image,
-  Card,
-  Alert,
-} from "react-bootstrap";
+import { Container, Row, Col, Button, Image, Card, Alert, ListGroup } from "react-bootstrap";
 import { useFirebase } from "../Context/FirebaseContext";
 import Loader from "../Components/Loader";
 import Footer from "./Footer";
@@ -22,7 +14,6 @@ const CourseDetail = () => {
   const [course, setCourse] = useState(null);
   const [error, setError] = useState("");
 
-  // JSON data
   const lessonsData = {
     "Python Course": [
       "Python: Programming Fundamentals & Environment Setup",
@@ -48,7 +39,7 @@ const CourseDetail = () => {
       "Java: Testing Frameworks (JUnit)",
       "Java: Advanced Features (JavaFX, Swing)"
     ],
-    "js": [
+    "JavaScript": [
       "Introduction to JavaScript",
       "Data Types and Variables",
       "Operators and Expressions",
@@ -102,13 +93,13 @@ const CourseDetail = () => {
 
   return (
     <>
-      <div style={{ minHeight: "100vh", paddingBottom: "100px" }}>
-        <Container className="text-center py-2">
-          <Card className="mb-4" style={{ width: "60%", margin: "0 auto", boxShadow: "4px 4px 4px blue" }}>
+      <div style={{ minHeight: "100vh", paddingBottom: "100px", backgroundColor: "#f9f9f9" }}>
+        <Container className="text-center py-5">
+          <Card className="mb-4 shadow-lg" style={{ maxWidth: "800px", margin: "0 auto" }}>
             <Card.Body>
-              <Card.Title as="h1">Welcome to {course.courseName} Course</Card.Title>
-              <Image src={course.courseImage} alt="Course" fluid className="my-4" style={{ height: "40vh" }} />
-              <Card.Text style={{ fontSize: "18px", lineHeight: "1.6" }}>
+              <Card.Title as="h1" className="mb-4 text-primary">{course.courseName} Course</Card.Title>
+              <Image src={course.courseImage} alt="Course" fluid className="mb-4" style={{ height: "300px", objectFit: "cover", borderRadius: "8px" }} />
+              <Card.Text style={{ fontSize: "18px", lineHeight: "1.6", marginBottom: "30px", color: "#555" }}>
                 {course.courseDescription}
               </Card.Text>
               <Button variant="primary" size="lg" onClick={handleStartContinue}>
@@ -116,32 +107,38 @@ const CourseDetail = () => {
               </Button>
             </Card.Body>
           </Card>
-          <Row className="text-start mt-5">
-            <Col>
-              <h2>Know more about the Course</h2>
-              <h3>Course Details</h3>
-              <p>
-                <strong>Duration:</strong> {course.courseDuration}
-              </p>
-              <p>
-                <strong>Level: </strong><span>Intermediate</span>
-              </p>
-              <p>
-                <strong>Content:</strong>
-              </p>
-              <ul>
+          <Row className="mt-5 text-start">
+            <Col md={8} className="mx-auto">
+              <h2 className="text-secondary mb-4">Course Details</h2>
+              <Card className="p-3 mb-4">
+                <Card.Body>
+                  <p>
+                    <strong>Duration:</strong> {course.courseDuration}
+                  </p>
+                  <p>
+                    <strong>Level:</strong> Intermediate
+                  </p>
+                </Card.Body>
+              </Card>
+              <h3 className="text-secondary mb-4">Course Content</h3>
+              <ListGroup variant="flush" className="mb-4">
                 {courseName && lessonsData[courseName] && lessonsData[courseName].map((lesson, index) => (
-                  <li key={index}>{lesson}</li>
+                  <ListGroup.Item key={index} style={{ backgroundColor: "#e7f3ff", margin: "5px 0", borderRadius: "5px" }}>
+                    {lesson}
+                  </ListGroup.Item>
                 ))}
-              </ul>
-              <h3>Instructor</h3>
-              <p>
-                <strong>Name:</strong> {course.courseInstructor}
-              </p>
-              <p>
-                <strong>About the Instructor:</strong> {course.courseInstructor}  is a seasoned software engineer with over 10 years of experience in {course.courseName} course. He has a passion for teaching and has helped hundreds of students master {course.courseName} programming. {course.courseInstructor} teaching style is engaging and practical, focusing on real-world examples and hands-on projects.
-              </p>
-              <p>{course.courseDescription}</p>
+              </ListGroup>
+              <h3 className="mt-4 text-secondary mb-4">Instructor</h3>
+              <Card className="p-3 mb-4">
+                <Card.Body>
+                  <p>
+                    <strong>Name:</strong> {course.courseInstructor}
+                  </p>
+                  <p>
+                    <strong>About the Instructor:</strong> {course.courseInstructor} is a seasoned software engineer with over 10 years of experience in {course.courseName}. He has a passion for teaching and has helped hundreds of students master {course.courseName}. His teaching style is engaging and practical, focusing on real-world examples and hands-on projects.
+                  </p>
+                </Card.Body>
+              </Card>
             </Col>
           </Row>
         </Container>

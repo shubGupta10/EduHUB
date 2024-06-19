@@ -29,7 +29,7 @@ const QuizPage = () => {
     }
 
     return () => clearInterval(interval);
-  }, [lock, timer]);
+  }, [ lock, timer]);
 
   const Option1 = useRef(null);
   const Option2 = useRef(null);

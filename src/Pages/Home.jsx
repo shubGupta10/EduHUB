@@ -23,7 +23,7 @@ const Home = () => {
   const [teachers, setTeachers] = useState([]);
 
   const handleGoing = () => {
-    navigate("/dashboard/courseoverview");
+    navigate("/dashboard/viewcourse");
   };
 
   useEffect(() => {
