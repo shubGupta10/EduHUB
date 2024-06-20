@@ -20,15 +20,15 @@ const Dashboard = () => {
   const courseId = localStorage.getItem("courseId");
   const courseName = localStorage.getItem("courseName");
   const { matchUser, user } = useFirebase();
-  const [currentUser, setCurrentUser] = useState(null); // Initialize as null
-  const [userrole, setUserRole] = useState(""); // Initialize as empty string
+  const [currentUser, setCurrentUser] = useState(null); 
+  const [userrole, setUserRole] = useState("");
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
       try {
         const result = await matchUser(user);
         setCurrentUser(result);
-        setUserRole(result.role); // Set user role after fetching user
+        setUserRole(result.role); 
       } catch (error) {
         console.error("Failed to fetch Current User", error);
       }
@@ -44,7 +44,7 @@ const Dashboard = () => {
   return (
     <>
       <div className="bg-primary text-white text-center py-5">
-        <h1 className="display-3">Welcome to the EduHub Dashboard</h1>
+        <h1 className="display-3 text-golden">Welcome to the EduHub Dashboard</h1>
       </div>
       <Container className="mt-5">
         <Row className="mb-4">

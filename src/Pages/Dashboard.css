@@ -39,3 +39,7 @@
 .custom-button:focus {
   box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
 }
+
+.text-golden {
+  color: #FFD700; 
+}
