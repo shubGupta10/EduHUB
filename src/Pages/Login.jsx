@@ -30,6 +30,16 @@ const Login = () => {
     setIsLoading(false); 
   };
 
+  const SigninWithGoogle = async () => {
+    // try {
+    //   const result = await firebase.registerWithGoogle();
+    //   navigate("/");
+    //   console.log(result);
+    // } catch (error) {
+    //   console.error("Here is your error", error);
+    // }
+  }
+
   return (
     <div>
       {isLoading && <Loader />} 
@@ -68,7 +78,7 @@ const Login = () => {
               <p className="text-center mt-2 fs-4 fw-bold">OR</p>
               <Row className="justify-content-center">
                 <Col xs={12} md={6} className="text-center">
-                  <Button variant="primary" type="submit" className="w-100 ">
+                  <Button variant="primary" type="submit" className="w-100" onClick={SigninWithGoogle}>
                     Login with Google
                   </Button>
                 </Col>

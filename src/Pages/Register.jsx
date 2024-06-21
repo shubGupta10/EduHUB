@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
-import { storage, useFirebase } from '../Context/FirebaseContext';
+import { storage, useFirebase } from '../Context/FirebaseContext.js';
 import { toast } from 'react-toastify';
 import "./Register.css";
 import { useNavigate } from 'react-router-dom';
@@ -56,7 +56,9 @@ const Register = () => {
     };
 
     const handleGoogleRegister = async () => {
-        // Implement Google registration logic here
+        // const GoogleLoggedInUser = await firebase.registerWithGoogle();
+        // console.log(GoogleLoggedInUser);
+        // navigate("/login")
     };
 
     return (

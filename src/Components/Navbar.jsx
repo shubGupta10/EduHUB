@@ -80,7 +80,7 @@ function MyNavbar() {
             <Nav.Link className="navbrand" href="/dashboard/viewcourse">
               Courses
             </Nav.Link>
-            <Nav.Link className="navbrand">Instructor</Nav.Link>
+            <Nav.Link className="navbrand" href="/listallteachers">Instructor</Nav.Link>
           </Nav>
           <Nav className="ms-auto">
             {firebase.isLoggedIn && currentUser ? (
