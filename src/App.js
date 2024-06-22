@@ -28,6 +28,8 @@ import AddCourse from './Pages/Admin Page/AddCourse.jsx';
 import CourseDetail from './Components/CourseDetail.jsx';
 import TeachersList from './Pages/Universal Pages/TeachersList.jsx';
 import Profile from './Components/Profile.jsx';
+import HomeChat from './Pages/DiscussionForum/HomeChat.jsx';
+import ChatRoom from './Pages/DiscussionForum/ChatRoom.jsx';
 
 
 const App = () => {
@@ -62,6 +64,8 @@ const App = () => {
         <Route path='/assignmentpage' element={<ProtectedRoute element={AssignmentPage} />}/>
         <Route path='/quizpage' element={<ProtectedRoute element={QuizPage}/>}/>
         <Route path='/quizrules' element={<ProtectedRoute element={QuizRulesPage}/>}/>
+        <Route path='/homechat' element={<ProtectedRoute element={HomeChat} />}/>
+        <Route path='/chatRoom' element={<ProtectedRoute element={ChatRoom}/>}/>
       </Routes>
       <ToastContainer position="top-right" />
     </div>

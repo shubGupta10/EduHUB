@@ -55,9 +55,9 @@ const CourseOverview = () => {
                                         </Row>
                                         <div className="text-center">
                                             <Link to={`/studentdetails/${courseId}/${courseName}`}>
-                                                <Button variant="primary" size="lg" className="mx-2 px-5 py-3">Add to Cart</Button>
+                                                <Button variant="success" size="lg" className="mx-2 px-5 py-3">Buy Now</Button>
                                             </Link>
-                                            <Button variant="success" size="lg" className="mx-2 px-5 py-3">Buy Now</Button>
+                                            <Button variant="primary" size="lg" className="mx-2 px-5 py-3">Add to Cart</Button>
                                         </div>
                                     </Card.Body>
                                 </Col>

@@ -173,7 +173,7 @@ const Dashboard = () => {
                   Discussion Forums
                 </Card.Title>
                 <Card.Text>Participate in course discussions.</Card.Text>
-                <Link to="/forums">
+                <Link to="/homechat">
                   <Button variant="primary" className="custom-button">
                     Visit Forums
                   </Button>

@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 import firebaseApp from "../config/FirebaseConfig";
-import { getFirestore, addDoc, collection, getDocs, doc, getDoc , query, where} from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDocs, doc, getDoc , query, where, orderBy} from "firebase/firestore";
 
-const fireStore = getFirestore(firebaseApp);
+export const fireStore = getFirestore(firebaseApp);
 
 export const addCourseToFirestore = async (courseData) => {
     try {
@@ -142,6 +142,36 @@ export const createUser = async (userData) => {
     }
 };
 
+
+export const uploadMessages = async (messageData) => {
+    try {
+        const messagesCollection = collection(fireStore, 'Messages');
+        const docRef = await addDoc(messagesCollection, messageData);
+        console.log("Message uploaded with ID: ", docRef.id);
+        return docRef.id; 
+    } catch (error) {
+        console.error("Failed to upload Message:", error);
+        throw error; 
+    }
+}
+
+
+export const fetchMessages = async (room) => {
+    try {
+        const messageCollectionRef = collection(fireStore, "Messages");
+        const q = query(messageCollectionRef, where("room", "==", room), orderBy("createdAt"));
+        const querySnapshot = await getDocs(q);
+        const messages = querySnapshot.docs.map(doc => ({
+            id: doc.id, ...doc.data()
+        }));
+        return messages;
+    } catch (error) {
+        console.error("Failed to fetch the user messages:", error);
+        throw error;
+    }
+}
+
+
 export const matchUser = async (user) => {
     try {
         if (!user) {
@@ -155,7 +185,6 @@ export const matchUser = async (user) => {
         querySnapshot.forEach((doc) => {
             const userData = doc.data();
             if (userData.email === user.email) {
-                // console.log("User data from Firestore:", userData);
                 matchedUser = userData;
             }
         });
