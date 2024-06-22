@@ -145,21 +145,20 @@ export const createUser = async (userData) => {
 
 export const uploadMessages = async (messageData) => {
     try {
-        const messagesCollection = collection(fireStore, 'Messages');
+        const messagesCollection = collection(fireStore, 'messages');
         const docRef = await addDoc(messagesCollection, messageData);
         console.log("Message uploaded with ID: ", docRef.id);
         return docRef.id; 
     } catch (error) {
-        console.error("Failed to upload Message:", error);
+        console.error("Failed to upload message:", error);
         throw error; 
     }
 }
 
-
-export const fetchMessages = async (room) => {
+export const fetchMessages = async () => {
     try {
-        const messageCollectionRef = collection(fireStore, "Messages");
-        const q = query(messageCollectionRef, where("room", "==", room), orderBy("createdAt"));
+        const messageCollectionRef = collection(fireStore, "messages");
+        const q = query(messageCollectionRef, orderBy("createdAt"));
         const querySnapshot = await getDocs(q);
         const messages = querySnapshot.docs.map(doc => ({
             id: doc.id, ...doc.data()
@@ -170,7 +169,6 @@ export const fetchMessages = async (room) => {
         throw error;
     }
 }
-
 
 export const matchUser = async (user) => {
     try {
