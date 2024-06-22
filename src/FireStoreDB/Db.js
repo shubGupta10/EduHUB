@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import firebaseApp from "../config/FirebaseConfig";
-import { getFirestore, addDoc, collection, getDocs, doc, getDoc , query, where, orderBy} from "firebase/firestore";
+import { getFirestore, addDoc, collection, getDocs, doc, getDoc , query, where, orderBy, onSnapshot} from "firebase/firestore";
 
 export const fireStore = getFirestore(firebaseApp);
 
@@ -169,6 +169,20 @@ export const fetchMessages = async () => {
         throw error;
     }
 }
+
+
+export const subscribeToMessages = (callback) => {
+    const messageCollectionRef = collection(fireStore, "messages");
+    const q = query(messageCollectionRef, orderBy("createdAt"));
+    
+    return onSnapshot(q, (querySnapshot) => {
+      const messages = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      callback(messages);
+    });
+  };
 
 export const matchUser = async (user) => {
     try {

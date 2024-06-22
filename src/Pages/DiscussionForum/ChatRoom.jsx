@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Form, Button, Container, ListGroup } from 'react-bootstrap';
 import { serverTimestamp } from 'firebase/firestore';
 import { useFirebase } from '../../Context/FirebaseContext';
-import { fetchMessages, uploadMessages } from '../../FireStoreDB/Db';
-import './ChatRoom.css';
+import { uploadMessages, subscribeToMessages } from '../../FireStoreDB/Db';
+import './ChatRoom.css'; // Assuming you have custom styles in ChatRoom.css
 
 const ChatRoom = () => {
   const { user, matchUser } = useFirebase();
   const [currentUserInfo, setCurrentUserInfo] = useState({ displayName: '', role: '' });
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [unsubscribe, setUnsubscribe] = useState(null);
+  const messagesEndRef = useRef(null);
 
   useEffect(() => {
     const getCurrentLoggedInUser = async () => {
@@ -28,27 +28,20 @@ const ChatRoom = () => {
   }, [matchUser, user]);
 
   useEffect(() => {
-    const loadMessages = async () => {
-      try {
-        const fetchedMessages = await fetchMessages();
-        setMessages(fetchedMessages);
-        const unsubscribe = await fetchMessages((newMessages) => {
-          setMessages(newMessages);
-        });
-        setUnsubscribe(() => unsubscribe);
-      } catch (error) {
-        console.error("Failed to fetch messages:", error);
-      }
-    };
-
-    loadMessages();
+    const unsubscribe = subscribeToMessages((updatedMessages) => {
+      setMessages(updatedMessages);
+    });
 
     return () => {
       if (unsubscribe) {
         unsubscribe();
       }
     };
-  }, [fetchMessages]);
+  }, []);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -75,9 +68,9 @@ const ChatRoom = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center chat-container">
+    <Container className="chat-container">
       <div className="chat-box">
-        <h1>Welcome {currentUserInfo.displayName} to the Chat</h1>
+        <h1 className="text-center text-primary mb-4">Welcome {currentUserInfo.displayName} to the Chat</h1>
         <ListGroup className="message-list">
           {messages.map((msg) => (
             <ListGroup.Item
@@ -95,9 +88,10 @@ const ChatRoom = () => {
               </div>
             </ListGroup.Item>
           ))}
+          <div ref={messagesEndRef} />
         </ListGroup>
-        <Form onSubmit={handleSubmit} className="message-form">
-          <div className="d-flex align-items-center">
+        <Form onSubmit={handleSubmit} className="message-form mt-4">
+          <div className="d-flex">
             <Form.Control
               as="textarea"
               rows={3}
@@ -106,7 +100,7 @@ const ChatRoom = () => {
               onChange={(e) => setMessage(e.target.value)}
               style={{ flex: 1 }}
             />
-            <Button variant="primary" type="submit" className="ml-2">
+            <Button variant="primary" type="submit" className="ml-3">
               Send
             </Button>
           </div>
