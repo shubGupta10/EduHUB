@@ -3,7 +3,7 @@ import { Form, Button, Container, ListGroup } from 'react-bootstrap';
 import { serverTimestamp } from 'firebase/firestore';
 import { useFirebase } from '../../Context/FirebaseContext';
 import { uploadMessages, subscribeToMessages } from '../../FireStoreDB/Db';
-import './ChatRoom.css'; // Assuming you have custom styles in ChatRoom.css
+import './ChatRoom.css'; 
 
 const ChatRoom = () => {
   const { user, matchUser } = useFirebase();
