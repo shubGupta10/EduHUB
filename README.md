@@ -147,9 +147,6 @@ EdHub can be deployed to Firebase Hosting. Follow these steps to deploy:
 
 For more detailed instructions, refer to the [Firebase Hosting documentation](https://firebase.google.com/docs/hosting).
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Contact
 
