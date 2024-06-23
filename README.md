@@ -153,9 +153,9 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ## Contact
 
-Your Name - your.email@example.com
+My email - shubhamkgupta720@gmail.com
 
-Project Link: [https://github.com/yourusername/eduhub](https://github.com/yourusername/eduhub)
+Project Link: https://github.com/shubGupta10/EduHUB.git
 
 For support or queries, please open an issue on the GitHub repository or contact the maintainers directly.
 
