@@ -23,6 +23,9 @@ const Login = () => {
       await firebase.LoginUser(email, password);
       toast.success("Login Successful!");
       navigate(`/dashboard/${courseId}/${courseName}`);
+      setTimeout(() => {
+        window.location.reload();
+    }, 50);
     } catch (error) {
       console.error("Error Occurred", error);
       toast.error("Error occurred. Please try again!");

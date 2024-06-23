@@ -70,7 +70,7 @@ const Dashboard = () => {
                       to={`/dashboard/coursedetail/${courseId}/${courseName}`}
                     >
                       <Button variant="primary" className="custom-button">
-                        View Courses
+                        Course Progress
                       </Button>
                     </Link>
                   </Card.Body>
@@ -81,20 +81,18 @@ const Dashboard = () => {
                 <Card className="h-100 shadow-lg custom-card">
                   <Card.Img
                     variant="top"
-                    src="https://americanlibrariesmagazine.org/wp-content/uploads/2016/01/digital-librarian.jpg"
+                    src="https://sdsinstitute.org.in/wp-content/uploads/2019/08/vgce-course.png"
                     className="custom-card-img"
                   />
                   <Card.Body>
                     <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faFileAlt} className="me-2" />
-                      Explore into tech World
+                      <FontAwesomeIcon icon={faBook} className="me-2" />
+                      View Courses
                     </Card.Title>
-                    <Card.Text>
-                      Read Articles related to current technology.
-                    </Card.Text>
-                    <Link to="/resources">
+                    <Card.Text>View the courses we offer.</Card.Text>
+                    <Link to="/dashboard/viewcourse">
                       <Button variant="primary" className="custom-button">
-                        Explore
+                        View Courses
                       </Button>
                     </Link>
                   </Card.Body>
@@ -129,8 +127,8 @@ const Dashboard = () => {
             </>
           )}
 
-          {userRole === "Admin" ||
-            (userRole === "teacher" && (
+          {(userRole === "Admin" || userRole === "teacher") && (
+            <>
               <Col md={4} className="mb-4">
                 <Card className="h-100 shadow-lg custom-card">
                   <Card.Img
@@ -152,7 +150,8 @@ const Dashboard = () => {
                   </Card.Body>
                 </Card>
               </Col>
-            ))}
+            </>
+          )}
 
           {["student", "Admin", "teacher"].includes(userRole) && (
             <>
@@ -160,18 +159,20 @@ const Dashboard = () => {
                 <Card className="h-100 shadow-lg custom-card">
                   <Card.Img
                     variant="top"
-                    src="https://sdsinstitute.org.in/wp-content/uploads/2019/08/vgce-course.png"
+                    src="https://americanlibrariesmagazine.org/wp-content/uploads/2016/01/digital-librarian.jpg"
                     className="custom-card-img"
                   />
                   <Card.Body>
                     <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faBook} className="me-2" />
-                      View Courses
+                      <FontAwesomeIcon icon={faFileAlt} className="me-2" />
+                      Explore into tech World
                     </Card.Title>
-                    <Card.Text>View the courses we offer.</Card.Text>
-                    <Link to="/dashboard/viewcourse">
+                    <Card.Text>
+                      Read Articles related to current technology.
+                    </Card.Text>
+                    <Link to="/resources">
                       <Button variant="primary" className="custom-button">
-                        View Courses
+                        Explore
                       </Button>
                     </Link>
                   </Card.Body>
@@ -243,8 +244,6 @@ const Dashboard = () => {
                   </Card.Body>
                 </Card>
               </Col>
-
-             
             </>
           )}
         </Row>

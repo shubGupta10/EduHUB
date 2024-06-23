@@ -15,7 +15,7 @@ import {
   FaQuestionCircle,
   FaTasks
 } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchAllUsers } from "../FireStoreDB/Db";
 
 const Home = () => {
@@ -191,7 +191,9 @@ const Home = () => {
                 <Card.Text>
                   Learn Python from scratch with our beginner-friendly course.
                 </Card.Text>
-                <Button variant="primary">Enroll Now</Button>
+                <Link to="/dashboard/viewcourse">
+                <Button  variant="primary">Enroll Now</Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -207,7 +209,9 @@ const Home = () => {
                   Master the fundamentals of JavaScript with this comprehensive
                   course.
                 </Card.Text>
+                <Link to="/dashboard/viewcourse">
                 <Button variant="primary">Enroll Now</Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -222,7 +226,9 @@ const Home = () => {
                 <Card.Text>
                   Become a full-stack web developer with our intensive bootcamp.
                 </Card.Text>
+                <Link to="/dashboard/viewcourse">
                 <Button variant="primary">Enroll Now</Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -240,7 +246,9 @@ const Home = () => {
                 <Card.Text>
                   Learn Java from scratch with our ultimate course.
                 </Card.Text>
+                <Link to="/dashboard/viewcourse">
                 <Button variant="primary">Enroll Now</Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -255,7 +263,9 @@ const Home = () => {
                 <Card.Text>
                   Master the React Js with this complete course.
                 </Card.Text>
+                <Link to="/dashboard/viewcourse">
                 <Button variant="primary">Enroll Now</Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>
@@ -270,7 +280,9 @@ const Home = () => {
                 <Card.Text>
                   Become a Node Js developer with our comprehensive course.
                 </Card.Text>
+                <Link to="/dashboard/viewcourse">
                 <Button variant="primary">Enroll Now</Button>
+                </Link>
               </Card.Body>
             </Card>
           </Col>

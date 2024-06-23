@@ -47,7 +47,10 @@ const Register = () => {
             await firebase.createUser(userData);
 
             toast.success("Account creation successful");
-            navigate("/");
+            navigate("/dashboard/viewcourse");
+            setTimeout(() => {
+                window.location.reload();
+            }, 50);
         } catch (error) {
             console.error("Failed in account creation", error);
             toast.error("Failed to create account");
