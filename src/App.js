@@ -30,6 +30,7 @@ import TeachersList from './Pages/Universal Pages/TeachersList.jsx';
 import Profile from './Components/Profile.jsx';
 import HomeChat from './Pages/DiscussionForum/HomeChat.jsx';
 import ChatRoom from './Pages/DiscussionForum/ChatRoom.jsx';
+import Resource from './Resource Library/Resource.jsx';
 
 
 const App = () => {
@@ -66,6 +67,7 @@ const App = () => {
         <Route path='/quizrules' element={<ProtectedRoute element={QuizRulesPage}/>}/>
         <Route path='/homechat' element={<ProtectedRoute element={HomeChat} />}/>
         <Route path='/chatRoom' element={<ProtectedRoute element={ChatRoom}/>}/>
+        <Route path='/resources' element={<ProtectedRoute element={Resource}/>}/>
       </Routes>
       <ToastContainer position="top-right" />
     </div>
