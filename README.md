@@ -1,6 +1,6 @@
-# EdHub
+# EduHub - A learning EdtechApp
 
-EdHub is an innovative educational technology application built with React and Firebase, designed to revolutionize the way people learn and access educational content online.
+EduHub is an innovative educational technology application built with React and Firebase, designed to revolutionize the way people learn and access educational content online.
 
 ## Table of Contents
 1. [Overview](#overview)
@@ -20,9 +20,9 @@ EdHub is an innovative educational technology application built with React and F
 
 ## Overview
 
-EdHub is a cutting-edge ed-tech platform that aims to bridge the gap between learners and educational resources. By leveraging the power of React for a smooth, interactive user interface and Firebase for robust backend services, EdHub provides a seamless learning experience for students of all ages and backgrounds.
+EduHub is a cutting-edge ed-tech platform that aims to bridge the gap between learners and educational resources. By leveraging the power of React for a smooth, interactive user interface and Firebase for robust backend services, EduHub provides a seamless learning experience for students of all ages and backgrounds.
 
-Our platform offers a wide range of courses, from basic skills to advanced topics, all accessible through an intuitive and responsive web application. With features like real-time progress tracking, interactive quizzes, and personalized learning paths, EdHub is set to transform the online education landscape.
+Our platform offers a wide range of courses, from basic skills to advanced topics, all accessible through an intuitive and responsive web application. With features like real-time progress tracking, interactive quizzes, and personalized learning paths, EduHub is set to transform the online education landscape.
 
 ## Features
 
@@ -112,7 +112,7 @@ Detailed user guides and documentation can be found in the `/docs` directory of 
 
 ## Contributing
 
-We welcome contributions to EdHub! If you'd like to contribute, please follow these steps:
+We welcome contributions to EduHub! If you'd like to contribute, please follow these steps:
 
 1. Fork the repository
 2. Create a new branch (`git checkout -b feature/AmazingFeature`)
@@ -125,7 +125,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 
 ## Testing
 
-EdHub uses Jest for testing. To run the test suite, use the following command:
+EduHub uses Jest for testing. To run the test suite, use the following command:
 
 or with yarn:
 
@@ -133,7 +133,7 @@ We strive for high test coverage. Please ensure that your contributions include 
 
 ## Deployment
 
-EdHub can be deployed to Firebase Hosting. Follow these steps to deploy:
+EduHub can be deployed to Firebase Hosting. Follow these steps to deploy:
 
 1. Build the project:
 
@@ -158,4 +158,4 @@ For support or queries, please open an issue on the GitHub repository or contact
 
 ---
 
-Thank you for your interest in EdHub! We hope this platform will make a significant impact on online education and look forward to your contributions and feedback.
+Thank you for your interest in EduHub! We hope this platform will make a significant impact on online education and look forward to your contributions and feedback.
