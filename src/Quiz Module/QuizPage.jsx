@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './QuizPage.css';
-import { JavaScript } from '../Components/QuizData';
+import {JavaScript} from "../Components/Quizz Questions/QuizData"
 import { useNavigate } from 'react-router-dom';
 
 const QuizPage = () => {

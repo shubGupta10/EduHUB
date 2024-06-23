@@ -147,6 +147,68 @@ const CourseProgress = () => {
             "Testing with Jest or Mocha",
             "Introduction to React or other JavaScript frameworks",
           ];
+        case "React Js":
+          return [
+            "Introduction to React",
+            "Components and Props",
+            "State and Lifecycle Methods",
+            "Handling Events",
+            "Conditional Rendering",
+            "Lists and Keys",
+            "Forms and Controlled Components",
+            "Component Lifecycle",
+            "Context API and useContext Hook",
+            "Introduction to React Router",
+            "Redux Overview",
+            "Actions and Action Creators",
+            "Reducers and Store",
+            "Connecting React with Redux",
+            "Async Actions with Redux Thunk",
+            "Redux Middleware",
+            "Using Redux with React Hooks",
+            "Immutable Data and Redux Toolkit",
+            "Testing Redux Applications",
+            "Best Practices in Redux",
+          ];
+        case "Node Js":
+          return [
+            "Introduction to Node.js",
+            "Node.js Modules (CommonJS)",
+            "npm and package.json",
+            "Asynchronous JavaScript (Callbacks, Promises, Async/Await)",
+            "Express.js Framework",
+            "Routing and Middleware",
+            "Handling HTTP Requests and Responses",
+            "Working with JSON and RESTful APIs",
+            "Data Persistence with Databases (MongoDB, SQL)",
+            "Authentication and Authorization",
+            "Real-time Applications with WebSockets (using Socket.IO)",
+            "Security Best Practices",
+            "Error Handling and Debugging",
+            "Testing Node.js Applications (Mocha, Chai)",
+            "Performance Optimization",
+            "Deployment and Scalability",
+          ];
+        case "Android Development":
+          return [
+            "Introduction to Android Development",
+            "Setting up Android Studio",
+            "Activities and Intents",
+            "Fragments and UI Layouts",
+            "RecyclerView and Adapter Pattern",
+            "Handling User Input",
+            "Permissions and Security",
+            "Working with SQLite Database",
+            "Networking with Retrofit",
+            "Using RESTful APIs",
+            "Background Processing with AsyncTask and Threads",
+            "Material Design Principles",
+            "Firebase Integration (Authentication, Realtime Database)",
+            "Location and Maps Integration",
+            "Publishing Apps on Google Play Store",
+            "Testing and Debugging Android Apps",
+            "Performance Optimization Techniques",
+          ];
         default:
           return [];
       }
@@ -157,90 +219,92 @@ const CourseProgress = () => {
 
   return (
     <>
-    <Container style={{ fontFamily: "Arial, sans-serif", marginTop: "20px" }}>
-      {course && (
-        <>
-          <header style={{ textAlign: "center", marginBottom: "40px" }}>
-            <h1 style={{ color: "#343a40" }}>{course.courseName}</h1>
-            <h2 style={{ color: "#6c757d" }}>
-              Welcome to {course.courseDescription}!
-            </h2>
-          </header>
+      <Container style={{ fontFamily: "Arial, sans-serif", marginTop: "20px" }}>
+        {course && (
+          <>
+            <header style={{ textAlign: "center", marginBottom: "40px" }}>
+              <h1 style={{ color: "#343a40" }}>{course.courseName}</h1>
+              <h2 style={{ color: "#6c757d" }}>
+                Welcome to {course.courseDescription}!
+              </h2>
+            </header>
 
-          <section style={{ marginBottom: "40px" }}>
-            <h3 style={{ color: "#343a40" }}>Course Progress</h3>
-            <ProgressBar now={course.progress} label={`${course.progress}%`} />
-            <h3 style={{ color: "#343a40", marginTop: "20px" }}>Lessons</h3>
-            <ListGroup variant="flush">
-              {lessons.map((lesson, index) => (
-                <ListGroup.Item
-                  key={index}
-                  style={{ cursor: "pointer", backgroundColor: "#f8f9fa" }}
-                  variant="primary"
-                >
-                  {lesson}
-                </ListGroup.Item>
-              ))}
-            </ListGroup>
-          </section>
-
-          {(userRole === "teacher" || userRole === "Admin") && (
-            <div style={{ textAlign: "center", marginBottom: "20px" }}>
-              <Button
-                variant="primary"
-                onClick={() => document.getElementById("video-upload").click()}
-                style={{ marginBottom: "10px" }}
-              >
-                Upload Video
-              </Button>
-              <input
-                type="file"
-                id="video-upload"
-                onChange={handleVideoUpload}
-                style={{ display: "none" }}
-              />
-            </div>
-          )}
-
-          <section className="mt-5">
-            <h3 style={{ color: "#343a40" }}>Videos</h3>
-            {!videosLoaded ? (
-              <p>Please wait, your videos will be available soon</p>
-            ) : videos.length === 0 ? (
-              <>
-              <p className="text-center mt-5 fs-5">No videos available</p>
-              <p className="text-center fs-5">Please wait, your videos will be available soon 🙂</p>
-              </>
-            ) : (
-              <Row>
-                {videos.map((video, index) => (
-                  <Col key={index} md={4} style={{ marginBottom: "20px" }}>
-                    <Card
-                      style={{
-                        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-                        borderRadius: "10px",
-                      }}
-                    >
-                      <Card.Body>
-                        <Card.Title>{video.title}</Card.Title>
-                        <Card.Text>{video.description}</Card.Text>
-                        <video
-                          src={video.url}
-                          controls
-                          style={{ width: "100%", borderRadius: "10px" }}
-                          className="mb-5"
-                        />
-                      </Card.Body>
-                    </Card>
-                  </Col>
+            <section style={{ marginBottom: "40px" }}>
+              <h3 style={{ color: "#343a40", marginTop: "20px" }}>Lessons</h3>
+              <ListGroup variant="flush">
+                {lessons.map((lesson, index) => (
+                  <ListGroup.Item
+                    key={index}
+                    style={{ cursor: "pointer", backgroundColor: "#f8f9fa" }}
+                    variant="primary"
+                  >
+                    {lesson}
+                  </ListGroup.Item>
                 ))}
-              </Row>
+              </ListGroup>
+            </section>
+
+            {(userRole === "teacher" || userRole === "Admin") && (
+              <div style={{ textAlign: "center", marginBottom: "20px" }}>
+                <Button
+                  variant="primary"
+                  onClick={() =>
+                    document.getElementById("video-upload").click()
+                  }
+                  style={{ marginBottom: "10px" }}
+                >
+                  Upload Video
+                </Button>
+                <input
+                  type="file"
+                  id="video-upload"
+                  onChange={handleVideoUpload}
+                  style={{ display: "none" }}
+                />
+              </div>
             )}
-          </section>
-        </>
-      )}
-    </Container>
-    <Footer/>
+
+            <section className="mt-5">
+              <h3 style={{ color: "#343a40" }}>Videos</h3>
+              {!videosLoaded ? (
+                <p>Please wait, your videos will be available soon</p>
+              ) : videos.length === 0 ? (
+                <>
+                  <p className="text-center mt-5 fs-5">No videos available</p>
+                  <p className="text-center fs-5">
+                    Please wait, your videos will be available soon 🙂
+                  </p>
+                </>
+              ) : (
+                <Row>
+                  {videos.map((video, index) => (
+                    <Col key={index} md={4} style={{ marginBottom: "20px" }}>
+                      <Card
+                        style={{
+                          boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <Card.Body>
+                          <Card.Title>{video.title}</Card.Title>
+                          <Card.Text>{video.description}</Card.Text>
+                          <video
+                            src={video.url}
+                            controls
+                            style={{ width: "100%", borderRadius: "10px" }}
+                            className="mb-5"
+                          />
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                  ))}
+                </Row>
+              )}
+            </section>
+          </>
+        )}
+      </Container>
+      <Footer />
     </>
   );
 };
