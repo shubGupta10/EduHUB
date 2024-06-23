@@ -94,7 +94,7 @@ const Dashboard = () => {
                     </Card.Text>
                     <Link to="/resources">
                       <Button variant="primary" className="custom-button">
-                        View Resources
+                        Explore
                       </Button>
                     </Link>
                   </Card.Body>
@@ -244,55 +244,7 @@ const Dashboard = () => {
                 </Card>
               </Col>
 
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://media.istockphoto.com/id/1616906708/vector/vector-speech-bubble-with-quiz-time-words-trendy-text-balloon-with-geometric-grapic-shape.jpg?s=612x612&w=0&k=20&c=3-qsji8Y5QSuShaMi6cqONlVZ3womknA5CiJ4PCeZEI="
-                    alt="Quiz Competition"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faPencilAlt} className="me-2" />
-                      Quiz Competition
-                    </Card.Title>
-                    <Card.Text>
-                      Challenge yourself with daily quizzes related to your
-                      course.
-                    </Card.Text>
-                    <Link to="/quizrules">
-                      <Button variant="primary" className="custom-button">
-                        Take a Quiz
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
-
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://americanlibrariesmagazine.org/wp-content/uploads/2016/01/digital-librarian.jpg"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faFileAlt} className="me-2" />
-                      Resource Library
-                    </Card.Title>
-                    <Card.Text>
-                      Access educational resources and materials.
-                    </Card.Text>
-                    <Link to="/resources">
-                      <Button variant="primary" className="custom-button">
-                        View Resources
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
+             
             </>
           )}
         </Row>

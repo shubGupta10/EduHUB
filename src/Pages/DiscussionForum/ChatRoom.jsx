@@ -1,14 +1,17 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { Form, Button, Container, ListGroup } from 'react-bootstrap';
-import { serverTimestamp } from 'firebase/firestore';
-import { useFirebase } from '../../Context/FirebaseContext';
-import { uploadMessages, subscribeToMessages } from '../../FireStoreDB/Db';
-import './ChatRoom.css'; 
+import React, { useEffect, useState, useRef } from "react";
+import { Form, Button, Container, ListGroup } from "react-bootstrap";
+import { serverTimestamp } from "firebase/firestore";
+import { useFirebase } from "../../Context/FirebaseContext";
+import { uploadMessages, subscribeToMessages } from "../../FireStoreDB/Db";
+import "./ChatRoom.css";
 
 const ChatRoom = () => {
   const { user, matchUser } = useFirebase();
-  const [currentUserInfo, setCurrentUserInfo] = useState({ displayName: '', role: '' });
-  const [message, setMessage] = useState('');
+  const [currentUserInfo, setCurrentUserInfo] = useState({
+    displayName: "",
+    role: "",
+  });
+  const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const messagesEndRef = useRef(null);
 
@@ -18,7 +21,7 @@ const ChatRoom = () => {
         const currentUser = await matchUser(user);
         setCurrentUserInfo(currentUser);
       } catch (error) {
-        console.error('Failed to get the current user', error);
+        console.error("Failed to get the current user", error);
       }
     };
 
@@ -40,7 +43,7 @@ const ChatRoom = () => {
   }, []);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const handleSubmit = async (e) => {
@@ -54,7 +57,7 @@ const ChatRoom = () => {
         };
 
         await uploadMessages(messageData);
-        setMessage('');
+        setMessage("");
       } catch (error) {
         console.error("Failed to upload message:", error);
       }
@@ -67,24 +70,37 @@ const ChatRoom = () => {
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   };
 
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit(e);
+    }
+  };
+
   return (
     <Container className="chat-container">
       <div className="chat-box">
-        <h1 className="text-center text-primary mb-4">Welcome {currentUserInfo.displayName} to the Chat</h1>
+        <h1 className="text-center text-primary mb-4">
+          Welcome {currentUserInfo.displayName} to the Global Chat
+        </h1>
         <ListGroup className="message-list">
           {messages.map((msg) => (
             <ListGroup.Item
               key={msg.id}
-              className={`message-item ${msg.user === currentUserInfo.displayName ? 'message-right' : 'message-left'}`}
+              className={`message-item ${
+                msg.user === currentUserInfo.displayName
+                  ? "message-right"
+                  : "message-left"
+              }`}
             >
               <div className="message-content">
                 <div className="message-header">
                   <strong>{msg.user}</strong>
-                  <span className="text-muted ml-2">{formatDate(msg.createdAt)}</span>
+                  <span className="text-muted ml-2">
+                    {formatDate(msg.createdAt)}
+                  </span>
                 </div>
-                <div className="message-text">
-                  {msg.text}
-                </div>
+                <div className="message-text">{msg.text}</div>
               </div>
             </ListGroup.Item>
           ))}
@@ -96,6 +112,7 @@ const ChatRoom = () => {
               as="textarea"
               rows={3}
               placeholder="Type your message here..."
+              onKeyDown={handleKeyPress}
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               style={{ flex: 1 }}

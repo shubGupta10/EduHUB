@@ -1,17 +1,58 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './QuizPage.css';
-import {JavaScript} from "../Components/Quizz Questions/QuizData"
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { JavaScript } from "../Components/Quizz Questions/QuizData";
+import { ReactJs } from '../Components/Quizz Questions/ReactQuiz';
+import { Java } from '../Components/Quizz Questions/Java';
+import { Nodejs } from '../Components/Quizz Questions/NodeQuiz';
+import { AndroidDevelopment } from '../Components/Quizz Questions/AndroidQuiz';
+import { Python } from '../Components/Quizz Questions/Python';
 
 const QuizPage = () => {
+  const { courseName: paramCourseName } = useParams();
+  const courseName = paramCourseName || localStorage.getItem("courseName");
   const [index, setIndex] = useState(0);
-  const [question, setQuestion] = useState(JavaScript[index]);
+  const [question, setQuestion] = useState({});
   const [lock, setLock] = useState(false);
   const [score, setScore] = useState(0);
   const [result, setResult] = useState(false);
   const navigate = useNavigate();
   const [timer, setTimer] = useState(30);
   const [showAnswer, setShowAnswer] = useState(false);
+
+  const Option1 = useRef(null);
+  const Option2 = useRef(null);
+  const Option3 = useRef(null);
+  const Option4 = useRef(null);
+
+  const option_array = [Option1, Option2, Option3, Option4];
+
+  let questions = [];
+  switch (courseName) {
+    case 'Python Course':
+      questions = Python;
+      break;
+    case 'Java':
+      questions = Java;
+      break;
+    case 'React Js':
+      questions = ReactJs;
+      break;
+    case 'Node Js':
+      questions = Nodejs;
+      break;
+    case 'Android Development':
+      questions = AndroidDevelopment;
+      break;
+    case 'JavaScript':
+    default:
+      questions = JavaScript;
+      break;
+  }
+
+  useEffect(() => {
+    setQuestion(questions[index]);
+  }, [index, questions]);
 
   useEffect(() => {
     let interval;
@@ -29,14 +70,7 @@ const QuizPage = () => {
     }
 
     return () => clearInterval(interval);
-  }, [ lock, timer]);
-
-  const Option1 = useRef(null);
-  const Option2 = useRef(null);
-  const Option3 = useRef(null);
-  const Option4 = useRef(null);
-
-  const option_array = [Option1, Option2, Option3, Option4];
+  }, [lock, timer]);
 
   const checkAns = (e, ans) => {
     if (!lock) {
@@ -58,13 +92,12 @@ const QuizPage = () => {
 
   const ChangeQuestion = () => {
     if (lock) {
-      if (index === JavaScript.length - 1) {
+      if (index === questions.length - 1) {
         setResult(true);
         return;
       }
       const newIndex = index + 1;
       setIndex(newIndex);
-      setQuestion(JavaScript[newIndex]);
       setLock(false);
       setShowAnswer(false);
       setTimer(30);
@@ -84,11 +117,11 @@ const QuizPage = () => {
   return (
     <div className="quiz-container">
       <header>
-        <h1 className="quiz-title">JavaScript Quiz Contest</h1>
+        <h1 className="quiz-title">{courseName} Quiz Contest</h1>
 
         {result ? (
           <div className="result">
-            <h1>You have Scored {score} out of {JavaScript.length}</h1>
+            <h1>You have Scored {score} out of {questions.length}</h1>
             <button onClick={movetoHome}>Back to Home</button>
           </div>
         ) : (
@@ -121,7 +154,7 @@ const QuizPage = () => {
               Next
             </button>
             <p className="question-counter">
-              {index + 1} of {JavaScript.length} questions
+              {index + 1} of {questions.length} questions
             </p>
           </section>
         )}
