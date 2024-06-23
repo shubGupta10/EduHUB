@@ -66,7 +66,7 @@ export const getCoursesFromFirestore = async () => {
 
 export const getCoursesById = async (courseId) => {
     try {
-        const courseRef = doc(collection(fireStore, 'courses'), courseId);
+        const courseRef = doc(fireStore, 'courses', courseId); 
         const docSnapshot = await getDoc(courseRef);
 
         if (docSnapshot.exists()) {
@@ -79,7 +79,6 @@ export const getCoursesById = async (courseId) => {
         throw error;
     }
 };
-
 
 export const fetchAllUsers = async () => {
     try {
