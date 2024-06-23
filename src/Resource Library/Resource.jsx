@@ -11,7 +11,7 @@ const Resource = () => {
     useEffect(() => {
         const fetchArticles = async () => {
             try {
-                const response = await axios.get('https://dev.to/api/articles?tag=programming&top=1');
+                const response = await axios.get('https://dev.to/api/articles?tag=programming&top=4');
                 setArticles(response.data);
             } catch (error) {
                 setError('Error fetching articles. Please try again later.');
@@ -25,9 +25,9 @@ const Resource = () => {
 
     if (loading) {
         return (
-            <Container className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+            <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
                 <Spinner animation="border" role="status">
-                    <span className="sr-only">Loading...</span>
+                    <span className="visually-hidden">Loading...</span>
                 </Spinner>
             </Container>
         );
@@ -42,32 +42,32 @@ const Resource = () => {
     }
 
     return (
-        <Container className="mt-5 min-vh-100">
-            <h1 className="text-center mb-4" style={{ fontWeight: 'bold', fontSize: '2.5rem' }}>Latest Programming Articles</h1>
-            <p className="text-center mb-5" style={{ fontSize: '1.2rem', color: '#6c757d' }}>
+        <Container className="mt-5">
+            <h1 className="text-center mb-4" style={{ fontWeight: 'bold', fontSize: '2.5rem', color: '#333' }}>Latest Programming Articles</h1>
+            <p className="text-center mb-5" style={{ fontSize: '1.2rem', color: '#666', maxWidth: '800px', margin: '0 auto' }}>
                 Stay updated with the latest articles and trends in programming. Our curated selection of articles
                 from DEV.to ensures you are always in the loop with the most important updates and insights in the
                 programming world.
             </p>
-            <Row>
+            <Row xs={1} md={2} lg={3} className="g-4">
                 {articles.map((article, index) => (
-                    <Col key={index} md={4} className="mb-4">
-                        <Card className="h-100 shadow-sm" style={{ borderRadius: '10px', overflow: 'hidden', marginBottom: '1.5rem', transition: 'transform 0.2s', transform: 'scale(1)' }} onMouseOver={(e) => e.currentTarget.style.transform = 'scale(1.02)'} onMouseOut={(e) => e.currentTarget.style.transform = 'scale(1)'}>
+                    <Col key={index} className="mb-4">
+                        <Card className="h-100 shadow-sm" style={{ borderRadius: '10px', overflow: 'hidden', transition: 'transform 0.2s' }}>
                             {article.cover_image && (
-                                <div style={{ height: '180px', overflow: 'hidden' }}>
+                                <div style={{ height: '200px', overflow: 'hidden' }}>
                                     <Card.Img variant="top" src={article.cover_image} alt={article.title} style={{ objectFit: 'cover', height: '100%' }} />
                                 </div>
                             )}
                             <Card.Body className="d-flex flex-column">
-                                <Card.Title style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-                                    <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-dark">
+                                <Card.Title style={{ fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '1rem' }}>
+                                    <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-dark stretched-link">
                                         {article.title}
                                     </a>
                                 </Card.Title>
-                                <Card.Text className="flex-grow-1" style={{ color: '#6c757d' }}>
+                                <Card.Text style={{ color: '#777', flex: '1 0 auto', marginBottom: '1rem' }}>
                                     {article.description}
                                 </Card.Text>
-                                <Button variant="primary" href={article.url} target="_blank" rel="noopener noreferrer" className="mt-auto" style={{ fontWeight: 'bold' }}>
+                                <Button variant="primary" href={article.url} target="_blank" rel="noopener noreferrer" className="align-self-start">
                                     Read More
                                 </Button>
                             </Card.Body>

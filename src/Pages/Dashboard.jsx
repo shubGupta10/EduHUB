@@ -87,10 +87,10 @@ const Dashboard = () => {
                   <Card.Body>
                     <Card.Title className="custom-card-title">
                       <FontAwesomeIcon icon={faFileAlt} className="me-2" />
-                      Resource Library
+                      Explore into tech World
                     </Card.Title>
                     <Card.Text>
-                      Access educational resources and materials.
+                      Read Articles related to current technology.
                     </Card.Text>
                     <Link to="/resources">
                       <Button variant="primary" className="custom-button">
