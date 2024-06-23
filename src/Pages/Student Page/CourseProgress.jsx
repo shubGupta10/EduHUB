@@ -170,7 +170,7 @@ const CourseProgress = () => {
             "Testing Redux Applications",
             "Best Practices in Redux",
           ];
-        case "Node Js":
+        case "Node js":
           return [
             "Introduction to Node.js",
             "Node.js Modules (CommonJS)",

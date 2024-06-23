@@ -86,7 +86,7 @@ const CourseDetail = () => {
       "Testing Redux Applications",
       "Best Practices in Redux",
     ],
-    "Node Js": [
+    "Node js": [
       "Introduction to Node.js",
       "Node.js Modules (CommonJS)",
       "npm and package.json",

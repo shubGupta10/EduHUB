@@ -48,6 +48,10 @@ function MyNavbar() {
     return <Loader />;
   }
 
+  const handleClick = () => {
+    navigate("/");
+  }
+
   const courseId = localStorage.getItem("courseId");
   const courseName = localStorage.getItem("courseName");
 
@@ -55,7 +59,7 @@ function MyNavbar() {
     <Navbar expand="lg" className="custom-navbar">
       <Container fluid>
         <Navbar.Brand className="navbrand fs-1 fw-bold text-warning">
-          <span style={{ fontFamily: "Montserrat", letterSpacing: "2px" }}>
+          <span style={{ fontFamily: "Montserrat", letterSpacing: "2px", cursor: "pointer" }} onClick={handleClick}>
             EduHub
           </span>
         </Navbar.Brand>
