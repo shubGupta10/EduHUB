@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 import { storage, useFirebase } from '../Context/FirebaseContext.js';
 import { toast } from 'react-toastify';
-import "./Register.css";
-import { useNavigate } from 'react-router-dom';
+import './Register.css';
+import { useNavigate, Link } from 'react-router-dom';
 import Loader from '../Components/Loader';
 import { v4 as uuidv4 } from 'uuid';
 import Footer from '../Components/Footer';
@@ -58,12 +58,6 @@ const Register = () => {
         setIsLoading(false);
     };
 
-    // const handleGoogleRegister = async () => {
-        // const GoogleLoggedInUser = await firebase.registerWithGoogle();
-        // console.log(GoogleLoggedInUser);
-        // navigate("/login")
-    // };
-
     return (
         <div>
             {isLoading && <Loader />}
@@ -86,7 +80,7 @@ const Register = () => {
                                     <option value="">Choose...</option>
                                     <option value="teacher">Teacher</option>
                                     <option value="student">Student</option>
-                                </Form.Select>
+                                    </Form.Select>
                             </Form.Group>
                             <Form.Group controlId="formPassword" className="mt-3">
                                 <Form.Label>Password</Form.Label>
@@ -107,10 +101,12 @@ const Register = () => {
                             <Button variant="primary" type="submit" className="w-100 mt-4">
                                 Register
                             </Button>
-                            {/* <p className="text-center mt-2 fs-4 fw-bold">OR</p>
-                            <Button variant="primary" type="button" className="w-100" onClick={handleGoogleRegister}>
-                                Register with Google
-                            </Button> */}
+                            <p className="text-center mt-3 mb-0">OR</p>
+                            <p className="text-center mt-2">
+                                <Link to="/login" style={{ textDecoration: 'none', fontWeight: 'bold', color: '#007bff' }}>
+                                    Already have an account? Login
+                                </Link>
+                            </p>
                         </Form>
                     </Card.Body>
                 </Card>

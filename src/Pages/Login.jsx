@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Form, Button, Card, Row, Col } from 'react-bootstrap';
 import { useFirebase } from '../Context/FirebaseContext';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import Loader from '../Components/Loader';
 import Footer from '../Components/Footer';
 
@@ -33,20 +33,10 @@ const Login = () => {
     setIsLoading(false); 
   };
 
-  // const SigninWithGoogle = async () => {
-    // try {
-    //   const result = await firebase.registerWithGoogle();
-    //   navigate("/");
-    //   console.log(result);
-    // } catch (error) {
-    //   console.error("Here is your error", error);
-    // }
-  // }
-
   return (
     <div>
       {isLoading && <Loader />} 
-      <Container className="d-flex  justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
         <Card style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '20px', padding: '20px' }}>
           <Card.Body>
             <h2 className="text-center text-primary mb-4">Login</h2>
@@ -79,19 +69,17 @@ const Login = () => {
                   </Button>
                 </Col>
               </Row>
-              {/* <p className="text-center mt-2 fs-4 fw-bold">OR</p>
-              <Row className="justify-content-center">
-                <Col xs={12} md={6} className="text-center">
-                  <Button variant="primary" type="submit" className="w-100" onClick={SigninWithGoogle}>
-                    Login with Google
-                  </Button>
-                </Col>
-              </Row> */}
+              <p className="text-center mt-3 mb-0">OR</p>
+              <p className="text-center mt-2">
+                <Link to="/register" style={{ textDecoration: 'none', fontWeight: 'bold', color: '#007bff' }}>
+                  Create a new account
+                </Link>
+              </p>
             </Form>
           </Card.Body>
         </Card>
       </Container>
-      <Footer/>
+      <Footer />
     </div>
   );
 };
