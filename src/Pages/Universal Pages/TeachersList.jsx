@@ -11,7 +11,6 @@ const TeachersList = () => {
          try {
             const fetchingTeachers = await firebase.fetchAllUsers();
             setTeachers(fetchingTeachers);
-            console.log(fetchingTeachers);
          } catch (error) {
             console.error("Failed to fetch users", error);
          }       

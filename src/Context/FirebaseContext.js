@@ -22,7 +22,6 @@ const FireBaseProvider = (props) => {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (user) => {
-      console.log(user);
       if(user){
         setCurrentUser(user);
       }else{
@@ -67,7 +66,6 @@ const FireBaseProvider = (props) => {
   };
 
   const isLoggedIn = !!user;
-  console.log(user);
 
   return (
     <fireBaseContext.Provider value={{ app: firebaseApp, user, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, currentUser ,createUser ,loading, createStudentDetails, getCoursesById, matchUser,  uploadAssignmentDocument, fetchAssignment, completeAssignment,  fetchAllUsers, getAllUsers, registerWithGoogle, uploadMessages, fetchMessages }}>

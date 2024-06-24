@@ -134,7 +134,6 @@ const CourseDetail = () => {
       try {
         const courseData = await getCoursesById(courseId);
         setCourse(courseData);
-        console.log(courseData);
       } catch (error) {
         setError("Error fetching course data.");
       }

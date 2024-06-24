@@ -37,7 +37,6 @@ const AssignmentPage = () => {
       try {
         const courseData = await getCoursesById(courseId);
         setCourse(courseData);
-        console.log(courseData);
       } catch (error) {
         console.error("Error fetching data");
         throw new Error();
@@ -66,8 +65,6 @@ const AssignmentPage = () => {
         const fetchedUser = await matchUser(user);
         setUserRole(fetchedUser.role);
         setUserInfo(fetchedUser);
-        console.log(fetchedUser);
-        console.log(fetchedUser.role);
       } catch (error) {
         console.error("Can't find the user");
         throw new Error();

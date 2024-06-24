@@ -13,7 +13,6 @@ const HomeChat = () => {
       try {
         const currentUser = await matchUser(user);
         setUserInfo(currentUser);
-        console.log(currentUser);
       } catch (error) {
         console.error("Failed to get Current User", error);
       }

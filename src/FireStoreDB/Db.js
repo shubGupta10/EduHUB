@@ -201,7 +201,6 @@ export const matchUser = async (user) => {
         });
 
         if (matchedUser) {
-            console.log("Current user:", user);
             return matchedUser;
         } else {
             throw new Error('User not found in Firestore');
