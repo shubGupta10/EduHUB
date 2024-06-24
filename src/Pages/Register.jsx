@@ -58,17 +58,17 @@ const Register = () => {
         setIsLoading(false);
     };
 
-    const handleGoogleRegister = async () => {
+    // const handleGoogleRegister = async () => {
         // const GoogleLoggedInUser = await firebase.registerWithGoogle();
         // console.log(GoogleLoggedInUser);
         // navigate("/login")
-    };
+    // };
 
     return (
         <div>
             {isLoading && <Loader />}
-            <Container className="d-flex mt-5 justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-                <Card className='card' style={{ width: '100%', maxWidth: '500px', borderRadius: "20px" }}>
+            <Container className="d-flex mt-2 justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+                <Card style={{ width: '100%', maxWidth: '600px', borderRadius: '20px', padding: '20px' }}>
                     <Card.Body>
                         <h2 className="text-center text-primary mb-4">Register</h2>
                         <Form onSubmit={handleRegisterForm}>
@@ -96,19 +96,19 @@ const Register = () => {
                                 <Form.Label>Confirm Password</Form.Label>
                                 <Form.Control onChange={(e) => setConfirmPass(e.target.value)} type="password" value={confirmPass} placeholder="Confirm your password" required />
                             </Form.Group>
-                            <Form.Group controlId="formUserdp" className='mt-3'>
+                            <Form.Group controlId="formUserdp" className="mt-3">
                                 <Form.Label>Upload your Image</Form.Label>
                                 <Form.Control
                                     onChange={(e) => setDp(e.target.files[0])}
-                                    type='file'
-                                    accept='image/*'
+                                    type="file"
+                                    accept="image/*"
                                 />
                             </Form.Group>
-                            <Button variant="primary" type="submit" className="w-100 mt-4 btn-color">
+                            <Button variant="primary" type="submit" className="w-100 mt-4">
                                 Register
                             </Button>
-                            {/* <p className='text-center mt-2 fs-4 fw-bold'>OR</p>
-                            <Button variant="primary" type="button" className="w-100 btn-color" onClick={handleGoogleRegister}>
+                            {/* <p className="text-center mt-2 fs-4 fw-bold">OR</p>
+                            <Button variant="primary" type="button" className="w-100" onClick={handleGoogleRegister}>
                                 Register with Google
                             </Button> */}
                         </Form>

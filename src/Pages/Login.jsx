@@ -25,7 +25,7 @@ const Login = () => {
       navigate(`/dashboard/${courseId}/${courseName}`);
       setTimeout(() => {
         window.location.reload();
-    }, 50);
+      }, 50);
     } catch (error) {
       console.error("Error Occurred", error);
       toast.error("Error occurred. Please try again!");
@@ -33,7 +33,7 @@ const Login = () => {
     setIsLoading(false); 
   };
 
-  const SigninWithGoogle = async () => {
+  // const SigninWithGoogle = async () => {
     // try {
     //   const result = await firebase.registerWithGoogle();
     //   navigate("/");
@@ -41,15 +41,16 @@ const Login = () => {
     // } catch (error) {
     //   console.error("Here is your error", error);
     // }
-  }
+  // }
 
   return (
     <div>
       {isLoading && <Loader />} 
-      <Container className="d-flex mt-5 justify-content-center align-items-center" style={{ minHeight: '80vh' }}>
-        <Card style={{ width: '100%', maxWidth: '500px' , borderRadius: "20px" }}>
+      <Container className="d-flex  justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
+        <Card style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '20px', padding: '20px' }}>
           <Card.Body>
             <h2 className="text-center text-primary mb-4">Login</h2>
+            <p className="text-center mb-4">Welcome back! Please log in to continue.</p>
             <Form onSubmit={handleLoginForm}>
               <Form.Group controlId="formEmail">
                 <Form.Label>Email address</Form.Label>
