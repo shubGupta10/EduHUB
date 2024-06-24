@@ -1,4 +1,4 @@
-# EduHub - A learning EdtechApp
+# EduHub - A learning EdTechApp
 
 EduHub is an innovative educational technology application built with React and Firebase, designed to revolutionize the way people learn and access educational content online.
 
