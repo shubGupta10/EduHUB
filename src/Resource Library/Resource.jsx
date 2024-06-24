@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Container, Row, Col, Card, Button, Spinner, Alert } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Loader from '../Components/Loader';
 
 const Resource = () => {
     const [articles, setArticles] = useState([]);
@@ -24,13 +25,9 @@ const Resource = () => {
     }, []);
 
     if (loading) {
-        return (
-            <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </Container>
-        );
+        return <div>
+            <Loader/>
+        </div>
     }
 
     if (error) {

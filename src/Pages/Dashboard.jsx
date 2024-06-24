@@ -15,6 +15,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../Components/Footer";
 import "./Dashboard.css";
 import { useFirebase } from "../Context/FirebaseContext";
+import Loader from '../Components/Loader'
 
 const Dashboard = () => {
   const courseId = localStorage.getItem("courseId");
@@ -37,7 +38,7 @@ const Dashboard = () => {
   }, [user, matchUser]);
 
   if (currentUser === null) {
-    return <div>Loading...</div>;
+    return <div><Loader/></div>;
   }
 
   return (
