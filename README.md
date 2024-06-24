@@ -11,12 +11,11 @@ EduHub is an innovative educational technology application built with React and 
    - [Installation](#installation)
 5. [Configuration](#configuration)
 6. [Usage](#usage)
-7. [Project Structure](#project-structure)
-8. [Contributing](#contributing)
-9. [Testing](#testing)
-10. [Deployment](#deployment)
-11. [License](#license)
-12. [Contact](#contact)
+7. [Contributing](#contributing)
+8. [Testing](#testing)
+9. [Deployment](#deployment)
+10. [License](#license)
+11. [Contact](#contact)
 
 ## Overview
 
