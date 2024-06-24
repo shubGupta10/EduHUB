@@ -15,7 +15,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../Components/Footer";
 import "./Dashboard.css";
 import { useFirebase } from "../Context/FirebaseContext";
-import Loader from '../Components/Loader'
+import Loader from "../Components/Loader";
 
 const Dashboard = () => {
   const courseId = localStorage.getItem("courseId");
@@ -38,7 +38,11 @@ const Dashboard = () => {
   }, [user, matchUser]);
 
   if (currentUser === null) {
-    return <div><Loader/></div>;
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
   }
 
   return (
@@ -50,9 +54,31 @@ const Dashboard = () => {
       </div>
       <Container className="mt-5">
         <Row className="mb-4">
-          {userRole === "student" && (
-            <>
-              <Col md={4} className="mb-4">
+          
+
+          <Col md={4} className="mb-4">
+            <Card className="h-100 shadow-lg custom-card">
+              <Card.Img
+                variant="top"
+                src="https://sdsinstitute.org.in/wp-content/uploads/2019/08/vgce-course.png"
+                className="custom-card-img"
+              />
+              <Card.Body>
+                <Card.Title className="custom-card-title">
+                  <FontAwesomeIcon icon={faBook} className="me-2" />
+                  View Courses
+                </Card.Title>
+                <Card.Text>View the courses we offer.</Card.Text>
+                <Link to="/dashboard/viewcourse">
+                  <Button variant="primary" className="custom-button">
+                    View Courses
+                  </Button>
+                </Link>
+              </Card.Body>
+            </Card>
+          </Col>
+
+          <Col md={4} className="mb-4">
                 <Card className="h-100 shadow-lg custom-card">
                   <Card.Img
                     variant="top"
@@ -78,28 +104,9 @@ const Dashboard = () => {
                 </Card>
               </Col>
 
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://sdsinstitute.org.in/wp-content/uploads/2019/08/vgce-course.png"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faBook} className="me-2" />
-                      View Courses
-                    </Card.Title>
-                    <Card.Text>View the courses we offer.</Card.Text>
-                    <Link to="/dashboard/viewcourse">
-                      <Button variant="primary" className="custom-button">
-                        View Courses
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
 
+              {userRole === "student" && (
+            <>
               <Col md={4} className="mb-4">
                 <Card className="h-100 shadow-lg custom-card">
                   <Card.Img
@@ -125,6 +132,7 @@ const Dashboard = () => {
                   </Card.Body>
                 </Card>
               </Col>
+              
             </>
           )}
 
