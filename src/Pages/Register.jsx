@@ -107,10 +107,10 @@ const Register = () => {
                             <Button variant="primary" type="submit" className="w-100 mt-4 btn-color">
                                 Register
                             </Button>
-                            <p className='text-center mt-2 fs-4 fw-bold'>OR</p>
+                            {/* <p className='text-center mt-2 fs-4 fw-bold'>OR</p>
                             <Button variant="primary" type="button" className="w-100 btn-color" onClick={handleGoogleRegister}>
                                 Register with Google
-                            </Button>
+                            </Button> */}
                         </Form>
                     </Card.Body>
                 </Card>

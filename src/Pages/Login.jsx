@@ -78,14 +78,14 @@ const Login = () => {
                   </Button>
                 </Col>
               </Row>
-              <p className="text-center mt-2 fs-4 fw-bold">OR</p>
+              {/* <p className="text-center mt-2 fs-4 fw-bold">OR</p>
               <Row className="justify-content-center">
                 <Col xs={12} md={6} className="text-center">
                   <Button variant="primary" type="submit" className="w-100" onClick={SigninWithGoogle}>
                     Login with Google
                   </Button>
                 </Col>
-              </Row>
+              </Row> */}
             </Form>
           </Card.Body>
         </Card>
