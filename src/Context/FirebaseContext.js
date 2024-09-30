@@ -65,6 +65,7 @@ const FireBaseProvider = (props) => {
     }
   };
 
+
   const isLoggedIn = !!user;
 
   return (

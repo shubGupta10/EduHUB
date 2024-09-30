@@ -1,28 +1,28 @@
-import React, { useState } from 'react';
-import { Container, Form, Button, Card, Row, Col } from 'react-bootstrap';
-import { useFirebase } from '../Context/FirebaseContext';
-import { toast } from 'react-toastify';
-import { useNavigate, Link } from 'react-router-dom';
-import Loader from '../Components/Loader';
-import Footer from '../Components/Footer';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { useFirebase } from "../Context/FirebaseContext";
+import { toast } from "react-toastify";
+import { useNavigate, Link } from "react-router-dom";
+import Loader from "../Components/Loader";
+import Footer from "../Components/Footer";
 
 const Login = () => {
   const navigate = useNavigate();
   const firebase = useFirebase();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false); 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const courseId = localStorage.getItem('courseId');
-  const courseName = localStorage.getItem('courseName');
+  const courseId = localStorage.getItem("courseId");
+  const courseName = localStorage.getItem("courseName");
 
   const handleLoginForm = async (e) => {
     e.preventDefault();
-    setIsLoading(true); 
+    setIsLoading(true);
     try {
       await firebase.LoginUser(email, password);
       toast.success("Login Successful!");
-      navigate(`/dashboard/${courseId}/${courseName}`);
+      navigate(courseId && courseName ? `/dashboard/${courseId}/${courseName}` : "/dashboard");
       setTimeout(() => {
         window.location.reload();
       }, 50);
@@ -30,56 +30,69 @@ const Login = () => {
       console.error("Error Occurred", error);
       toast.error("Error occurred. Please try again!");
     }
-    setIsLoading(false); 
+    setIsLoading(false);
   };
 
   return (
-    <div>
-      {isLoading && <Loader />} 
-      <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-        <Card style={{ width: '100%', maxWidth: '600px', height: 'auto', borderRadius: '20px', padding: '20px' }}>
-          <Card.Body>
-            <h2 className="text-center text-primary mb-4">Login</h2>
-            <p className="text-center mb-4">Welcome back! Please log in to continue.</p>
-            <Form onSubmit={handleLoginForm}>
-              <Form.Group controlId="formEmail">
-                <Form.Label>Email address</Form.Label>
-                <Form.Control
-                  onChange={(e) => setEmail(e.target.value)}
-                  value={email}
-                  type="email"
-                  placeholder="Enter your email"
-                  required
-                />
-              </Form.Group>
-              <Form.Group controlId="formPassword" className="mt-3">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  onChange={(e) => setPassword(e.target.value)}
-                  value={password}
-                  type="password"
-                  placeholder="Enter your password"
-                  required
-                />
-              </Form.Group>
-              <Row className="justify-content-center">
-                <Col xs={12} md={6} className="text-center">
-                  <Button variant="primary" type="submit" className="w-100 mt-4">
-                    Login
-                  </Button>
-                </Col>
-              </Row>
-              <p className="text-center mt-3 mb-0">OR</p>
-              <p className="text-center mt-2">
-                <Link to="/register" style={{ textDecoration: 'none', fontWeight: 'bold', color: '#007bff' }}>
-                  Create a new account
-                </Link>
-              </p>
-            </Form>
-          </Card.Body>
-        </Card>
-      </Container>
-      <Footer />
+    <div className="min-h-screen bg-gradient-to-b from-[#090d15] to-black flex flex-col justify-center items-center py-10">
+      {isLoading && <Loader />}
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-xl mt-20 bg-gray-900 text-white rounded-lg p-8 shadow-lg"
+      >
+        <h2 className="text-4xl font-bold text-center mb-6">Login</h2>
+        <p className="text-center text-gray-400 mb-8">Welcome back! Please log in to continue.</p>
+        <form onSubmit={handleLoginForm} className="space-y-6">
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="formEmail">
+              Email address
+            </label>
+            <input
+              id="formEmail"
+              type="email"
+              className="w-full p-3 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="formPassword">
+              Password
+            </label>
+            <input
+              id="formPassword"
+              type="password"
+              className="w-full p-3 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            type="submit"
+            className="w-full bg-purple-600 text-white font-bold py-3 rounded-md transition duration-300 hover:bg-purple-700"
+          >
+            Login
+          </motion.button>
+        </form>
+        <p className="text-center mt-8 text-gray-400">Don't have an account?</p>
+        <p className="text-center mt-2">
+          <Link
+            to="/register"
+            className="text-purple-400 hover:underline font-semibold"
+          >
+            Create a new account
+          </Link>
+        </p>
+      </motion.div>
     </div>
   );
 };

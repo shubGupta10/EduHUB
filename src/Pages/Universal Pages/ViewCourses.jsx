@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useFirebase } from '../../Context/FirebaseContext';
-import { Card, Container, Row, Col, Button } from 'react-bootstrap';
-import './ViewCourses.css'; 
-import Loader from '../../Components/Loader';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Footer from '../../Components/Footer';
-import "bootstrap/dist/css/bootstrap.min.css";
+import Loader from '../../Components/Loader';
 
 const ViewCourses = () => {
   const firebase = useFirebase();
@@ -30,37 +28,87 @@ const ViewCourses = () => {
     fetchCourses();
   }, [firebase]);
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
+
   return (
-    <div>
-      {isLoading ? <Loader/> : (
-        <Container className='min-vh-100 my-5'>
-          <header className="text-center mb-5">
-            <h1 className="display-4 text-primary">Explore Our Courses</h1>
-            <p className="lead text-muted">Browse through our extensive range of courses and find the perfect one for you.</p>
-          </header>
-          <Row className="justify-content-center">
-            {courses.map(course => (
-              <Col key={course.id} md={6} lg={4} className="mb-4">
-                <Card className="h-100 shadow-sm border-0 rounded overflow-hidden">
-                  {course.courseImage && <Card.Img variant="top" src={course.courseImage} alt={course.courseName} className="course-image" />}
-                  <Card.Body>
-                    <Card.Title className="text-primary">{course.courseName}</Card.Title>
-                    <Card.Text className="text-muted">{course.courseDescription.substring(0, 100)}...</Card.Text>
-                    <Card.Text><strong>Duration:</strong> {course.courseDuration} hrs</Card.Text>
-                    <Card.Text><strong>Instructor:</strong> {course.courseInstructor}</Card.Text>
-                    <div className="d-flex justify-content-center mt-4">
-                      <Link to={`/courseoverview/${course.id}/${course.courseName}`}>
-                        <Button className="enroll-button" variant="primary">Enroll Now</Button>
-                      </Link>
+    <div className="min-h-screen bg-white text-black">
+      {isLoading ? (
+        <div className="flex items-center justify-center h-screen">
+          <Loader />
+        </div>
+      ) : (
+        <div className="pt-28 pb-12"> 
+          <div className="container mx-auto px-4">
+            <header className="text-center mb-12">
+              <h1 className="text-4xl font-bold mb-4">Explore Our Courses</h1>
+              <p className="text-xl text-gray-600">
+                Browse through our extensive range of courses and find the perfect one for you.
+              </p>
+            </header>
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
+              {courses.map(course => (
+                <motion.div
+                  key={course.id}
+                  className="bg-white rounded-lg shadow-lg overflow-hidden"
+                  variants={itemVariants}
+                >
+                  {course.courseImage && (
+                    <img
+                      src={course.courseImage}
+                      alt={course.courseName}
+                      className="w-full h-48 object-cover"
+                    />
+                  )}
+                  <div className="p-6">
+                    <h2 className="text-2xl font-semibold mb-2">{course.courseName}</h2>
+                    <p className="text-gray-600 mb-4">
+                      {course.courseDescription.substring(0, 100)}...
+                    </p>
+                    <div className="mb-4">
+                      <p className="text-sm"><strong>Duration:</strong> {course.courseDuration} hrs</p>
+                      <p className="text-sm"><strong>Instructor:</strong> {course.courseInstructor}</p>
                     </div>
-                  </Card.Body>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </Container>
+                    <Link
+                      to={`/courseoverview/${course.id}/${course.courseName}`}
+                      className="block"
+                    >
+                      <motion.button
+                        className="w-full bg-black text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                      >
+                        Enroll Now
+                      </motion.button>
+                    </Link>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </div>
       )}
-      <Footer/>
+      <Footer />
     </div>
   );
 };

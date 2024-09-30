@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import './QuizPage.css';
 import { useParams, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { JavaScript } from "../Components/Quizz Questions/QuizData";
 import { ReactJs } from '../Components/Quizz Questions/ReactQuiz';
 import { Java } from '../Components/Quizz Questions/Java';
@@ -75,19 +75,19 @@ const QuizPage = () => {
   const checkAns = (e, ans) => {
     if (!lock) {
       if (question.ans === ans) {
-        e.target.classList.add('Correct');
+        e.target.classList.add('bg-green-500', 'text-white'); 
         setScore((prev) => prev + 1);
       } else {
-        e.target.classList.add('Wrong');
+        e.target.classList.add('bg-red-500', 'text-white');    
         highlightAnswer();
       }
       setLock(true);
       setShowAnswer(true);
     }
   };
-
+  
   const highlightAnswer = () => {
-    option_array[question.ans - 1].current.classList.add('Correct');
+    option_array[question.ans - 1].current.classList.add('bg-green-500', 'text-white'); 
   };
 
   const ChangeQuestion = () => {
@@ -103,8 +103,7 @@ const QuizPage = () => {
       setTimer(30);
       option_array.forEach((option) => {
         if (option.current) {
-          option.current.classList.remove('Wrong');
-          option.current.classList.remove('Correct');
+          option.current.classList.remove('bg-black', 'text-white', 'bg-white', 'text-black');
         }
       });
     }
@@ -115,50 +114,101 @@ const QuizPage = () => {
   };
 
   return (
-    <div className="quiz-container">
-      <header>
-        <h1 className="quiz-title">{courseName} Quiz Contest</h1>
-
-        {result ? (
-          <div className="result">
-            <h1>You have Scored {score} out of {questions.length}</h1>
-            <button onClick={movetoHome}>Back to Home</button>
+    <div className="min-h-screen bg-white flex items-center justify-center py-16 pt-32 px-4 sm:px-6 lg:px-8">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="w-full max-w-md"
+      >
+        <div className="bg-white shadow-md rounded-lg px-8 pt-6 pb-8 mb-4">
+          <div className="text-center mb-8">
+            <h1 className="text-2xl font-bold text-black">{courseName} Quiz Contest</h1>
           </div>
-        ) : (
-          <section>
-            <h2 className="question">
-              {index + 1}. {question.question}
-            </h2>
-            <p className="timer">Time remaining: {timer} seconds</p>
-            <ul className="options-list">
-              <li ref={Option1} onClick={(e) => checkAns(e, 1)}>
-                {question.option1}
-              </li>
-              <li ref={Option2} onClick={(e) => checkAns(e, 2)}>
-                {question.option2}
-              </li>
-              <li ref={Option3} onClick={(e) => checkAns(e, 3)}>
-                {question.option3}
-              </li>
-              <li ref={Option4} onClick={(e) => checkAns(e, 4)}>
-                {question.option4}
-              </li>
-            </ul>
-            {showAnswer && (
-              <p className="answer-message">
-                The correct answer is{' '}
-                {option_array[question.ans - 1].current.textContent}
-              </p>
-            )}
-            <button onClick={ChangeQuestion} className="next-button">
-              Next
-            </button>
-            <p className="question-counter">
-              {index + 1} of {questions.length} questions
+          {result ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center"
+            >
+              <h2 className="text-xl font-semibold mb-4 text-black">Quiz Completed!</h2>
+              <p className="text-lg mb-6 text-black">You scored {score} out of {questions.length}</p>
+              <button
+                onClick={movetoHome}
+                className="w-full bg-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline hover:bg-gray-800 transition duration-300"
+              >
+                Back to Home
+              </button>
+            </motion.div>
+          ) : (
+            <>
+              <div className="mb-6">
+                <h2 className="text-lg font-medium text-black mb-2">
+                  {index + 1}. {question.question}
+                </h2>
+                <div className="w-full bg-gray-200 rounded-full h-2.5 mb-4 dark:bg-gray-700">
+                  <motion.div
+                    className="bg-black h-2.5 rounded-full"
+                    initial={{ width: '100%' }}
+                    animate={{ width: `${(timer / 30) * 100}%` }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </div>
+                <p className="text-sm text-gray-600 mt-2">Time remaining: {timer} seconds</p>
+              </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, x: 50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -50 }}
+                  transition={{ duration: 0.3 }}
+                  className="space-y-3"
+                >
+                  {['option1', 'option2', 'option3', 'option4'].map((opt, i) => (
+                    <motion.button
+                      key={i}
+                      ref={option_array[i]}
+                      onClick={(e) => checkAns(e, i + 1)}
+                      className="w-full text-left px-4 py-2 border border-black rounded-md hover:bg-gray-100 transition duration-300"
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      {question[opt]}
+                    </motion.button>
+                  ))}
+                </motion.div>
+              </AnimatePresence>
+              {showAnswer && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-4 text-sm text-gray-600"
+                >
+                  The correct answer is:{' '}
+                  <span className="font-medium">{option_array[question.ans - 1].current.textContent}</span>
+                </motion.p>
+              )}
+            </>
+          )}
+          <div className="flex justify-between items-center mt-6">
+            <p className="text-sm text-gray-600">
+              Question {index + 1} of {questions.length}
             </p>
-          </section>
-        )}
-      </header>
+            <motion.button
+              onClick={ChangeQuestion}
+              disabled={!lock && !result}
+              className={`bg-black text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline ${
+                (!lock && !result) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-800'
+              } transition duration-300`}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {index === questions.length - 1 ? 'Finish' : 'Next'}
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
     </div>
   );
 };

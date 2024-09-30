@@ -1,16 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Image,
-  Card,
-  Alert,
-  ListGroup,
-} from "react-bootstrap";
 import { useFirebase } from "../Context/FirebaseContext";
+import { motion, AnimatePresence } from "framer-motion";
 import Loader from "../Components/Loader";
 import Footer from "./Footer";
 
@@ -22,6 +13,7 @@ const CourseDetail = () => {
   const courseName = paramCourseName || localStorage.getItem("courseName");
   const [course, setCourse] = useState(null);
   const [error, setError] = useState("");
+  const [activeSection, setActiveSection] = useState("details");
 
   const lessonsData = {
     "Python Course": [
@@ -143,118 +135,153 @@ const CourseDetail = () => {
 
   if (error) {
     return (
-      <Alert variant="danger" className="text-center">
-        <h1>Can't find any Course...</h1>
-        <h1>Please enroll into one.</h1>
-      </Alert>
+      <div className="flex items-center justify-center h-screen bg-red-50">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className="text-center p-8 bg-white rounded-lg shadow-lg"
+        >
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Can't find any Course...</h1>
+          <h2 className="text-xl text-gray-700">Please enroll into one.</h2>
+        </motion.div>
+      </div>
     );
   }
 
   if (!course) {
     return (
-      <div className="text-center py-5">
+      <div className="flex items-center justify-center h-screen">
         <Loader />
       </div>
     );
   }
 
   return (
-    <>
-      <div
-        style={{
-          minHeight: "100vh",
-          paddingBottom: "100px",
-          backgroundColor: "#f9f9f9",
-        }}
-      >
-        <Container className="text-center py-5">
-          <Card
-            className="mb-4 shadow-lg"
-            style={{ maxWidth: "800px", margin: "0 auto" }}
-          >
-            <Card.Body>
-              <Card.Title as="h1" className="mb-4 text-primary">
-                {course.courseName} Course
-              </Card.Title>
-              <Image
-                src={course.courseImage}
-                alt="Course"
-                fluid
-                className="mb-4"
-                style={{
-                  height: "300px",
-                  objectFit: "cover",
-                  borderRadius: "8px",
-                }}
-              />
-              <Card.Text
-                style={{
-                  fontSize: "18px",
-                  lineHeight: "1.6",
-                  marginBottom: "30px",
-                  color: "#555",
-                }}
+    <div className="min-h-screen bg-gray-50 pt-16 pb-24">
+      <div className="container mx-auto px-4 py-12">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden"
+        >
+          <div className="relative h-64">
+            <img
+              src={course.courseImage}
+              alt="Course"
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+              <h1 className="text-4xl font-bold text-white">{course.courseName} Course</h1>
+            </div>
+          </div>
+          <div className="p-8">
+            <p className="text-lg text-gray-600 mb-8">{course.courseDescription}</p>
+            <button
+              onClick={handleStartContinue}
+              className="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+            >
+              Start / Continue Course
+            </button>
+          </div>
+        </motion.div>
+
+        <div className="mt-12 max-w-4xl mx-auto">
+          <div className="flex justify-center mb-8">
+            <button
+              onClick={() => setActiveSection("details")}
+              className={`px-4 py-2 mx-2 rounded-full ${
+                activeSection === "details" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
+              }`}
+            >
+              Course Details
+            </button>
+            <button
+              onClick={() => setActiveSection("content")}
+              className={`px-4 py-2 mx-2 rounded-full ${
+                activeSection === "content" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
+              }`}
+            >
+              Course Content
+            </button>
+            <button
+              onClick={() => setActiveSection("instructor")}
+              className={`px-4 py-2 mx-2 rounded-full ${
+                activeSection === "instructor" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-700"
+              }`}
+            >
+              Instructor
+            </button>
+          </div>
+
+          <AnimatePresence mode="wait">
+            {activeSection === "details" && (
+              <motion.div
+                key="details"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white rounded-lg shadow p-6 mb-8"
               >
-                {course.courseDescription}
-              </Card.Text>
-              <Button variant="primary" size="lg" onClick={handleStartContinue}>
-                Start / Continue Course
-              </Button>
-            </Card.Body>
-          </Card>
-          <Row className="mt-5 text-start">
-            <Col md={8} className="mx-auto">
-              <h2 className="text-secondary mb-4">Course Details</h2>
-              <Card className="p-3 mb-4">
-                <Card.Body>
-                  <p>
-                    <strong>Duration:</strong> {course.courseDuration}
-                  </p>
-                  <p>
-                    <strong>Level:</strong> Intermediate
-                  </p>
-                </Card.Body>
-              </Card>
-              <h3 className="text-secondary mb-4">Course Content</h3>
-              <ListGroup variant="flush" className="mb-4">
-                {courseName &&
-                  lessonsData[courseName] &&
-                  lessonsData[courseName].map((lesson, index) => (
-                    <ListGroup.Item
-                      key={index}
-                      style={{
-                        backgroundColor: "#e7f3ff",
-                        margin: "5px 0",
-                        borderRadius: "5px",
-                      }}
-                    >
-                      {lesson}
-                    </ListGroup.Item>
-                  ))}
-              </ListGroup>
-              <h3 className="mt-4 text-secondary mb-4">Instructor</h3>
-              <Card className="p-3 mb-4">
-                <Card.Body>
-                  <p>
-                    <strong>Name:</strong> {course.courseInstructor}
-                  </p>
-                  <p>
-                    <strong>About the Instructor:</strong>{" "}
-                    {course.courseInstructor} is a seasoned software engineer
-                    with over 10 years of experience in {course.courseName}. He
-                    has a passion for teaching and has helped hundreds of
-                    students master {course.courseName}. His teaching style is
-                    engaging and practical, focusing on real-world examples and
-                    hands-on projects.
-                  </p>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">Course Details</h2>
+                <p className="text-lg mb-2"><span className="font-semibold">Duration:</span> {course.courseDuration}</p>
+                <p className="text-lg"><span className="font-semibold">Level:</span> Intermediate</p>
+              </motion.div>
+            )}
+
+            {activeSection === "content" && (
+              <motion.div
+                key="content"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+              >
+                <h3 className="text-2xl font-semibold text-gray-800 mb-6">Course Content</h3>
+                <ul className="space-y-3 mb-8">
+                  {courseName &&
+                    lessonsData[courseName] &&
+                    lessonsData[courseName].map((lesson, index) => (
+                      <motion.li
+                        key={index}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.3, delay: index * 0.05 }}
+                        className="bg-blue-50 p-4 rounded-lg hover:bg-blue-100 transition duration-300"
+                      >
+                        {lesson}
+                      </motion.li>
+                    ))}
+                </ul>
+              </motion.div>
+            )}
+
+            {activeSection === "instructor" && (
+              <motion.div
+                key="instructor"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white rounded-lg shadow p-6"
+              >
+                <h3 className="text-2xl font-semibold text-gray-800 mb-6">Instructor</h3>
+                <p className="text-lg mb-4"><span className="font-semibold">Name:</span> {course.courseInstructor}</p>
+                <p className="text-lg">
+                  <span className="font-semibold">About the Instructor:</span> {course.courseInstructor} is a seasoned software engineer
+                  with over 10 years of experience in {course.courseName}. He has a passion for teaching and has helped hundreds of
+                  students master {course.courseName}. His teaching style is engaging and practical, focusing on real-world examples and
+                  hands-on projects.
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

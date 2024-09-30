@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Button, Form, Row, Col, Card } from "react-bootstrap";
+import { motion } from "framer-motion";
 import { storage, useFirebase } from "../../Context/FirebaseContext";
 import Loader from "../../Components/Loader";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
@@ -50,7 +50,6 @@ const AssignmentPage = () => {
       try {
         const fetchAssignmentfromfirebase = await fetchAssignment(courseId);
         setFetchingAssignment(fetchAssignmentfromfirebase);
-        console.log(fetchAssignmentfromfirebase);
       } catch (error) {
         console.error("Failed to fetch Assignments, Please Try Again");
       }
@@ -160,177 +159,168 @@ const AssignmentPage = () => {
   };
 
   return (
-    <>
-    <Container className="mt-4  min-vh-100">
-      {userRole === "student" ? (
-        <>
-          <Row className="mt-4">
-            <Col className="text-center">
-              <h2 className="text-primary">
-                Welcome {userInfo.displayName}, Check your Assignments here
-              </h2>
-            </Col>
-          </Row>
+    <div className="min-h-screen bg-gray-100">
+      <div className="container mx-auto px-4 pt-24 py-8">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="text-3xl font-bold text-center text-gray-800 mb-8"
+        >
+          {userRole === "student"
+            ? `Welcome ${userInfo.displayName}, Check your Assignments here`
+            : `Welcome to the Assignment Management Page, ${userInfo.displayName}`}
+        </motion.h1>
 
-          <Row className="mt-4">
-            {fetchingAssignment.map((assignment) => (
-              <Col
-                key={assignment.AssignmentDocumentId}
-                xs={12}
-                md={6}
-                lg={4}
-                className="mb-4"
-              >
-                <Card
-                  className="shadow-sm h-100 border-dark"
-                  style={{ backgroundColor: "#E6E6E6" }}
+        {userRole === "student" ? (
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {fetchingAssignment.map((assignment, index) => (
+                <motion.div
+                  key={assignment.AssignmentDocumentId}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white rounded-lg shadow-md overflow-hidden"
                 >
-                  <Card.Body>
-                    <Card.Title className="bg-primary text-white mb-3 p-2">
-                      Assignment: {assignment.assignmentTitle}
-                    </Card.Title>
-                    <Card.Text>
-                      <p className="lead font-montserrat">
-                        Assignment Date: {assignment.assignmentDate}
-                      </p>
-                      <p className="lead text-danger">
-                        Deadline:{" "}
-                        <span className="">{assignment.deadline}</span>
-                      </p>
-                      <p className="lead">
-                        Instructor: {course.courseInstructor}
-                      </p>
-                    </Card.Text>
-                  </Card.Body>
-                  <Card.Footer className="bg-transparent border-0 d-flex justify-content-center">
-                    <Button
-                      variant="primary bg-danger"
-                      onClick={() =>
-                        window.open(assignment.AssignmentUrl, "_blank")
-                      }
+                  <div className="p-6">
+                    <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                      {assignment.assignmentTitle}
+                    </h3>
+                    <p className="text-gray-600 mb-2">
+                      Assignment Date: {assignment.assignmentDate}
+                    </p>
+                    <p className="text-red-600 font-semibold mb-2">
+                      Deadline: {assignment.deadline}
+                    </p>
+                    <p className="text-gray-600 mb-4">
+                      Instructor: {course.courseInstructor}
+                    </p>
+                    <button
+                      onClick={() => window.open(assignment.AssignmentUrl, "_blank")}
+                      className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-300"
                     >
                       Download
-                    </Button>
-                  </Card.Footer>
-                </Card>
-              </Col>
-            ))}
-          </Row>
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
 
-          <Row className="mt-5">
-            <Col md={{ span: 6, offset: 3 }}>
-              <Card className="shadow-sm">
-                <Card.Body>
-                  <Form onSubmit={handleSubmitAssignment}>
-                    <Form.Group controlId="formSubmitAssignmentFile">
-                      <Row className="mb-3">
-                        <Form.Label className="text-center fw-bold fs-5 text-primary">
-                          Once completed, you can upload your assignments here
-                        </Form.Label>
-                      </Row>
-                      <Form.Label>Upload Assignment File</Form.Label>
-                      <Form.Control
-                        type="file"
-                        onChange={handleFileChange}
-                        accept=".pdf,.doc,.docx"
-                      />
-                    </Form.Group>
-
-                    <Button variant="primary" type="submit" className="mt-3">
-                      Submit
-                    </Button>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </>
-      ) : (
-        <>
-          <Row>
-            <Col className="text-center">
-              <h2 className="text-primary">
-              Welcome to the Assignment Management Page,{" "}
-                {userInfo.displayName}
-              </h2>
-              <h5 className="text-secondary">
-              Here you can create and review assignments
-              </h5>
-            </Col>
-          </Row>
-
-          <Row className="mt-4">
-            <Col md={{ span: 6, offset: 3 }}>
-              <Card className="shadow-sm">
-              <Form.Label className="text-center text-primary fs-4 mt-2 fw-bold">Upload Assignments for student</Form.Label>
-                <Card.Body>
-                  <Form onSubmit={handleSubmitForm}>
-                    <Form.Group controlId="formAssignmentTitle">
-                      <Form.Label>Assignment Title</Form.Label>
-                      <Form.Control
-                        onChange={(e) => setAssignmentTitle(e.target.value)}
-                        value={assignmentTitle}
-                        type="text"
-                        placeholder="Enter title"
-                      />
-                    </Form.Group>
-
-                    <Form.Group controlId="formAssignmentDate" className="mt-3">
-                      <Form.Label>Assignment Date</Form.Label>
-                      <Form.Control
-                        onChange={(e) => setAssignmentDate(e.target.value)}
-                        value={assignmentDate}
-                        type="date"
-                      />
-                    </Form.Group>
-
-                    <Form.Group
-                      controlId="formAssignmentDeadline"
-                      className="mt-3"
-                    >
-                      <Form.Label>Deadline</Form.Label>
-                      <Form.Control
-                        onChange={(e) => setDeadline(e.target.value)}
-                        value={deadline}
-                        type="date"
-                      />
-                    </Form.Group>
-
-                    <Form.Group
-                      controlId="formAssignmentInstructor"
-                      className="mt-3"
-                    >
-                      <Form.Label>Instructor</Form.Label>
-                      <Form.Control
-                        type="text"
-                        readOnly
-                        onChange={(e) => setInstructor(e.target.value)}
-                        value={course ? course.courseInstructor : ""}
-                        placeholder="Enter instructor's name"
-                      />
-                    </Form.Group>
-
-                    <Form.Group controlId="formAssignmentFile" className="mt-3">
-                      <Form.Label>Upload File</Form.Label>
-                      <Form.Control
-                        onChange={(e) => setAssignmentFile(e.target.files[0])}
-                        type="file"
-                      />
-                    </Form.Group>
-
-                    <Button variant="primary" type="submit" className="mt-3">
-                      Submit
-                    </Button>
-                  </Form>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </>
-      )}
-    </Container>
-    <Footer/>
-    </>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="bg-white rounded-lg shadow-md p-6"
+            >
+              <h3 className="text-xl font-semibold text-gray-800 mb-4">
+                Submit Your Assignment
+              </h3>
+              <form onSubmit={handleSubmitAssignment}>
+                <div className="mb-4">
+                  <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="assignmentFile">
+                    Upload Assignment File
+                  </label>
+                  <input
+                    type="file"
+                    id="assignmentFile"
+                    onChange={handleFileChange}
+                    accept=".pdf,.doc,.docx"
+                    className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-black text-white py-2 px-4 rounded hover:bg-gray-700 transition duration-300"
+                >
+                  Submit Assignment
+                </button>
+              </form>
+            </motion.div>
+          </div>
+        ) : (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="bg-white rounded-lg shadow-md p-6"
+          >
+            <h3 className="text-xl font-semibold text-gray-800 mb-4">
+              Upload Assignment for Students
+            </h3>
+            <form onSubmit={handleSubmitForm}>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="assignmentTitle">
+                  Assignment Title
+                </label>
+                <input
+                  type="text"
+                  id="assignmentTitle"
+                  value={assignmentTitle}
+                  onChange={(e) => setAssignmentTitle(e.target.value)}
+                  className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+                  placeholder="Enter title"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="assignmentDate">
+                  Assignment Date
+                </label>
+                <input
+                  type="date"
+                  id="assignmentDate"
+                  value={assignmentDate}
+                  onChange={(e) => setAssignmentDate(e.target.value)}
+                  className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="deadline">
+                  Deadline
+                </label>
+                <input
+                  type="date"
+                  id="deadline"
+                  value={deadline}
+                  onChange={(e) => setDeadline(e.target.value)}
+                  className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="instructor">
+                  Instructor
+                </label>
+                <input
+                  type="text"
+                  id="instructor"
+                  value={course ? course.courseInstructor : ""}
+                  readOnly
+                  className="w-full px-3 py-2 text-gray-700 border rounded-lg bg-gray-100"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="assignmentFile">
+                  Upload File
+                </label>
+                <input
+                  type="file"
+                  id="assignmentFile"
+                  onChange={(e) => setAssignmentFile(e.target.files[0])}
+                  className="w-full px-3 py-2 text-gray-700 border rounded-lg focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition duration-300"
+              >
+                Upload Assignment
+              </button>
+            </form>
+          </motion.div>
+        )}
+      </div>
+      <Footer />
+    </div>
   );
 };
 

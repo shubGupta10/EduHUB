@@ -9,7 +9,7 @@
   align-items: center;
   height: 100vh;
   width: 100vw;
-  background: rgba(255, 255, 255, 0.8);
+  background: black;
   z-index: 9999;
 }
 
@@ -20,7 +20,7 @@
   transform: rotate(-90deg);
   transform-origin: center;
 
-  --active: #7627a3;
+  --active: white;
   --track: #f2d4fe;
 
   --duration: 8s;

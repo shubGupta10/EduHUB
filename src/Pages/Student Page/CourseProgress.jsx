@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { storage, useFirebase } from "../../Context/FirebaseContext";
 import { useParams } from "react-router-dom";
-import {
-  ProgressBar,
-  ListGroup,
-  Card,
-  Button,
-  Container,
-  Row,
-  Col,
-} from "react-bootstrap";
 import { ref, uploadBytes, getDownloadURL, listAll } from "firebase/storage";
 import Footer from "../../Components/Footer";
+import { motion } from "framer-motion";
 
 const CourseProgress = () => {
   const { courseId: paramCourseId, courseName: paramCourseName } = useParams();
@@ -218,94 +210,93 @@ const CourseProgress = () => {
   }, [courseName]);
 
   return (
-    <>
-      <Container style={{ fontFamily: "Arial, sans-serif", marginTop: "20px" }}>
+    <div className="bg-gray-100 min-h-screen">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
         {course && (
           <>
-            <header style={{ textAlign: "center", marginBottom: "40px" }}>
-              <h1 style={{ color: "#343a40" }}>{course.courseName}</h1>
-              <h2 style={{ color: "#6c757d" }}>
-                Welcome to {course.courseDescription}!
-              </h2>
+            <header className="text-center mb-12">
+              <h1 className="text-4xl font-bold text-gray-900 mb-8">{course.courseName}</h1>
+              <h2 className="text-2xl text-gray-600">Welcome to {course.courseDescription}!</h2>
             </header>
 
-            <section style={{ marginBottom: "40px" }}>
-              <h3 style={{ color: "#343a40", marginTop: "20px" }}>Lessons</h3>
-              <ListGroup variant="flush">
+            <section className="mb-12">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Lessons</h3>
+              <motion.ul 
+                className="bg-white shadow-md rounded-lg overflow-hidden"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+              >
                 {lessons.map((lesson, index) => (
-                  <ListGroup.Item
+                  <motion.li 
                     key={index}
-                    style={{ cursor: "pointer", backgroundColor: "#f8f9fa" }}
-                    variant="primary"
+                    className="border-b last:border-b-0 border-gray-200 px-4 py-3 hover:bg-gray-50 cursor-pointer transition duration-150 ease-in-out"
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                   >
                     {lesson}
-                  </ListGroup.Item>
+                  </motion.li>
                 ))}
-              </ListGroup>
+              </motion.ul>
             </section>
 
             {(userRole === "teacher" || userRole === "Admin") && (
-              <div style={{ textAlign: "center", marginBottom: "20px" }}>
-                <Button
-                  variant="primary"
-                  onClick={() =>
-                    document.getElementById("video-upload").click()
-                  }
-                  style={{ marginBottom: "10px" }}
-                >
-                  Upload Video
-                </Button>
+              <div className="text-center mb-8">
                 <input
                   type="file"
                   id="video-upload"
                   onChange={handleVideoUpload}
-                  style={{ display: "none" }}
+                  className="hidden"
                 />
+                <motion.label
+                  htmlFor="video-upload"
+                  className="inline-block px-6 py-3 bg-black text-white rounded-lg cursor-pointer hover:bg-gray-800 transition duration-150 ease-in-out"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  Upload Video
+                </motion.label>
               </div>
             )}
 
-            <section className="mt-5">
-              <h3 style={{ color: "#343a40" }}>Videos</h3>
+            <section>
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Videos</h3>
               {!videosLoaded ? (
-                <p>Please wait, your videos will be available soon</p>
+                <p className="text-center text-gray-600">Please wait, your videos will be available soon</p>
               ) : videos.length === 0 ? (
-                <>
-                  <p className="text-center mt-5 fs-5">No videos available</p>
-                  <p className="text-center fs-5">
-                    Please wait, your videos will be available soon 🙂
-                  </p>
-                </>
+                <div className="text-center">
+                  <p className="text-xl text-gray-600 mb-2">No videos available</p>
+                  <p className="text-lg text-gray-500">Please wait, your videos will be available soon 🙂</p>
+                </div>
               ) : (
-                <Row>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {videos.map((video, index) => (
-                    <Col key={index} md={4} style={{ marginBottom: "20px" }}>
-                      <Card
-                        style={{
-                          boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-                          borderRadius: "10px",
-                        }}
-                      >
-                        <Card.Body>
-                          <Card.Title>{video.title}</Card.Title>
-                          <Card.Text>{video.description}</Card.Text>
-                          <video
-                            src={video.url}
-                            controls
-                            style={{ width: "100%", borderRadius: "10px" }}
-                            className="mb-5"
-                          />
-                        </Card.Body>
-                      </Card>
-                    </Col>
+                    <motion.div
+                      key={index}
+                      className="bg-white rounded-lg shadow-md overflow-hidden"
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ duration: 0.3, delay: index * 0.1 }}
+                    >
+                      <div className="p-4">
+                        <h4 className="text-xl font-semibold text-gray-900 mb-2">{video.title}</h4>
+                        <p className="text-gray-600 mb-4">{video.description}</p>
+                        <video
+                          src={video.url}
+                          controls
+                          className="w-full rounded-lg"
+                        />
+                      </div>
+                    </motion.div>
                   ))}
-                </Row>
+                </div>
               )}
             </section>
           </>
         )}
-      </Container>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBook,
@@ -11,9 +11,7 @@ import {
   faFileAlt,
   faPencilAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import "bootstrap/dist/css/bootstrap.min.css";
 import Footer from "../Components/Footer";
-import "./Dashboard.css";
 import { useFirebase } from "../Context/FirebaseContext";
 import Loader from "../Components/Loader";
 
@@ -39,226 +37,150 @@ const Dashboard = () => {
 
   if (currentUser === null) {
     return (
-      <div>
+      <div className="flex justify-center items-center h-screen">
         <Loader />
       </div>
     );
   }
 
-  return (
-    <>
-      <div className="bg-primary text-white text-center py-5">
-        <h1 className="display-3 text-golden">
-          Welcome to the EduHub Dashboard
-        </h1>
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
+  const DashboardCard = ({ icon, title, description, linkTo, buttonText, imageSrc }) => (
+    <motion.div
+      className="bg-white rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:shadow-2xl"
+      variants={cardVariants}
+    >
+      <div className="h-48 overflow-hidden">
+        <img src={imageSrc} alt={title} className="w-full h-full object-cover object-center transition duration-300 hover:scale-110" />
       </div>
-      <Container className="mt-5">
-        <Row className="mb-4">
-          
+      <div className="p-6">
+        <h3 className="text-xl font-semibold mb-2 flex items-center text-gray-800">
+          <FontAwesomeIcon icon={icon} className="mr-2 text-black" />
+          {title}
+        </h3>
+        <p className="text-gray-600 mb-4">{description}</p>
+        <Link to={linkTo}>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-black text-white px-6 py-2 rounded-full hover:bg-gray-800 transition duration-300 text-sm font-medium"
+          >
+            {buttonText}
+          </motion.button>
+        </Link>
+      </div>
+    </motion.div>
+  );
 
-          <Col md={4} className="mb-4">
-            <Card className="h-100 shadow-lg custom-card">
-              <Card.Img
-                variant="top"
-                src="https://sdsinstitute.org.in/wp-content/uploads/2019/08/vgce-course.png"
-                className="custom-card-img"
-              />
-              <Card.Body>
-                <Card.Title className="custom-card-title">
-                  <FontAwesomeIcon icon={faBook} className="me-2" />
-                  View Courses
-                </Card.Title>
-                <Card.Text>View the courses we offer.</Card.Text>
-                <Link to="/dashboard/viewcourse">
-                  <Button variant="primary" className="custom-button">
-                    View Courses
-                  </Button>
-                </Link>
-              </Card.Body>
-            </Card>
-          </Col>
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <div className="bg-gradient-to-r  from-gray-900 to-black text-white py-20 px-4 mt-20">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            Welcome to the EduHub Dashboard
+          </h1>
+          <p className="text-xl text-gray-300">Your gateway to learning and growth</p>
+        </div>
+      </div>
+      <div className="max-w-6xl mx-auto px-4 py-12">
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            visible: {
+              transition: {
+                staggerChildren: 0.1,
+              },
+            },
+          }}
+        >
+          <DashboardCard
+            icon={faBook}
+            title="View Courses"
+            description="Explore our wide range of courses designed to enhance your skills."
+            linkTo="/dashboard/viewcourse"
+            buttonText="Browse Courses"
+            imageSrc="https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+          />
 
-          <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://seeingthebrightside.com/wp-content/uploads/2020/11/output-onlinejpgtools-62-1140x760.jpg"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faChartLine} className="me-2" />
-                      Course Progress
-                    </Card.Title>
-                    <Card.Text>
-                      Track your progress in enrolled courses.
-                    </Card.Text>
-                    <Link
-                      to={`/dashboard/coursedetail/${courseId}/${courseName}`}
-                    >
-                      <Button variant="primary" className="custom-button">
-                        Course Progress
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
+          <DashboardCard
+            icon={faChartLine}
+            title="Course Progress"
+            description="Track your learning journey and see how far you've come."
+            linkTo={`/dashboard/coursedetail/${courseId}/${courseName}`}
+            buttonText="Check Progress"
+            imageSrc="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+          />
 
-
-              {userRole === "student" && (
-            <>
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://media.istockphoto.com/id/1616906708/vector/vector-speech-bubble-with-quiz-time-words-trendy-text-balloon-with-geometric-grapic-shape.jpg?s=612x612&w=0&k=20&c=3-qsji8Y5QSuShaMi6cqONlVZ3womknA5CiJ4PCeZEI="
-                    alt="Quiz Competition"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faPencilAlt} className="me-2" />
-                      Quiz Competition
-                    </Card.Title>
-                    <Card.Text>
-                      Challenge yourself with daily quizzes related to your
-                      course.
-                    </Card.Text>
-                    <Link to="/quizrules">
-                      <Button variant="primary" className="custom-button">
-                        Take a Quiz
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
-              
-            </>
+          {userRole === "student" && (
+            <DashboardCard
+              icon={faPencilAlt}
+              title="Quiz Competition"
+              description="Test your knowledge with our daily quiz challenges."
+              linkTo="/quizrules"
+              buttonText="Start Quiz"
+              imageSrc="https://images.unsplash.com/photo-1606326608606-aa0b62935f2b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            />
           )}
 
           {(userRole === "Admin" || userRole === "teacher") && (
-            <>
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://img.favpng.com/15/13/21/computer-icons-user-login-desktop-wallpaper-png-favpng-50cVSt0m1jw7SRtPEv8KvVUvF.jpg"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faUser} className="me-2" />
-                      Add Courses
-                    </Card.Title>
-                    <Card.Text>Add your courses</Card.Text>
-                    <Link to="/addcourse">
-                      <Button variant="primary" className="custom-button">
-                        Add Courses
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
-            </>
+            <DashboardCard
+              icon={faUser}
+              title="Add Courses"
+              description="Create and manage new courses for our learning community."
+              linkTo="/addcourse"
+              buttonText="Create Course"
+              imageSrc="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+            />
           )}
 
           {["student", "Admin", "teacher"].includes(userRole) && (
             <>
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://americanlibrariesmagazine.org/wp-content/uploads/2016/01/digital-librarian.jpg"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faFileAlt} className="me-2" />
-                      Explore into tech World
-                    </Card.Title>
-                    <Card.Text>
-                      Read Articles related to current technology.
-                    </Card.Text>
-                    <Link to="/resources">
-                      <Button variant="primary" className="custom-button">
-                        Explore
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
+              <DashboardCard
+                icon={faFileAlt}
+                title="Explore Tech World"
+                description="Stay updated with the latest trends and innovations in technology."
+                linkTo="/resources"
+                buttonText="Discover More"
+                imageSrc="https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              />
 
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://i0.wp.com/iserotope.com/wp-content/uploads/2014/02/8151789_orig.png"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faClipboard} className="me-2" />
-                      Assignments
-                    </Card.Title>
-                    <Card.Text>View and submit assignments.</Card.Text>
-                    <Link to="/assignmentpage">
-                      <Button variant="primary" className="custom-button">
-                        View Assignments
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
+              <DashboardCard
+                icon={faClipboard}
+                title="Assignments"
+                description="Access and submit your course assignments with ease."
+                linkTo="/assignmentpage"
+                buttonText="View Tasks"
+                imageSrc="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              />
 
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://d56vh6ph4jjmq.cloudfront.net/fb-main/heros/8/hero-discussions@2x.png"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faComments} className="me-2" />
-                      Discussion Forums
-                    </Card.Title>
-                    <Card.Text>Participate in course discussions.</Card.Text>
-                    <Link to="/homechat">
-                      <Button variant="primary" className="custom-button">
-                        Visit Forums
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
+              <DashboardCard
+                icon={faComments}
+                title="Discussion Forums"
+                description="Engage in meaningful conversations with peers and instructors."
+                linkTo="/homechat"
+                buttonText="Join Discussions"
+                imageSrc="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              />
 
-              <Col md={4} className="mb-4">
-                <Card className="h-100 shadow-lg custom-card">
-                  <Card.Img
-                    variant="top"
-                    src="https://epe.brightspotcdn.com/cb/cd/f8213ccb4203abdae3aad13a1eef/ai-gpt-teacher-08162022-966654886-949652688.jpg"
-                    className="custom-card-img"
-                  />
-                  <Card.Body>
-                    <Card.Title className="custom-card-title">
-                      <FontAwesomeIcon icon={faUser} className="me-2" />
-                      Our Teachers
-                    </Card.Title>
-                    <Card.Text>Meet our Instructors</Card.Text>
-                    <Link to="/listallteachers">
-                      <Button variant="primary" className="custom-button">
-                        View Instructors
-                      </Button>
-                    </Link>
-                  </Card.Body>
-                </Card>
-              </Col>
+              <DashboardCard
+                icon={faUser}
+                title="Our Teachers"
+                description="Get to know the expert instructors behind our courses."
+                linkTo="/listallteachers"
+                buttonText="Meet the Team"
+                imageSrc="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              />
             </>
           )}
-        </Row>
-      </Container>
+        </motion.div>
+      </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

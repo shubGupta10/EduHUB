@@ -6,50 +6,54 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const Profile = () => {
     const { user, matchUser } = useFirebase();
-    const [CurrentLoggedInUser, setCurrentLoggedInUser] = useState([]);
+    const [CurrentLoggedInUser, setCurrentLoggedInUser] = useState({});
 
     useEffect(() => {
         const fetchLoggedInUser = async () => {
             try {
                 const currentUser = await matchUser(user);
                 setCurrentLoggedInUser(currentUser);
-                console.log(currentUser);
             } catch (error) {
                 console.error("Failed to get User", error);
-                throw Error;
             }
         };
         fetchLoggedInUser();
     }, [user, matchUser]);
 
     return (
-        <Container className="mt-5">
-            <Row className="justify-content-center">
-                <Col xs={12} md={8} lg={6}>
-                    <Card className="text-center shadow border-0">
-                        <Card.Header className="bg-dark text-white">
+        <Container className="mt-5 pt-24 ">
+            <Row className="justify-content-center ">
+                <Col xs={12} md={8} lg={6} >
+                    <Card className="text-center  shadow-lg border-0 rounded-lg overflow-hidden">
+                        <Card.Header className="bg-dark text-white py-4">
                             <Card.Title className="mb-0">Profile</Card.Title>
                         </Card.Header>
-                        <Card.Body>
-                            <Image 
-                                src={CurrentLoggedInUser.dp} 
-                                roundedCircle 
-                                fluid 
-                                className="mb-4 border border-3 border-secondary"
-                                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
-                            />
+                        <Card.Body className="py-5">
+                            {/* Centering the profile image */}
+                            <div className="d-flex justify-content-center">
+                                <Image
+                                    src={CurrentLoggedInUser.dp || '/default-profile.jpg'}
+                                    roundedCircle
+                                    fluid
+                                    className="mb-4 border-4 border-secondary shadow-sm"
+                                    style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                                    alt="Profile"
+                                />
+                            </div>
                             <Card.Text className="mb-2">
-                                <h4 className="mb-1">
-                                    <strong>{CurrentLoggedInUser.displayName}</strong>
+                                <h4 className="mb-1 font-weight-bold text-gray-900">
+                                    {CurrentLoggedInUser.displayName || 'User Name'}
                                 </h4>
-                                <Badge bg="secondary">{CurrentLoggedInUser.role}</Badge>
+                                <Badge bg="secondary" className="px-3 py-1">
+                                    {CurrentLoggedInUser.role || 'Role'}
+                                </Badge>
                             </Card.Text>
-                            <Card.Text>
+                            <Card.Text className="mt-3 text-muted">
                                 <i className="bi bi-envelope-fill me-2"></i>
-                                {CurrentLoggedInUser.email}
+                                {CurrentLoggedInUser.email || 'user@example.com'}
                             </Card.Text>
                         </Card.Body>
-                        <Card.Footer className="bg-light text-muted">
+                        <Card.Footer className="bg-light text-muted py-3">
                             <small>Last updated 3 mins ago</small>
                         </Card.Footer>
                     </Card>

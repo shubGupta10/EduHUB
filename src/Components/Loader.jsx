@@ -1,28 +1,21 @@
 import React from 'react';
-import './Loader.css';
+import { motion } from 'framer-motion';
 
 const Loader = () => (
-  <div className="loader-container">
-    <svg className="loader" viewBox="0 0 384 384" xmlns="http://www.w3.org/2000/svg">
-      <circle
-        className="active"
-        pathLength="360"
-        fill="transparent"
-        strokeWidth="32"
-        cx="192"
-        cy="192"
-        r="176"
-      ></circle>
-      <circle
-        className="track"
-        pathLength="360"
-        fill="transparent"
-        strokeWidth="32"
-        cx="192"
-        cy="192"
-        r="176"
-      ></circle>
-    </svg>
+  <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+    <motion.div
+      className="loader"
+      initial={{ rotate: 0 }}
+      animate={{ rotate: 360 }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
+      style={{
+        width: '100px',
+        height: '100px',
+        border: '8px solid black',
+        borderTop: '8px solid white',
+        borderRadius: '50%',
+      }}
+    ></motion.div>
   </div>
 );
 

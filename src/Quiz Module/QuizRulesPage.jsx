@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import Loader from '../Components/Loader';
-import './QuizRulesPage.css'; 
-import { useParams } from 'react-router-dom';
 
 const QuizRulesPage = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
-  const {courseName: paramsCourse} = useParams();
-  const [titleName, setTitleName] = useState();
+  const { courseName: paramsCourse } = useParams();
+  const [titleName, setTitleName] = useState('');
   
   const courseName = paramsCourse || localStorage.getItem('courseName');
 
   useEffect(() => {
     setTitleName(courseName);
-  },[])
+  }, [courseName]);
 
   const handleStartQuiz = () => {
     setIsLoading(true);
@@ -23,40 +22,73 @@ const QuizRulesPage = () => {
     }, 1000);
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1
+    }
+  };
+
   return (
-    <div className="quiz-rules-container">
+    <div className="min-h-screen bg-gray-50 pt-16 pb-12"> 
       {isLoading ? (
-        <Loader />
+        <div className="flex items-center justify-center h-screen">
+          <Loader />
+        </div>
       ) : (
-        <>
-          <header>
-            <h1 className="quiz-title">Quiz Rules</h1>
-          </header>
+        <motion.div 
+          className="container mx-auto px-4 py-8"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.header variants={itemVariants} className="text-center mb-8">
+            <h1 className="text-4xl font-bold text-black">Quiz Rules</h1>
+          </motion.header>
 
-          <main>
-            <section className="rules-section">
-              <p className="welcome-text">
-                Welcome to the {titleName} Quiz Contest! Before you begin, please read the rules
-                carefully:
-              </p>
+          <motion.main variants={itemVariants} className="bg-white rounded-lg shadow-lg p-8">
+            <section>
+              <motion.p variants={itemVariants} className="text-xl mb-6">
+                Welcome to the <span className="font-semibold text-black">{titleName}</span> Quiz Contest! Before you begin, please read the rules carefully:
+              </motion.p>
 
-              <ol className="rules-list">
+              <motion.ol variants={itemVariants} className="list-decimal list-inside space-y-4 mb-8">
                 <li>This quiz consists of multiple-choice questions related to {titleName}.</li>
                 <li>You will have 4 options for each question. Choose the correct option by clicking on it.</li>
                 <li>Once you select an option, it will be highlighted as correct or wrong.</li>
                 <li>After answering, click "Next" to move to the next question. You cannot go back to previous questions.</li>
                 <li>You will see your progress at the bottom showing which question you are on.</li>
                 <li>The quiz ends after 10 questions. Your score will be displayed at the end.</li>
-              </ol>
+              </motion.ol>
 
-              <p className="ready-text">Are you ready to test your {titleName} knowledge?</p>
+              <motion.p variants={itemVariants} className="text-xl mb-8">
+                Are you ready to test your <span className="font-semibold text-black">{titleName}</span> knowledge?
+              </motion.p>
 
-              <button className="start-quiz-button" onClick={handleStartQuiz}>
+              <motion.button
+                variants={itemVariants}
+                className="w-full bg-black text-white py-3 px-6 rounded-lg font-semibold text-lg hover:bg-blue-700 transition duration-300 transform hover:scale-105"
+                onClick={handleStartQuiz}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
                 Start Quiz
-              </button>
+              </motion.button>
             </section>
-          </main>
-        </>
+          </motion.main>
+        </motion.div>
       )}
     </div>
   );

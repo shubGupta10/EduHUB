@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Container, Row, Col, Card, Button, Spinner, Alert } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { motion } from 'framer-motion';
 import Loader from '../Components/Loader';
 
 const Resource = () => {
@@ -25,54 +24,67 @@ const Resource = () => {
     }, []);
 
     if (loading) {
-        return <div>
-            <Loader/>
-        </div>
+        return (
+            <div className="flex justify-center items-center h-screen">
+                <Loader />
+            </div>
+        );
     }
 
     if (error) {
         return (
-            <Container className="mt-5">
-                <Alert variant="danger">{error}</Alert>
-            </Container>
+            <div className="container mx-auto mt-20 px-4">
+                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded" role="alert">
+                    <p>{error}</p>
+                </div>
+            </div>
         );
     }
 
     return (
-        <Container className="mt-5">
-            <h1 className="text-center mb-4" style={{ fontWeight: 'bold', fontSize: '2.5rem', color: '#333' }}>Latest Programming Articles</h1>
-            <p className="text-center mb-5" style={{ fontSize: '1.2rem', color: '#666', maxWidth: '800px', margin: '0 auto' }}>
-                Stay updated with the latest articles and trends in programming. Our curated selection of articles
-                from DEV.to ensures you are always in the loop with the most important updates and insights in the
-                programming world.
-            </p>
-            <Row xs={1} md={2} lg={3} className="g-4">
-                {articles.map((article, index) => (
-                    <Col key={index} className="mb-4">
-                        <Card className="h-100 shadow-sm" style={{ borderRadius: '10px', overflow: 'hidden', transition: 'transform 0.2s' }}>
+        <div className="pt-16 min-h-screen bg-gray-50">
+            <div className="container mx-auto px-4 py-8">
+                <h1 className="text-4xl font-bold text-center mb-4 text-black">Latest Programming Articles</h1>
+                <p className="text-lg text-center mb-8 text-gray-700 max-w-3xl mx-auto">
+                    Stay updated with the latest articles and trends in programming. Our curated selection of articles
+                    from DEV.to ensures you are always in the loop with the most important updates and insights in the
+                    programming world.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {articles.map((article, index) => (
+                        <motion.div
+                            key={index}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: index * 0.1 }}
+                            className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105"
+                        >
                             {article.cover_image && (
-                                <div style={{ height: '200px', overflow: 'hidden' }}>
-                                    <Card.Img variant="top" src={article.cover_image} alt={article.title} style={{ objectFit: 'cover', height: '100%' }} />
+                                <div className="h-48 overflow-hidden">
+                                    <img src={article.cover_image} alt={article.title} className="w-full h-full object-cover" />
                                 </div>
                             )}
-                            <Card.Body className="d-flex flex-column">
-                                <Card.Title style={{ fontWeight: 'bold', fontSize: '1.2rem', marginBottom: '1rem' }}>
-                                    <a href={article.url} target="_blank" rel="noopener noreferrer" className="text-decoration-none text-dark stretched-link">
+                            <div className="p-6 flex flex-col h-full">
+                                <h2 className="text-xl font-bold mb-4 text-black">
+                                    <a href={article.url} target="_blank" rel="noopener noreferrer" className="hover:underline">
                                         {article.title}
                                     </a>
-                                </Card.Title>
-                                <Card.Text style={{ color: '#777', flex: '1 0 auto', marginBottom: '1rem' }}>
-                                    {article.description}
-                                </Card.Text>
-                                <Button variant="primary" href={article.url} target="_blank" rel="noopener noreferrer" className="align-self-start">
+                                </h2>
+                                <p className="text-gray-600 mb-4 flex-grow">{article.description}</p>
+                                <a
+                                    href={article.url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-block bg-black text-white py-2 px-4 rounded hover:bg-gray-800 transition-colors duration-300"
+                                >
                                     Read More
-                                </Button>
-                            </Card.Body>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
-        </Container>
+                                </a>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+            </div>
+        </div>
     );
 };
 

@@ -1,119 +1,176 @@
-import React, { useState } from 'react';
-import { Container, Form, Button, Card } from 'react-bootstrap';
-import { storage, useFirebase } from '../Context/FirebaseContext.js';
-import { toast } from 'react-toastify';
-import './Register.css';
-import { useNavigate, Link } from 'react-router-dom';
-import Loader from '../Components/Loader';
-import { v4 as uuidv4 } from 'uuid';
-import Footer from '../Components/Footer';
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { storage, useFirebase } from "../Context/FirebaseContext.js";
+import { toast } from "react-toastify";
+import { useNavigate, Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import Loader from "../Components/Loader";
+import Footer from "../Components/Footer";
 
 const Register = () => {
-    const navigate = useNavigate();
-    const firebase = useFirebase();
-    const [displayName, setDisplayName] = useState("");
-    const [email, setEmail] = useState("");
-    const [role, setRole] = useState("");
-    const [password, setPassword] = useState("");
-    const [confirmPass, setConfirmPass] = useState("");
-    const [dp, setDp] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const firebase = useFirebase();
+  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
+  const [role, setRole] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [dp, setDp] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-    const handleRegisterForm = async (e) => {
-        e.preventDefault();
-        if (password !== confirmPass) {
-            toast.error("Passwords do not match");
-            return;
-        }
-        setIsLoading(true);
-        try {
-            await firebase.RegisterUser(email, password);
+  const handleRegisterForm = async (e) => {
+    e.preventDefault();
+    if (password !== confirmPass) {
+      toast.error("Passwords do not match");
+      return;
+    }
+    setIsLoading(true);
+    try {
+      await firebase.RegisterUser(email, password);
 
-            let DpUrl = "";
-            if (dp) {
-                const dpRef = ref(storage, `UserDp/${Date.now()}_${dp.name}`);
-                const snapshot = await uploadBytes(dpRef, dp);
-                DpUrl = await getDownloadURL(snapshot.ref);
-            }
+      let DpUrl = "";
+      if (dp) {
+        const dpRef = ref(storage, `UserDp/${Date.now()}_${dp.name}`);
+        const snapshot = await uploadBytes(dpRef, dp);
+        DpUrl = await getDownloadURL(snapshot.ref);
+      }
 
-            const userData = {
-                displayName,
-                email,
-                role,
-                userID: uuidv4(),
-                dp: DpUrl,
-            };
-            await firebase.createUser(userData);
+      const userData = {
+        displayName,
+        email,
+        role,
+        userID: uuidv4(),
+        dp: DpUrl,
+      };
+      await firebase.createUser(userData);
 
-            toast.success("Account creation successful");
-            navigate("/dashboard/viewcourse");
-            setTimeout(() => {
-                window.location.reload();
-            }, 50);
-        } catch (error) {
-            console.error("Failed in account creation", error);
-            toast.error("Failed to create account");
-        }
-        setIsLoading(false);
-    };
+      toast.success("Account creation successful");
+      navigate("/dashboard/viewcourse");
+      setTimeout(() => {
+        window.location.reload();
+      }, 50);
+    } catch (error) {
+      console.error("Failed in account creation", error);
+      toast.error("Failed to create account");
+    }
+    setIsLoading(false);
+  };
 
-    return (
-        <div>
-            {isLoading && <Loader />}
-            <Container className="d-flex mt-2 justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-                <Card style={{ width: '100%', maxWidth: '600px', borderRadius: '20px', padding: '20px' }}>
-                    <Card.Body>
-                        <h2 className="text-center text-primary mb-4">Register</h2>
-                        <Form onSubmit={handleRegisterForm}>
-                            <Form.Group controlId="formDisplayName">
-                                <Form.Label>Display Name</Form.Label>
-                                <Form.Control onChange={(e) => setDisplayName(e.target.value)} value={displayName} type="text" placeholder="Enter your Display Name" required />
-                            </Form.Group>
-                            <Form.Group controlId="formEmail" className="mt-3">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control onChange={(e) => setEmail(e.target.value)} value={email} type="email" placeholder="Enter your email" required />
-                            </Form.Group>
-                            <Form.Group controlId="formRole" className="mt-3">
-                                <Form.Label>Select Your Role</Form.Label>
-                                <Form.Select onChange={(e) => setRole(e.target.value)} value={role} required>
-                                    <option value="">Choose...</option>
-                                    <option value="teacher">Teacher</option>
-                                    <option value="student">Student</option>
-                                    </Form.Select>
-                            </Form.Group>
-                            <Form.Group controlId="formPassword" className="mt-3">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control onChange={(e) => setPassword(e.target.value)} type="password" value={password} placeholder="Enter your password" required />
-                            </Form.Group>
-                            <Form.Group controlId="formConfirmPassword" className="mt-3">
-                                <Form.Label>Confirm Password</Form.Label>
-                                <Form.Control onChange={(e) => setConfirmPass(e.target.value)} type="password" value={confirmPass} placeholder="Confirm your password" required />
-                            </Form.Group>
-                            <Form.Group controlId="formUserdp" className="mt-3">
-                                <Form.Label>Upload your Image</Form.Label>
-                                <Form.Control
-                                    onChange={(e) => setDp(e.target.files[0])}
-                                    type="file"
-                                    accept="image/*"
-                                />
-                            </Form.Group>
-                            <Button variant="primary" type="submit" className="w-100 mt-4">
-                                Register
-                            </Button>
-                            <p className="text-center mt-3 mb-0">OR</p>
-                            <p className="text-center mt-2">
-                                <Link to="/login" style={{ textDecoration: 'none', fontWeight: 'bold', color: '#007bff' }}>
-                                    Already have an account? Login
-                                </Link>
-                            </p>
-                        </Form>
-                    </Card.Body>
-                </Card>
-            </Container>
-            <Footer />
-        </div>
-    );
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 flex flex-col justify-center items-center py-10">
+      {isLoading && <Loader />}
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="w-full max-w-xl bg-[#090d15] mt-20 text-white rounded-lg p-8 shadow-lg"
+      >
+        <h2 className="text-4xl font-bold text-center mb-6">Register</h2>
+        <form onSubmit={handleRegisterForm} className="space-y-4">
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="formDisplayName">
+              Display Name
+            </label>
+            <input
+              id="formDisplayName"
+              type="text"
+              className="w-full p-3 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Enter your Display Name"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="formEmail">
+              Email Address
+            </label>
+            <input
+              id="formEmail"
+              type="email"
+              className="w-full p-3 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Enter your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="formRole">
+              Select Your Role
+            </label>
+            <select
+              id="formRole"
+              className="w-full p-3 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              value={role}
+              onChange={(e) => setRole(e.target.value)}
+              required
+            >
+              <option value="">Choose...</option>
+              <option value="teacher">Teacher</option>
+              <option value="student">Student</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="formPassword">
+              Password
+            </label>
+            <input
+              id="formPassword"
+              type="password"
+              className="w-full p-3 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="formConfirmPassword">
+              Confirm Password
+            </label>
+            <input
+              id="formConfirmPassword"
+              type="password"
+              className="w-full p-3 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              placeholder="Confirm your password"
+              value={confirmPass}
+              onChange={(e) => setConfirmPass(e.target.value)}
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-gray-300 text-sm font-bold mb-2" htmlFor="formUserdp">
+              Upload your Image
+            </label>
+            <input
+              id="formUserdp"
+              type="file"
+              accept="image/*"
+              className="w-full p-3 bg-gray-800 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
+              onChange={(e) => setDp(e.target.files[0])}
+            />
+          </div>
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            type="submit"
+            className="w-full bg-purple-600 text-white font-bold py-3 rounded-md transition duration-300 hover:bg-purple-700 mt-6"
+          >
+            Register
+          </motion.button>
+        </form>
+        <p className="text-center mt-8 text-gray-400">Already have an account?</p>
+        <p className="text-center mt-2">
+          <Link to="/login" className="text-purple-400 hover:underline font-semibold">
+            Login here
+          </Link>
+        </p>
+      </motion.div>
+    </div>
+  );
 };
 
 export default Register;

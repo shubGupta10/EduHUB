@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Card } from "react-bootstrap";
-import { toast } from "react-toastify";
+import { motion } from "framer-motion";
 import { useFirebase } from "../../Context/FirebaseContext";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from "../../Context/FirebaseContext";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../Components/Loader";
-import { v4 as uuidv4 } from 'uuid'; 
+import { v4 as uuidv4 } from "uuid";
 import Footer from "../../Components/Footer";
+import { toast } from "react-toastify";
 
 const AddCourse = () => {
   const firebase = useFirebase();
@@ -37,7 +37,7 @@ const AddCourse = () => {
       const courseId = uuidv4();
 
       const courseData = {
-        courseId, 
+        courseId,
         courseName,
         courseDescription,
         courseDuration,
@@ -56,85 +56,121 @@ const AddCourse = () => {
     } catch (error) {
       toast.error("Failed to add course");
     } finally {
-      setIsLoading(false); 
+      setIsLoading(false);
     }
   };
 
   return (
-    <div>
-      {isLoading ? <Loader /> : null}
-      <Container
-        className="d-flex mt-4 justify-content-center align-items-center"
-        style={{ minHeight: "80vh" }}
+    <div className="bg-gray-100 min-h-screen pt-24 pb-12">
+      {isLoading && <Loader />}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8"
       >
-        <Card
-          className="card"
-          style={{ width: "100%", maxWidth: "500px", borderRadius: "20px" }}
-        >
-          <Card.Body>
-            <h2 className="text-center text-primary mb-4">Add Course</h2>
-            <Form onSubmit={handleAddCourse}>
-              <Form.Group controlId="formCourseName">
-                <Form.Label>Course Name</Form.Label>
-                <Form.Control
-                  onChange={(e) => setCourseName(e.target.value)}
-                  value={courseName}
+        <div className="bg-white shadow-2xl rounded-lg overflow-hidden">
+          <div className="px-6 py-8 sm:p-10">
+            <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-10">
+              Add New Course
+            </h2>
+            <form onSubmit={handleAddCourse} className="space-y-8">
+              <div>
+                <label
+                  htmlFor="courseName"
+                  className="block text-sm font-semibold text-gray-700"
+                >
+                  Course Name
+                </label>
+                <input
                   type="text"
+                  id="courseName"
+                  className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black sm:text-sm hover:shadow-lg transition-all"
                   placeholder="Enter course name"
+                  value={courseName}
+                  onChange={(e) => setCourseName(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group controlId="formCourseDescription" className="mt-3">
-                <Form.Label>Course Description</Form.Label>
-                <Form.Control
-                  onChange={(e) => setCourseDescription(e.target.value)}
-                  value={courseDescription}
-                  as="textarea"
-                  rows={3}
+              </div>
+              <div>
+                <label
+                  htmlFor="courseDescription"
+                  className="block text-sm font-semibold text-gray-700"
+                >
+                  Course Description
+                </label>
+                <textarea
+                  id="courseDescription"
+                  rows={4}
+                  className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black sm:text-sm hover:shadow-lg transition-all"
                   placeholder="Enter course description"
+                  value={courseDescription}
+                  onChange={(e) => setCourseDescription(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group controlId="formCourseDuration" className="mt-3">
-                <Form.Label>Course Duration</Form.Label>
-                <Form.Control
-                  onChange={(e) => setCourseDuration(e.target.value)}
-                  value={courseDuration}
+              </div>
+              <div>
+                <label
+                  htmlFor="courseDuration"
+                  className="block text-sm font-semibold text-gray-700"
+                >
+                  Course Duration (hours)
+                </label>
+                <input
                   type="number"
+                  id="courseDuration"
+                  className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black sm:text-sm hover:shadow-lg transition-all"
                   placeholder="Enter course duration"
+                  value={courseDuration}
+                  onChange={(e) => setCourseDuration(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group controlId="formCourseInstructor" className="mt-3">
-                <Form.Label>Course Instructor</Form.Label>
-                <Form.Control
-                  onChange={(e) => setCourseInstructor(e.target.value)}
-                  value={courseInstructor}
+              </div>
+              <div>
+                <label
+                  htmlFor="courseInstructor"
+                  className="block text-sm font-semibold text-gray-700"
+                >
+                  Course Instructor
+                </label>
+                <input
                   type="text"
+                  id="courseInstructor"
+                  className="mt-2 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-black focus:border-black sm:text-sm hover:shadow-lg transition-all"
                   placeholder="Enter course instructor"
+                  value={courseInstructor}
+                  onChange={(e) => setCourseInstructor(e.target.value)}
                   required
                 />
-              </Form.Group>
-              <Form.Group controlId="formCourseImage" className="mt-3">
-                <Form.Label>Upload Course Image</Form.Label>
-                <Form.Control
-                  onChange={(e) => setCourseImage(e.target.files[0])}
+              </div>
+              <div>
+                <label
+                  htmlFor="courseImage"
+                  className="block text-sm font-semibold text-gray-700"
+                >
+                  Upload Course Image
+                </label>
+                <input
                   type="file"
+                  id="courseImage"
+                  className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:bg-black file:text-white hover:file:bg-gray-800 transition-all"
                   accept="image/*"
+                  onChange={(e) => setCourseImage(e.target.files[0])}
                 />
-              </Form.Group>
-              <Button
-                variant="primary"
+              </div>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full py-3 px-6 bg-black text-white rounded-md shadow-md hover:bg-gray-800 transition-all font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"
                 type="submit"
-                className="w-100 mt-4 btn-color"
               >
                 Add Course
-              </Button>
-            </Form>
-          </Card.Body>
-        </Card>
-      </Container>
-      <Footer/>
+              </motion.button>
+            </form>
+          </div>
+        </div>
+      </motion.div>
+      <Footer />
     </div>
   );
 };
