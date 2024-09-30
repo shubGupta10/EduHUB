@@ -65,11 +65,13 @@ const FireBaseProvider = (props) => {
     }
   };
 
+  const courseid = localStorage.getItem("courseId");
+  const coursename = localStorage.getItem("courseName");
 
   const isLoggedIn = !!user;
 
   return (
-    <fireBaseContext.Provider value={{ app: firebaseApp, user, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, currentUser ,createUser ,loading, createStudentDetails, getCoursesById, matchUser,  uploadAssignmentDocument, fetchAssignment, completeAssignment,  fetchAllUsers, getAllUsers, registerWithGoogle, uploadMessages, fetchMessages }}>
+    <fireBaseContext.Provider value={{ app: firebaseApp, user, RegisterUser, LoginUser, SignOutUser, isLoggedIn, addCourseToFirestore, getCoursesFromFirestore, currentUser ,createUser ,loading, createStudentDetails, getCoursesById, matchUser,  uploadAssignmentDocument, fetchAssignment, completeAssignment,  fetchAllUsers, getAllUsers, registerWithGoogle, uploadMessages, fetchMessages, courseid, coursename }}>
       {props.children}
     </fireBaseContext.Provider>
   );

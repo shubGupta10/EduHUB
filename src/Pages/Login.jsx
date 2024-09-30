@@ -7,14 +7,16 @@ import Loader from "../Components/Loader";
 import Footer from "../Components/Footer";
 
 const Login = () => {
+  const {courseid, coursename} = useFirebase();
   const navigate = useNavigate();
   const firebase = useFirebase();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const courseId = localStorage.getItem("courseId");
-  const courseName = localStorage.getItem("courseName");
+
+  const courseId = localStorage.getItem("courseId") || courseid;
+  const courseName = localStorage.getItem("courseName") || coursename;
 
   const handleLoginForm = async (e) => {
     e.preventDefault();
